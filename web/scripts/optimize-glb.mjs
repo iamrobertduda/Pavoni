@@ -5,7 +5,8 @@ import { NodeIO } from '@gltf-transform/core';
 import { ALL_EXTENSIONS } from '@gltf-transform/extensions';
 import { dedup, joinPrimitives, meshopt, prune, weld } from '@gltf-transform/functions';
 import { MeshoptEncoder } from 'meshoptimizer';
-import { statSync } from 'node:fs';
+import { mkdirSync, statSync } from 'node:fs';
+import { dirname } from 'node:path';
 
 const [, , src, dst] = process.argv;
 if (!src || !dst) {
@@ -67,6 +68,7 @@ for (const mesh of root.listMeshes())
 const kept = [...names].filter((n) => INSTANCE.test(n)).length;
 if (kept !== instances) throw new Error(`named instance nodes lost: ${instances} -> ${kept}`);
 
+mkdirSync(dirname(dst), { recursive: true });
 await io.write(dst, doc);
 const mb = statSync(dst).size / 1e6;
 console.log(`optimize-glb: ${instances} Instanzen, ${prims} Primitives (Draw Calls), ${Math.round(tris)} Dreiecke, ${mb.toFixed(2)} MB -> ${dst}`);
