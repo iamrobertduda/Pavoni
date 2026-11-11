@@ -1,0 +1,15 @@
+# build artefacts (PLAN 4: no binary churn)
+build/
+artifacts/
+web/dist/
+web/public/models/
+web/src/generated/
+web/test-results/
+web/playwright-report/
+# environments
+cad/.venv/
+web/node_modules/
+__pycache__/
+*.pyc
+.pytest_cache/
+.DS_Store

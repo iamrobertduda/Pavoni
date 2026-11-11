@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "dimensions.schema.json",
+  "title": "dimensions.yaml - alle Maße mit Quelle und Konfidenz",
+  "type": "object",
+  "required": ["machine", "dims"],
+  "additionalProperties": false,
+  "properties": {
+    "machine": {
+      "type": "object",
+      "required": ["version"],
+      "properties": {
+        "version": {"enum": ["v3.0", "v3.1"]},
+        "version_confidence": {"$ref": "common.schema.json#/$defs/confidence"},
+        "note": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "dims": {
+      "type": "object",
+      "propertyNames": {"pattern": "^[a-z][a-z0-9_]*$"},
+      "additionalProperties": {
+        "type": "object",
+        "required": ["confidence", "source"],
+        "properties": {
+          "value": {"type": "number"},
+          "unit": {"enum": ["mm", "deg", "count", "bar", "ml", "W", "ratio"]},
+          "ratio_of": {"type": "string", "description": "Schlüssel, auf den sich ratio bezieht (Foto-Proportionen relativ zum Kesseldurchmesser)"},
+          "ratio": {"type": "number"},
+          "expr": {"type": "string", "description": "abgeleitet aus anderen Maßen, z. B. 'boiler_od - 2*boiler_wall'"},
+          "confidence": {"$ref": "common.schema.json#/$defs/confidence"},
+          "source": {"type": "string", "minLength": 2},
+          "note": {"type": "string"},
+          "alt": {"type": "array", "items": {"type": "object", "properties": {"value": {"type": "number"}, "source": {"type": "string"}}, "required": ["value", "source"]}}
+        },
+        "oneOf": [
+          {"required": ["value", "unit"]},
+          {"required": ["ratio_of", "ratio"]},
+          {"required": ["expr"]}
+        ],
+        "additionalProperties": false
+      }
+    }
+  }
+}

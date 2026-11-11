@@ -1,0 +1,25 @@
+# Alle Maße mit Quelle und Konfidenz (PLAN.md 5.2).
+# confidence: measured > catalog > spec > photo > guess
+# Foto-Proportionen stehen als Verhältnis zum Kesseldurchmesser (ratio_of: boiler_od).
+# Keine Zahl im CAD-Code: alles kommt von hier.
+machine:
+  version: v3.1
+  version_confidence: guess
+  note: "Typenschild (Foto D1) nennt kein Baujahr. Messingkolben = v3.1, Kunststoffkolben = v3.0."
+dims:
+  # --- Kessel ---------------------------------------------------------------
+  boiler_od: {value: 100.0, unit: mm, confidence: photo, source: "PLAN 8.2: Fotos B2/B3 gegen Katalog-Hülle 200x290x320 (Q3)", note: "Wichtigstes Messmaß: kalibriert alle Foto-Proportionen."}
+  boiler_wall: {value: 1.5, unit: mm, confidence: guess, source: "Annahme (Messing-Tiefziehteil)"}
+  boiler_foot_z: {ratio_of: boiler_od, ratio: 0.50, confidence: photo, source: "PLAN 8.2: Kesselfuß-Unterkante über Tisch"}
+  boiler_cyl_h: {ratio_of: boiler_od, ratio: 1.85, confidence: photo, source: "PLAN 8.2: Fußunterkante bis Schulterkante 1,8-1,9 D"}
+  boiler_shoulder_h: {ratio_of: boiler_od, ratio: 0.26, confidence: photo, source: "PLAN 8.2: Schulterkonus"}
+  # --- Gruppe ---------------------------------------------------------------
+  group_offset: {ratio_of: boiler_od, ratio: 1.09, confidence: photo, source: "PLAN 8.2: Kesselachse zu Gruppenachse (Foto B3)"}
+  group_bottom_z: {ratio_of: boiler_od, ratio: 1.60, confidence: photo, source: "PLAN 8.2: Unterkante Gruppe über Tisch"}
+  # --- Kolben ---------------------------------------------------------------
+  piston_seal_od: {value: 44.0, unit: mm, confidence: catalog, source: "Q5 Art. 361005"}
+  piston_seal_id: {value: 36.0, unit: mm, confidence: catalog, source: "Q5 Art. 361005", note: "Widersprüchlich: andere Listung nennt 33 mm (Q6). Vor Bestellung am Kolben messen.", alt: [{value: 33.0, source: "Q6"}]}
+  piston_seal_h: {value: 5.5, unit: mm, confidence: catalog, source: "Q5 Art. 361005"}
+  piston_od: {expr: "piston_seal_od - 0.8", confidence: guess, source: "Annahme: Kolben 0,4 mm radiales Spiel zur Bohrung"}
+  piston_h: {value: 26.0, unit: mm, confidence: guess, source: "Annahme"}
+  piston_z: {expr: "group_bottom_z + 30", confidence: guess, source: "Annahme: Kolben in Ruhelage (Hebel unten)"}

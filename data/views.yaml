@@ -1,0 +1,12 @@
+# Benannte Kameraansichten und Schnitte in CAD-Koordinaten (mm, Z oben, -Y vorn, +X rechts).
+views:
+  front: {label: "Vorn", position: [0, -900, 190], target: [0, -40, 160], fov: 22, render: true}
+  left: {label: "Links", position: [-900, -40, 190], target: [0, -40, 160], fov: 22, render: true}
+  right: {label: "Rechts", position: [900, -40, 190], target: [0, -40, 160], fov: 22, render: true}
+  rear: {label: "Hinten", position: [0, 860, 190], target: [0, -40, 160], fov: 22, render: true}
+  top: {label: "Oben", position: [0, -41, 1000], target: [0, -40, 100], fov: 22, render: true}
+  iso: {label: "Übersicht", position: [-520, -620, 420], target: [0, -40, 150], fov: 24, render: true}
+  group_top: {label: "Gruppe oben", position: [-230, -330, 380], target: [0, -109, 230], fov: 24}
+  group_side: {label: "Gruppe", position: [-420, -250, 200], target: [0, -109, 190], fov: 22}
+sections:
+  group: {label: "Schnitt durch Gruppe", normal: [1, 0, 0], point: [0, 0, 0], view: left}

@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "views.schema.json",
+  "title": "views.yaml - benannte Kameraansichten und Schnitte (CAD-Koordinaten, mm)",
+  "type": "object",
+  "required": ["views", "sections"],
+  "additionalProperties": false,
+  "properties": {
+    "views": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["label", "position", "target"],
+        "additionalProperties": false,
+        "properties": {
+          "label": {"type": "string"},
+          "position": {"$ref": "common.schema.json#/$defs/vec3"},
+          "target": {"$ref": "common.schema.json#/$defs/vec3"},
+          "fov": {"type": "number"},
+          "ortho": {"type": "boolean"},
+          "photo": {"type": "string", "description": "Referenzfoto für overlay.mjs"},
+          "render": {"type": "boolean", "description": "von render_views.mjs erzeugen"}
+        }
+      }
+    },
+    "sections": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["label", "normal", "point"],
+        "additionalProperties": false,
+        "properties": {
+          "label": {"type": "string"},
+          "normal": {"$ref": "common.schema.json#/$defs/vec3"},
+          "point": {"$ref": "common.schema.json#/$defs/vec3"},
+          "view": {"type": "string"}
+        }
+      }
+    }
+  }
+}

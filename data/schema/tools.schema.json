@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "tools.schema.json",
+  "title": "tools.yaml - Werkzeuge",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["id", "name"],
+    "additionalProperties": false,
+    "properties": {
+      "id": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+      "name": {"$ref": "common.schema.json#/$defs/i18n"},
+      "note": {"$ref": "common.schema.json#/$defs/i18n"},
+      "source": {"type": "string"}
+    }
+  }
+}

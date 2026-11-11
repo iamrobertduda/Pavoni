@@ -1,0 +1,14 @@
+# Baugruppenbaum. id ist ein Pfad (group.piston -> Eltern group).
+# detachable: wird als Einheit abgenommen; Teile darin bleiben zusammen.
+- id: boiler
+  name: {de: "Kessel", en: "Boiler", it: "Caldaia"}
+  detachable: false
+  explode: {axis: [0, 0, 1], distance_mm: 0, stage: 1}
+- id: group
+  name: {de: "Brühgruppe", en: "Group head", it: "Gruppo"}
+  detachable: true
+  explode: {axis: [0, -1, 0], distance_mm: 60, stage: 1}
+- id: group.piston
+  name: {de: "Kolben mit Stange und Dichtungen", en: "Piston assembly", it: "Pistone completo"}
+  detachable: true
+  explode: {axis: [0, 0, -1], distance_mm: 70, stage: 2}

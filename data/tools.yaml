@@ -1,0 +1,11 @@
+# Werkzeuge laut Wartungsanleitungen (PLAN.md 8.3, Q7-Q10)
+- {id: wrench_14, name: {de: "Maulschlüssel 14 mm"}, note: {de: "Obere Gruppenmutter, Kontermutter, Dampfhahn"}, source: "Q7, Q10"}
+- {id: wrench_10, name: {de: "Maulschlüssel 10 mm"}, note: {de: "Schrauben Gruppe/Kessel"}, source: "Q7"}
+- {id: wrench_17, name: {de: "Maulschlüssel 17 mm"}, note: {de: "Schauglas-Muttern"}, source: "Q9"}
+- {id: circlip_pliers, name: {de: "Sicherungsringzange"}, source: "Q7"}
+- {id: pick, name: {de: "Haken / Pick (Kunststoff oder Messing)"}, note: {de: "Dichtungen aus Nuten heben, ohne Dichtflächen zu verkratzen"}, source: "Q7, Q9"}
+- {id: rubber_mallet, name: {de: "Gummihammer oder Holzstück"}, source: "Q7"}
+- {id: punch_3, name: {de: "Splinttreiber / Durchschlag 3 mm"}, note: {de: "Stift im Dampfhahn-Knauf"}, source: "Q10"}
+- {id: screwdriver_flat_large, name: {de: "Großer Schlitzschraubendreher"}, note: {de: "Schauglas-Kappe"}, source: "Q9"}
+- {id: base_ring_wrench, name: {de: "Spezialschlüssel Basisring"}, note: {de: "Ersatzweise den Kessel selbst drehen"}, source: "Q11"}
+- {id: silicone_grease, name: {de: "Lebensmittelechtes Silikonfett"}, source: "Q7"}

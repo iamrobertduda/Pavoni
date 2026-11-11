@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "procedure.schema.json",
+  "title": "procedures/*.yaml - Reparatur-Anleitung",
+  "type": "object",
+  "required": ["id", "title", "difficulty", "duration_min", "tools", "preconditions", "steps"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+    "order": {"type": "integer"},
+    "title": {"$ref": "common.schema.json#/$defs/i18n"},
+    "summary": {"$ref": "common.schema.json#/$defs/i18n"},
+    "difficulty": {"type": "integer", "minimum": 1, "maximum": 5},
+    "duration_min": {"type": "integer", "minimum": 1},
+    "tools": {"type": "array", "items": {"type": "string"}},
+    "parts_needed": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/partId"}},
+    "preconditions": {"type": "array", "items": {"enum": ["unplugged", "cold", "depressurized", "boiler_empty"]}},
+    "danger": {"$ref": "common.schema.json#/$defs/i18n"},
+    "sources": {"type": "array", "items": {"type": "string"}},
+    "start_removed": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/ref"}, "description": "Zustand vor Schritt 1 (z. B. aus einer vorherigen Anleitung)"},
+    "steps": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "text"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+          "title": {"$ref": "common.schema.json#/$defs/i18n"},
+          "text": {"$ref": "common.schema.json#/$defs/i18n"},
+          "remove": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/ref"}},
+          "motion": {
+            "type": "object",
+            "properties": {"type": {"enum": ["translate", "unscrew", "pull", "stretch_off", "tap_out", "lift"]}, "turns": {"type": "number"}},
+            "additionalProperties": false
+          },
+          "highlight": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/ref"}},
+          "camera": {"type": "string"},
+          "section": {"type": "string"},
+          "tools": {"type": "array", "items": {"type": "string"}},
+          "warn": {"$ref": "common.schema.json#/$defs/i18n"},
+          "reassembly": {"$ref": "common.schema.json#/$defs/i18n"}
+        }
+      }
+    }
+  }
+}

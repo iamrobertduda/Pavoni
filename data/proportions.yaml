@@ -1,0 +1,3 @@
+# Soll-Proportionen aus PLAN.md 8.2 (mm bei D = 100). Toleranz ±10 %.
+# measure: Ausdruck über bbox(<instanz>) / center(<instanz>) / D; siehe cad/pavoni/proportions.py
+- {name: "Kessel-Außendurchmesser", target: 100, measure: "bbox('p003_boiler__1').dx", source: "8.2"}

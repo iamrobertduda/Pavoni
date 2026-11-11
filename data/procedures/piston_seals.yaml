@@ -1,0 +1,26 @@
+id: piston_seals
+order: 1
+title: {de: "Kolbendichtungen tauschen"}
+summary: {de: "Durchstich-Version (Phase 1): zwei Schritte. Wird in Phase 6 zur vollständigen Anleitung."}
+difficulty: 2
+duration_min: 45
+tools: [rubber_mallet, pick, silicone_grease]
+preconditions: [unplugged, cold, depressurized, boiler_empty]
+sources: [Q7]
+steps:
+  - id: s1
+    title: {de: "Kolben nach unten austreiben"}
+    text: {de: "Kolbenstange mit Gummihammer oder Holz-Zwischenlage nach unten austreiben. Kolben und Duschsieb kommen unten heraus."}
+    remove: [group.piston]
+    motion: {type: tap_out}
+    camera: group_side
+    tools: [rubber_mallet]
+  - id: s2
+    title: {de: "Untere Kolbendichtung abnehmen"}
+    text: {de: "Dichtung mit dem Haken aus der Nut heben. Vorher Einbaurichtung merken: offene Seite (Nut) zeigt nach unten."}
+    remove: [p080_piston_seal]
+    motion: {type: stretch_off}
+    highlight: [p080_piston_seal]
+    camera: group_side
+    tools: [pick]
+    reassembly: {de: "Neue Dichtung mit lebensmittelechtem Fett einsetzen, offene Seite nach unten."}

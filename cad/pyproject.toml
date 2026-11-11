@@ -1,0 +1,19 @@
+[project]
+name = "pavoni-cad"
+version = "0.1.0"
+description = "Parametric CAD model of the La Pavoni Professional (Millennium), built with build123d"
+requires-python = ">=3.11"
+dependencies = [
+  "build123d==0.13.0",
+  "pyyaml>=6",
+  "jsonschema>=4.20",
+  "trimesh>=4.4",
+  "numpy>=1.26",
+  "python-fcl>=0.7",
+  "manifold3d>=2.5",
+  "rtree>=1.2",
+  "pytest>=8",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

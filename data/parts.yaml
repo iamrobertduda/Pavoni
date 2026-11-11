@@ -1,0 +1,50 @@
+# Stückliste (Single Source of Truth, PLAN.md 5.1).
+# id: p<Pos.-Nr.>_<name>; Teile ohne Position: x<nnn>_<name>; Instanzen: <id>__<n>.
+# status: planned | blockout | modeled | verified (verified = im Rendering geprüft)
+- id: p003_boiler
+  pos: 3
+  name: {de: "Kessel", en: "Boiler", it: "Caldaia"}
+  assembly: boiler
+  instances: [p003_boiler__1]
+  kind: structural
+  material: chrome
+  wear_part: false
+  detail_tier: B
+  status: blockout
+  spec: {type: boiler, od: boiler_od, wall: boiler_wall}
+  dims: [boiler_od, boiler_wall, boiler_cyl_h]
+  explode: {axis: [0, 0, 1], distance_mm: 0, stage: 1}
+  requires_removed: []
+- id: p079_piston
+  pos: 79
+  name: {de: "Kolben", en: "Piston", it: "Pistone"}
+  assembly: group.piston
+  instances: [p079_piston__1]
+  kind: structural
+  material: brass
+  wear_part: false
+  detail_tier: A
+  status: blockout
+  spec: {type: piston, od: piston_od, h: piston_h}
+  dims: [piston_od, piston_h]
+  versions: [v3.1]
+  notes: {de: "v3.1: Messing. v3.0: Kunststoff."}
+  explode: {axis: [0, 0, -1], distance_mm: 0, stage: 2}
+  requires_removed: [group.piston]
+- id: p080_piston_seal
+  pos: 80
+  name: {de: "Kolbendichtung (Lippendichtung)", en: "Piston lip seal", it: "Guarnizione pistone"}
+  assembly: group.piston
+  instances: [p080_piston_seal__1]
+  kind: seal
+  material: silicone
+  wear_part: true
+  detail_tier: A
+  status: blockout
+  spec: {type: lip_seal, od: piston_seal_od, id: piston_seal_id, h: piston_seal_h}
+  dims: [piston_seal_od, piston_seal_id, piston_seal_h]
+  notes: {de: "Untere Dichtung: Nut (offene Seite) nach unten, zum Brühdruck hin."}
+  order_terms: ["La Pavoni Kolbendichtung Millennium", "361005"]
+  carrier: p079_piston
+  explode: {axis: [0, 0, -1], distance_mm: 30, stage: 3}
+  requires_removed: [group.piston]

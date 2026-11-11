@@ -1,6 +1,6 @@
 # La Pavoni Professional (Millennium) — zerlegbares 3D-Modell: Umsetzungsplan
 
-Stand: 2026-11-11 · Status: Plan, noch nichts implementiert.
+Stand: 2026-11-11 · Status: in Umsetzung, siehe Abschnitt 12 (Checkboxen) und 16 (Umsetzungsnotizen).
 Leser: der Build-Agent, der diesen Plan umsetzt, und der Besitzer der Maschine.
 
 ## 0. Kurzfassung
@@ -546,11 +546,11 @@ Software-Rendering instabil).
 Jede Phase endet mit grünem `make all` und einem Commit. Fortschritt durch Abhaken hier im Plan.
 
 **Phase 0 — Fundament**
-- [ ] Repo-Struktur, Makefile, `CLAUDE.md`, Python-Umgebung (uv), Vite-Projekt, JSON-Schemas.
+- [x] Repo-Struktur, Makefile, `CLAUDE.md`, Python-Umgebung (uv), Vite-Projekt, JSON-Schemas.
 - Abnahme: `make setup && make all` läuft auf frischem Klon durch.
 
 **Phase 1 — Durchstich**
-- [ ] Drei Teile (Kesselmantel, Kolben, eine Kolbendichtung) durch die gesamte Kette: CAD → GLB →
+- [x] Drei Teile (Kesselmantel, Kolben, eine Kolbendichtung) durch die gesamte Kette: CAD → GLB →
   Optimierung → Viewer → Picking → Info-Panel → Explode-Regler → Mini-Anleitung mit zwei Schritten
   → Render-Skript → Validierung.
 - Abnahme: alle Prüfungen aus Abschnitt 11 existieren und laufen, wenn auch mit wenig Inhalt.
@@ -652,3 +652,45 @@ Die genaue Liste mit Skizze, wo gemessen wird, entsteht in Phase 2 als `referenc
 - Q11 Befestigung Kessel/Basis: https://www.francescoceccarelli.eu/La_Pavoni/Faidate/fissaggio_base_eng.htm
 - Wartungs-Übersicht: https://www.francescoceccarelli.eu/lapavoni_faidate_eng.htm
 - build123d Import/Export: https://build123d.readthedocs.io/en/latest/import_export.html
+
+## 16. Umsetzungsnotizen und Abweichungen
+
+Hier steht, was bei der Umsetzung anders gelöst wurde als oben beschrieben, und warum.
+
+**Phase 0/1 (2026-11-11)**
+
+- **Kein HDRI-File.** Statt eines Poly-Haven-HDRI unter `web/public/env/` erzeugt der Viewer ein
+  Studio-Environment aus drei-`Lightformer`n (`web/src/scene/Viewer.tsx`). Grund: Der Besitzer will keine
+  fremden Bilder im öffentlichen Repo; CC0 hin oder her, ein HDRI ist ein fremdes Foto. Lokal und ohne CDN ist
+  es trotzdem, Chrom spiegelt sauber.
+- **GLB-Export ohne globale Neuvernetzung.** `build123d.export_gltf` vernetzt jeden Knoten mit *einer* globalen
+  Toleranz neu. `cad/pavoni/export.py` vernetzt jedes Teil vorher selbst (große Chromflächen fein, Kleinteile
+  grob, PLAN 6.4) und schaltet die Neuvernetzung beim Export ab. Stolperfalle: `bounding_box()` und `volume`
+  löschen in build123d die Tessellierung, deshalb wird zuletzt vernetzt.
+- **Optimierung mit der gltf-transform-API statt `gltf-transform join`.** `web/scripts/optimize-glb.mjs`
+  führt die Flächen-Primitives **je benanntem Instanz-Knoten** zusammen (`joinPrimitives`), danach weld, dedup,
+  prune, meshopt (Positionen 16 bit, Normalen 12 bit). Ein globales `join` kann über Knoten hinweg mischen und
+  Namen verlieren (Risiko aus Abschnitt 13). Das Skript bricht ab, wenn ein Instanz-Knoten fehlt. Ergebnis:
+  genau ein Draw Call pro Instanz.
+- **Datenmodell ergänzt** (Schemas unter `data/schema/`):
+  - `data/assemblies.yaml`: Baugruppenbaum mit Pfad-IDs (`group.piston`), eigener Explode-Achse und
+    `detachable` (wird als Einheit abgenommen, z. B. die ganze Gruppe vom Kessel).
+  - `requires_removed` darf Baugruppen-IDs enthalten: „Gruppe ist abgenommen“. Die Ausbaupfad-Prüfung
+    rechnet dann nur noch innerhalb der abgenommenen Baugruppe („Werkbank“).
+  - `status` je Teil: `planned | blockout | modeled | verified`. `verified` heißt: im Rendering gegen Fotos
+    bzw. Quellen geprüft. Damit ist jederzeit sichtbar, was fertig, geprüft und offen ist.
+  - `carrier`: Elastische Teile (Dichtungen, Sicherungsringe) werden über ihren Träger gedehnt; die
+    Ausbaupfad-Prüfung ignoriert den Träger.
+  - `data/overlaps.yaml` (Whitelist gewollter Überdeckungen), `data/views.yaml` (benannte Ansichten und
+    Schnitte), `data/proportions.yaml` (Soll-Proportionen aus 8.2, als Test).
+  - `dimensions.yaml` hat die Ebenen `machine` (Version) und `dims`; ein Maß ist `value`+`unit`,
+    `ratio_of`+`ratio` oder `expr` (abgeleitet), jeweils mit `confidence` und `source`, optional `alt`
+    für widersprüchliche Angaben.
+- **Kollisionsprüfung:** python-fcl auf den Tessellierungen, bewegtes Teil um 0,05 mm geschrumpft
+  (Berührung ist keine Kollision), Abtastung 0,5 mm. Durchdringungsvolumen über manifold3d; Überdeckungen
+  dünner als 0,06 mm gelten als Tessellierungsartefakt. Ein pytest beweist, dass eine Dichtung beim seitlichen
+  Herausschieben aus ihrer Nut als Kollision erkannt wird.
+- **Hüllmaß und Abdeckung Verschleißteile** sind Warnungen, solange Teile `planned` sind oder
+  Hauptbaugruppen fehlen, danach harte Fehler.
+- Versionen: Vite 8, React 19, TypeScript 7, three 0.187, R3F 9, drei 10 (Vorgaben des aktuellen
+  Vite-Templates). build123d 0.13.0 wie verifiziert.

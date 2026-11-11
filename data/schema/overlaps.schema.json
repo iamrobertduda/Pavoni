@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "overlaps.schema.json",
+  "title": "overlaps.yaml - begründete Whitelist gewollter Überdeckungen",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["a", "b", "reason", "max_mm3"],
+    "additionalProperties": false,
+    "properties": {
+      "a": {"type": "string"},
+      "b": {"type": "string"},
+      "reason": {"enum": ["seal_squeeze", "cosmetic_thread", "press_fit", "simplified"]},
+      "max_mm3": {"type": "number", "minimum": 0},
+      "note": {"type": "string"}
+    }
+  }
+}

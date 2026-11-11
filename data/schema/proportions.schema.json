@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "proportions.schema.json",
+  "title": "proportions.yaml - Soll-Proportionen aus PLAN.md 8.2, gegen das Modell geprüft",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["name", "target", "measure"],
+    "additionalProperties": false,
+    "properties": {
+      "name": {"type": "string"},
+      "target": {"type": "number", "description": "Soll in mm bei D = 100 (Tabelle 8.2)"},
+      "scale_with_d": {"type": "boolean", "default": true},
+      "tolerance": {"type": "number", "default": 0.10},
+      "measure": {"type": "string", "description": "Ausdruck über bbox()/center() der Instanzen, siehe cad/pavoni/proportions.py"},
+      "source": {"type": "string"}
+    }
+  }
+}
