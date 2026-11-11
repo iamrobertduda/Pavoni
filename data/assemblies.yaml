@@ -131,7 +131,7 @@
   pos: 94
   name: {de: "Siebträger", en: "Portafilter", it: "Portafiltro"}
   detachable: true
-  explode: {axis: [0, -0.85, -0.53], distance_mm: 110, stage: 1}
+  explode: {axis: [0, -0.85, -0.53], distance_mm: 200, stage: 1}
   requires_removed: []
   notes: {de: "Bajonett: erst nach links drehen, dann nach unten und vorn abnehmen."}
 - id: accessories

@@ -13,18 +13,20 @@ views:
   sight_glass: {label: "Schauglas", position: [-480, -120, 230], target: [-68, 8, 165], fov: 26}
   steam_valve: {label: "Dampfhahn", position: [-180, 520, 380], target: [0, 44, 280], fov: 26}
   safety_valve: {label: "Sicherheitsventil", position: [380, 260, 420], target: [40, 15, 270], fov: 22}
+  safety_valve_front: {label: "Sicherheitsventil von vorn", position: [330, -260, 450], target: [46, 10, 288], fov: 13}
   base_bottom: {label: "Unterseite", position: [-260, -380, -420], target: [0, -40, 20], fov: 30}
   sec_group: {label: "Gruppe im Schnitt", position: [-330, -113, 215], target: [0, -113, 220], fov: 34}
   sec_group_top: {label: "Gruppe oben im Schnitt", position: [-200, -100, 270], target: [0, -100, 270], fov: 30}
   sec_sg_upper: {label: "Schauglas oben im Schnitt", position: [-110, -220, 232], target: [-60, 8, 232], fov: 16}
-  sec_sg_lower: {label: "Schauglas unten im Schnitt", position: [-110, -220, 92], target: [-60, 8, 92], fov: 16}
+  sec_sg_lower: {label: "Schauglas unten im Schnitt", position: [-110, -220, 104], target: [-60, 8, 104], fov: 20}
   sec_steam: {label: "Dampfhahn im Schnitt", position: [0, 380, 280], target: [0, 44, 280], fov: 38}
-  sec_safety: {label: "Sicherheitsventil im Schnitt", position: [120, -220, 300], target: [38, 14, 268], fov: 16}
+  sec_safety: {label: "Sicherheitsventil im Schnitt", position: [120, -220, 360], target: [38, 14, 272], fov: 18}
   sec_bottom: {label: "Kesselboden im Schnitt", position: [-300, -40, 45], target: [0, 0, 38], fov: 34}
-  sec_cap: {label: "Deckel im Schnitt", position: [-220, -60, 295], target: [0, 0, 290], fov: 22}
+  sec_cap: {label: "Deckel im Schnitt", position: [-230, -60, 282], target: [0, 0, 277], fov: 26}
   sec_portafilter: {label: "Siebträger im Schnitt", position: [-260, -160, 165], target: [0, -113, 160], fov: 28}
   zoom_piston_seals: {label: "Kolbendichtungen (Detail)", position: [-160, -134.5, 205], target: [0, -134.5, 205.5], fov: 9}
   zoom_rod_seal: {label: "Stangendichtung (Detail)", position: [-120, -122, 246], target: [0, -122, 246], fov: 6}
+  sec_group_long: {label: "Gruppe im Schnitt (lang)", position: [-480, -113, 170], target: [0, -113, 170], fov: 34}
   photo_B3: {label: "Foto B3 (links)", position: [-411.3, -5.1, 299.2], target: [-37.5, -86.1, 178.6], fov: 67.0, photo: B3_left.jpg}
   photo_B2: {label: "Foto B2 (hinten)", position: [-20.0, 386.4, 187.9], target: [-4.4, 16.8, 182.3], fov: 67.0, photo: B2_rear.jpg}
 sections:

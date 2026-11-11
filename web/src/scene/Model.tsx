@@ -1,5 +1,5 @@
 import { useGLTF } from '@react-three/drei';
-import { type ThreeEvent, useFrame } from '@react-three/fiber';
+import { type ThreeEvent, useFrame, useThree } from '@react-three/fiber';
 import { useEffect, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import { data, model, partsById } from '../data';
@@ -18,6 +18,7 @@ export function Model() {
   const gltf = useGLTF(MODEL_URL);
   const root = useRef<THREE.Group>(null!);
   const planes = useSectionPlanes();
+  const invalidate = useThree((s) => s.invalidate);
 
   // flatten instance meshes into one group (keeps world transforms)
   const meshes = useMemo(() => {
@@ -60,11 +61,12 @@ export function Model() {
       mat.clipShadows = true;
       mat.needsUpdate = true;
     }
-  }, [planes, meshes]);
+    invalidate();
+  }, [planes, meshes, invalidate]);
 
   const last = useRef<{ key: string }>({ key: '' });
 
-  useFrame(() => {
+  useFrame((state) => {
     const s = useStore.getState();
     let disp: Record<string, InstanceDisplay>;
     let highlight = new Set<string>();
@@ -93,6 +95,7 @@ export function Model() {
       const off = explodeOffsets(data, s.explode);
       disp = Object.fromEntries(Object.entries(off).map(([k, v]) => [k, { offset: v, visible: true, active: false }]));
     }
+    if (animating) state.invalidate(); // frameloop="demand": keep going until the step has finished
     // positions
     for (const [iid, m] of registry) {
       const d = disp[iid];

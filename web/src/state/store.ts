@@ -70,7 +70,8 @@ export const useStore = create<PavoniState>((set, get) => ({
   },
   setView: (name, offset) => set({ viewRequest: { name, nonce: Math.random(), offset } }),
   startProcedure: (id, step = 0, dir = 'disassemble') =>
-    set({ mode: 'procedure', procId: id, stepIdx: step, dir, explode: 0, disassembly: null, animStart: performance.now() }),
+    // the part tree would cover the step's camera framing: close it (the ☰ button reopens it)
+    set({ mode: 'procedure', procId: id, stepIdx: step, dir, explode: 0, disassembly: null, treeOpen: false, animStart: performance.now() }),
   gotoStep: (i) => set({ stepIdx: i, animStart: performance.now() }),
   exitMode: () => set({ mode: 'explore', procId: null, disassembly: null, stepIdx: 0 }),
 }));

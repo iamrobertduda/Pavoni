@@ -1,7 +1,7 @@
 // Filled cut faces for the section view (PLAN 9.6), stencil technique as in the three.js
 // "clipping stencil" example: per cap colour group, back faces increment and front faces
 // decrement the stencil, then a plane in the cut draws where the stencil is non-zero.
-import { useFrame } from '@react-three/fiber';
+import { useFrame, useThree } from '@react-three/fiber';
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { model, partsById } from '../data';
@@ -27,6 +27,7 @@ export function SectionCaps() {
   const planes = useSectionPlanes();
   const sealMap = useStore((s) => s.sealMap);
   const ready = useStore((s) => s.modelReady);
+  const invalidate = useThree((s) => s.invalidate);
   const group = useRef<THREE.Group>(null!);
   const added = useRef<THREE.Object3D[]>([]);
   const caps = useRef<THREE.Mesh[]>([]);
@@ -91,10 +92,11 @@ export function SectionCaps() {
       caps.current.push(cap);
     }
     registry.capCount = caps.current.length;
+    invalidate();
     return () => {
       base.dispose();
     };
-  }, [planes, sealMap, ready]);
+  }, [planes, sealMap, ready, invalidate]);
 
   // keep the cap planes in the cut plane
   useFrame(() => {

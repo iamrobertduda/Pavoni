@@ -13,6 +13,7 @@ declare global {
       instanceVisible: (iid: string) => boolean | null;
       instances: () => string[];
       capCount: () => number;
+      frames: () => number;
       data: { parts: { id: string; instances: string[]; status: string }[]; procedures: { id: string; steps: { id: string }[] }[]; sections: Record<string, unknown> };
     };
   }
@@ -150,3 +151,15 @@ test('deep link opens a procedure step', async ({ page }) => {
   expect(st.stepIdx).toBe(1);
   await expect(page.getByTestId('procedure-player')).toBeVisible();
 });
+
+test('renders on demand: no frames while idle, new frames after a change', async ({ page }) => {
+  await load(page);
+  await page.waitForTimeout(1500);
+  const f0 = await page.evaluate(() => window.__pavoni.frames());
+  await page.waitForTimeout(1500);
+  expect(await page.evaluate(() => window.__pavoni.frames())).toBe(f0);
+  await page.evaluate(() => window.__pavoni.setExplode(0.5));
+  await page.waitForTimeout(500);
+  expect(await page.evaluate(() => window.__pavoni.frames())).toBeGreaterThan(f0);
+});
+

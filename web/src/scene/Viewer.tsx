@@ -32,6 +32,7 @@ function CameraRig() {
   const controls = useThree((s) => s.controls) as unknown as OrbitControlsImpl | null;
   const req = useStore((s) => s.viewRequest);
   const size = useThree((s) => s.size);
+  const invalidate = useThree((s) => s.invalidate);
   const anim = useRef<{ p0: THREE.Vector3; t0: THREE.Vector3; p1: THREE.Vector3; t1: THREE.Vector3; fov0: number; fov1: number; start: number } | null>(null);
   useEffect(() => {
     if (!req || !controls) return;
@@ -60,10 +61,12 @@ function CameraRig() {
       camera.updateProjectionMatrix();
       controls.update();
       anim.current = null;
+      invalidate();
       return;
     }
     anim.current = { p0: camera.position.clone(), t0: controls.target.clone(), p1, t1, fov0: camera.fov, fov1, start: performance.now() };
-  }, [req, controls, camera, size.width, size.height]);
+    invalidate();
+  }, [req, controls, camera, size.width, size.height, invalidate]);
   useFrame(() => {
     const a = anim.current;
     if (!a || !controls) return;
@@ -75,15 +78,26 @@ function CameraRig() {
     camera.updateProjectionMatrix();
     controls.update();
     if (k >= 1) anim.current = null;
+    else invalidate();
   });
+  return null;
+}
+
+/** Render on demand (Phase 7: no GPU load and battery drain while nothing moves): every store change
+ * requests a frame; animations request the next one themselves. */
+function DemandInvalidate() {
+  const invalidate = useThree((s) => s.invalidate);
+  useEffect(() => useStore.subscribe(() => invalidate()), [invalidate]);
   return null;
 }
 
 function ReadySignal() {
   const frames = useRef(0);
-  useFrame(() => {
+  useFrame((state) => {
+    registry.frames++;
     if (!registry.ready) return;
     frames.current++;
+    if (frames.current < 3) state.invalidate();
     if (frames.current === 3) (window as unknown as { __pavoniReady: boolean }).__pavoniReady = true;
   });
   return null;
@@ -97,6 +111,7 @@ export function Viewer({ transparent = false }: { transparent?: boolean }) {
     <Canvas
       className="viewer"
       gl={{ preserveDrawingBuffer: true, antialias: true, alpha: true, localClippingEnabled: true, stencil: true }}
+      frameloop="demand"
       dpr={low ? 1 : [1, 2]}
       shadows={!low}
       camera={{ position: cadToGl(init.position), fov: init.fov ?? 24, near: 0.005, far: 30 }}
@@ -120,6 +135,7 @@ export function Viewer({ transparent = false }: { transparent?: boolean }) {
       </Suspense>
       <OrbitControls makeDefault target={cadToGl(init.target)} minDistance={0.05} maxDistance={3} enableDamping dampingFactor={0.12} />
       <CameraRig />
+      <DemandInvalidate />
       <ReadySignal />
     </Canvas>
   );

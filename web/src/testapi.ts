@@ -31,6 +31,7 @@ export function installTestApi() {
     instanceVisible: (iid: string) => registry.get(iid)?.visible ?? null,
     instances: () => [...registry.keys()],
     capCount: () => registry.capCount,
+    frames: () => registry.frames,
     data,
     model,
   };

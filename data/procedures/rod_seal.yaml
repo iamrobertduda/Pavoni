@@ -16,7 +16,7 @@ steps:
     remove: [p075_rod_circlip]
     motion: {type: pull}
     highlight: [p075_rod_circlip]
-    camera: zoom_rod_seal
+    camera: sec_group_long
     section: rod_seal
     tools: [circlip_pliers]
     warn: {de: "Ring und Scheibe sind oft angerostet und brechen: dann ersetzen (Q7)."}
@@ -27,7 +27,7 @@ steps:
     remove: [p074_rod_washer]
     motion: {type: pull}
     highlight: [p074_rod_washer]
-    camera: zoom_rod_seal
+    camera: sec_group_long
     section: rod_seal
   - id: s3
     title: {de: "Stangendichtung herausdrücken"}
@@ -35,7 +35,7 @@ steps:
     remove: [p073_rod_seal]
     motion: {type: pull}
     highlight: [p073_rod_seal]
-    camera: zoom_rod_seal
+    camera: sec_group_long
     section: rod_seal
     tools: [pick]
     reassembly: {de: "Neue Dichtung (21x11x4,5 Silikon) mit der flachen Seite nach oben, Lippe nach unten ganz in die Senkung drücken, dann Scheibe und Sicherungsring (Q7, Q14, Q19)."}

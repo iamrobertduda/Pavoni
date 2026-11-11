@@ -24,20 +24,17 @@ steps:
     remove: [p019_sv_valve]
     motion: {type: pull}
     highlight: [p019_sv_valve]
-    camera: sec_safety
-    section: safety_valve
+    camera: safety_valve_front
     reassembly: {de: "Ventil mit der Spitze nach unten in die Fase des Fittings setzen (Q18)."}
   - id: s3
     title: {de: "Feder herausnehmen"}
     text: {de: "Feder (8 Windungen, 7 x 26) entnehmen. Nur die Millennium-Feder passt (Q4)."}
     remove: [p020_sv_spring]
     motion: {type: pull}
-    camera: sec_safety
-    section: safety_valve
+    camera: safety_valve_front
   - id: s4
     title: {de: "Kondensatschale abnehmen"}
     text: {de: "Schale vom Fitting heben, Sitz im Fitting reinigen."}
     remove: [p021_sv_collar]
     motion: {type: lift}
-    camera: sec_safety
-    section: safety_valve
+    camera: safety_valve_front

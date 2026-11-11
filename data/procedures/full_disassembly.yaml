@@ -75,7 +75,7 @@ steps:
     remove: [p075_rod_circlip, p074_rod_washer, p073_rod_seal]
     motion: {type: pull}
     highlight: [p073_rod_seal]
-    camera: zoom_rod_seal
+    camera: sec_group_long
     section: rod_seal
     tools: [circlip_pliers, pick]
   - id: s10

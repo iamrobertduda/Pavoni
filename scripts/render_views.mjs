@@ -17,6 +17,12 @@ jobs.push({ name: 'exploded_left', q: 'view=left&explode=1' });
 jobs.push({ name: 'sealmap', q: 'view=iso&seals=1' });
 for (const [name, s] of Object.entries(data.sections)) jobs.push({ name: `section_${name}`, q: `view=${s.view ?? 'left'}&section=${name}` });
 for (const [name, v] of Object.entries(data.views)) if (v.photo) jobs.push({ name: `photo_${name}`, q: `view=${name}` });
+// one step per procedure, with the panels as the user sees them: the last step that highlights a seal
+for (const p of data.procedures) {
+  let i = p.steps.length - 1;
+  for (let k = 0; k < p.steps.length; k++) if (p.steps[k].highlight?.length) i = k;
+  jobs.push({ name: `proc_${p.id}`, q: `proc=${p.id}&step=${i + 1}`, ui: true }); // step is 1-based in URLs
+}
 
 const { server, url } = await serve();
 const browser = await launch();
@@ -24,7 +30,7 @@ let failed = 0;
 for (const j of jobs) {
   if (only.length && !only.includes(j.name)) continue;
   const t0 = Date.now();
-  const { page, errors } = await openApp(browser, url, `ui=0&anim=0&${j.q}`, { scale: hq ? 2 : 1 });
+  const { page, errors } = await openApp(browser, url, `${j.ui ? '' : 'ui=0&'}anim=0&${j.q}`, { scale: hq ? 2 : 1 });
   const file = join(out, `${j.name}.png`);
   await page.screenshot({ path: file });
   await page.close();

@@ -588,7 +588,7 @@ Jede Phase endet mit grünem `make all` und einem Commit. Fortschritt durch Abha
   vorwärts und rückwärts ohne Kollision abspielen.
 
 **Phase 7 — Feinschliff und Auslieferung**
-- [ ] Performance, Bedienbarkeit, README. GitHub-Pages-Deployment nur nach Freigabe des Besitzers.
+- [x] Performance, Bedienbarkeit, README. GitHub-Pages-Deployment nur nach Freigabe des Besitzers (nicht erfolgt).
 
 **Phase 8 — Kalibrierung (laufend)**
 - [ ] Messwerte des Besitzers in `dimensions.yaml` eintragen (`confidence: measured`), neu bauen,
@@ -820,4 +820,26 @@ Hier steht, was bei der Umsetzung anders gelöst wurde als oben beschrieben, und
     belegt), verstellbarer Schlüssel (Pressostat-Rohr, Innenmuttern; Schlüsselweiten nicht belegt).
 - **Nicht geprüft:** ob die Innenmuttern von Dampfhahn/Schauglas/Sicherheitsventil durch die Bodenöffnung mit
   Werkzeug erreichbar sind (Modell prüft nur den Weg der Teile, nicht den der Hand/des Schlüssels).
+
+**Phase 7 (2026-11-11)**
+
+- **Performance:** Viewer rendert nur noch bei Bedarf (`frameloop="demand"`): jede Zustandsänderung fordert
+  ein Bild an, Animationen (Kamerafahrt, Ausbauschritt, OrbitControls-Dämpfung) fordern das nächste selbst
+  an. Im Leerlauf 0 Bilder/s statt 60 – wichtig für Akku und Wärme auf dem Handy (E2E prüft das; der
+  E2E-Lauf unter Software-Rendering fiel dadurch von 8,8 auf 4,3 min, 12 Tests grün). GLB 2,9 MB
+  (Meshopt), 506 000 Dreiecke, 108 Draw Calls; JS 405 kB gzip. Ladeanzeige mit Fortschritt, lesbare
+  Fehlermeldung, wenn das Modell fehlt.
+- **Bedienbarkeit:** Tastatur (← / → Schritt, Esc), Teilebaum schließt sich beim Start einer Anleitung (er
+  verdeckte die Kamera), Auswahlfelder der Werkzeugleiste begrenzt (eine Zeile bei 1200 px).
+  Je Anleitung ein Rendering mit Bedienelementen (`make renders`: `proc_<id>.png`, letzter Schritt mit
+  hervorgehobener Dichtung) – danach Kameras nachgestellt: eigene Ansicht `sec_group_long` für den Ausbauweg
+  der Stangendichtung nach unten, `safety_valve_front` ohne Schnitt (im Schnitt verdeckte das Dampfrohr das
+  Ventil), Deckel- und Schauglas-Schnittansicht etwas weiter. Siebträger auf der „Werkbank“ weiter weg
+  (110 → 200 mm), weil er sonst genau unter der abgelegten Gruppe lag.
+- **README** mit Funktionen, Deep-Links, Bauanleitung, Aufbau und ehrlichem Stand der Maße.
+- **Nicht gemacht (Freigabe des Besitzers nötig):** GitHub-Pages-Deployment, Pull Request. Lizenz ist nicht
+  festgelegt.
+- **Offen / bekannte Grenzen:** Software-Rendering (CI, Renderings) braucht `quality=low`; echte GPUs nicht
+  getestet, nur Chromium (Playwright). Kein Offline-Service-Worker. Oberfläche nur Deutsch (Daten haben
+  `en`/`it` teilweise).
 

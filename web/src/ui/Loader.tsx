@@ -15,7 +15,7 @@ export function Loader() {
         <div className="loader-bar">
           <div style={{ width: `${Math.max(4, progress)}%` }} />
         </div>
-        <div className="muted small">ca. 3 MB, danach offline im Browser-Cache</div>
+        <div className="muted small">ca. 3 MB</div>
       </div>
     </div>
   );
