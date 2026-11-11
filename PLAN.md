@@ -570,10 +570,10 @@ Jede Phase endet mit grünem `make all` und einem Commit. Fortschritt durch Abha
   aus Tabelle 8.2 liegt im Modell innerhalb ± 10 %; Hüllmaß passt. Guter Zeitpunkt für Rückmeldung des Besitzers, aber nicht darauf warten.
 
 **Phase 4 — Detail-Baugruppen (Stufe A)**, in dieser Reihenfolge:
-- [ ] 4.1 Gruppe und Kolben · [ ] 4.2 Hebel · [ ] 4.3 Schauglas und Manometer ·
-  [ ] 4.4 Dampfhahn und Lanze · [ ] 4.5 Sicherheitsventil und Kesseldeckel ·
-  [ ] 4.6 Heizelement, Kessel/Basis-Verschraubung, Elektrik · [ ] 4.7 Basis und Tropfschale ·
-  [ ] 4.8 Siebträger
+- [x] 4.1 Gruppe und Kolben · [x] 4.2 Hebel · [x] 4.3 Schauglas und Manometer ·
+  [x] 4.4 Dampfhahn und Lanze · [x] 4.5 Sicherheitsventil und Kesseldeckel ·
+  [x] 4.6 Heizelement, Kessel/Basis-Verschraubung, Elektrik · [x] 4.7 Basis und Tropfschale ·
+  [x] 4.8 Siebträger
 - Abnahme je Baugruppe: alle Positionen als eigene Solids; Durchdringungs- und Ausbaupfad-Prüfung
   sauber; ein Schnitt-Rendering zeigt jede Dichtung in ihrem Sitz.
 - Nach festgelegten Datums sind die Baugruppen unabhängig und können parallel bearbeitet werden.
@@ -762,3 +762,29 @@ Hier steht, was bei der Umsetzung anders gelöst wurde als oben beschrieben, und
 - **Neu im Datenmodell:** Teile, deren `carrier` gerade bewegt wird, wandern mit (z. B. die zweite
   Sicherungsscheibe auf dem Bolzen); Unterbaugruppe `boiler.group.sleeve`; Rahmen je Baugruppe für gedrehte
   Achsen (Schauglas, Sicherheitsventil).
+
+**Phase 4 (2026-11-11)**
+
+- Alle Positionen sind eigene Solids; Durchdringungs- und Ausbaupfad-Prüfung sind sauber (`make validate`).
+- **Schnitt-Prüfung je Baugruppe** (Ansichten in `data/views.yaml`, Bilder per `make renders` unter
+  `artifacts/renders/section_*.png`), jeweils gegen die Quellen abgeglichen:
+  - Gruppe (`section_piston_seals`, `section_rod_seal`, `section_group`): obere Kolbendichtung offen nach oben,
+    untere nach unten, Rücken zueinander (Q7, Q17, Q19); Stangendichtung Lippe nach unten, darunter
+    Messingscheibe und J-20 in der Nut (Q7, Q12, Q14); Hülsen-O-Ring unten außen an der Hülse; Siebträger-
+    Dichtung gerundete Seite oben um den Siebrock; O-Ring OR 3112 in der Flanschnut; Verbinder und Steigrohr.
+  - Schauglas (`section_sight_glass_upper/lower`): Druckschraube – Messingscheibe – Silikondichtung – Glasende
+    1,5 mm überstehend; PTFE-Scheibe außen, Messingscheibe und Mutter innen (Q9, Q17).
+  - Dampfhahn (`section_steam_valve`): zwei OR 106 auf dem Zapfen unter der Schwenkhülse, Spindel mit flacher
+    Stirn am Sitz, Packung zwischen zwei Messingscheiben, Stopfbuchsmutter (Q15, Q17).
+  - Sicherheitsventil (`section_safety_valve`): PTFE-Ventil sitzt nach unten auf der Fase im Fitting, Feder
+    darüber in der Kappe, Kondensatschale zwischen Sechskant und Kappe, Innenmutter und -scheibe (Q18, Q27).
+  - Deckel (`section_cap`): O-Ring OR 4112 in der Senkung des Einfüllhalses.
+  - Kesselboden (`section_boiler_bottom`): Element-O-Ring OR 176 stirnseitig am Halsende, Faserdichtungen
+    über und unter dem Basisblech, Messingring, drei Schrauben (Q8, Q11, Q15, Q21).
+  - Siebträger (`section_portafilter`): Doppelsieb mit Rand an der Siebträger-Dichtung, Feder in der Innennut.
+- **Status:** 55 Teile `verified` (Sitz/Richtung im Schnitt gegen Quellen bzw. Außenform im Foto-Overlay),
+  37 `modeled` (plausibel, aber ohne Beleg im Detail: Gruppenkörper-Turm, Hebel, Dampfknauf und Lanze,
+  Manometer, Elektrik Stufe C, Bodenplatte, Füße, Schrauben), 8 `optional` (nicht verbaut).
+- **Bewusst vereinfacht:** Duschsieb ohne Lochbild, Gewinde nur kosmetisch, Feder des Sicherheitsventils als
+  echte Wendel, Kabel schematisch (nicht ausbaubar), Anti-Vakuum-Ventil im PTFE-Pilz nicht einzeln modelliert
+  (Mini-O-Ring-Maß unbekannt).

@@ -15,7 +15,7 @@
   material: chrome
   wear_part: false
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: boiler, od: boiler_od, wall: boiler_wall}
   dims: [boiler_od, boiler_cyl_h, boiler_shoulder_h, boiler_wall, bottom_neck_od, boiler_capacity]
   thread: "unten Außengewinde ca. M80x1,5 (gefolgert), oben Innengewinde M32x2 (Forum)"
@@ -33,7 +33,7 @@
   material: bakelite
   wear_part: false
   detail_tier: B
-  status: blockout
+  status: verified
   spec: {type: cap, od: cap_od, h: cap_h}
   dims: [cap_od, cap_h, cap_thread_d]
   thread: "M32x2 (Forum)"
@@ -50,7 +50,7 @@
   material: rubber_black
   wear_part: true
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: o_ring, id: cap_oring_id, cs: cap_oring_cs}
   dims: [cap_oring_id, cap_oring_cs]
   notes: {de: "Sitzt in der Nut am Deckel und dichtet auf dem Einfüllhals (Q17)."}
@@ -69,7 +69,7 @@
   material: chrome
   wear_part: false
   detail_tier: A
-  status: blockout
+  status: modeled
   spec: {type: group_body, od: group_upper_od, bore: group_bore}
   dims: [group_upper_od, group_bell_od, group_bore, group_offset, group_arm_z]
   notes: {de: "Ein Messing-Gussteil verchromt: Zylinder, Hals mit Rautenflansch und Hebelturm mit Rollenschlitz (Q12, Q14, Q20)."}
@@ -87,7 +87,7 @@
   material: silicone
   wear_part: true
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: lip_seal, od: rod_seal_od, id: rod_seal_id, h: rod_seal_h}
   dims: [rod_seal_od, rod_seal_id, rod_seal_h]
   notes: {de: "Lippendichtung in der Bohrung der Zylinderdecke. Flache Seite nach oben, Nut/Lippe nach unten in den Zylinder (Druckseite). Darunter Messingscheibe und Sicherungsring J-20 (Q7, Q14, Q19)."}
@@ -105,7 +105,7 @@
   material: brass
   wear_part: false
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: washer, od: rod_washer_od, id: rod_washer_id, t: rod_washer_t}
   dims: [rod_washer_od, rod_washer_id, rod_washer_t]
   notes: {de: "Bei Rost zusammen mit dem Sicherungsring ersetzen (Q7)."}
@@ -122,7 +122,7 @@
   material: steel
   wear_part: false
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: circlip_internal, bore: circlip_bore, t: circlip_t}
   dims: [circlip_bore, circlip_groove_d, circlip_t]
   notes: {de: "Innen-Sicherungsring (DIN 472) in der Nut der Zylinderdecke, von unten durch die Bohrung mit Sicherungsringzange (Q7, Q20)."}
@@ -141,7 +141,7 @@
   material: plastic_black
   wear_part: false
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: sleeve, id: group_bore, od: sleeve_od, h: sleeve_len}
   dims: [group_bore, sleeve_od, sleeve_len]
   notes: {de: "PPS/„Teflon“, von unten eingeschraubt bis die Nasen oben an der Decke anliegen. Nur ausbauen, wenn es dort undicht ist: bricht leicht (Q7, Q20)."}
@@ -160,7 +160,7 @@
   material: rubber_black
   wear_part: true
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: o_ring, id: sleeve_oring_id, cs: sleeve_oring_cs}
   dims: [sleeve_oring_id, sleeve_oring_cs]
   notes: {de: "In der Außennut der Hülse, dichtet den Ringraum um die Hülse nach unten ab. Nur tauschen, wenn die Hülse herausgeschraubt wurde (Q7)."}
@@ -178,7 +178,7 @@
   material: stainless
   wear_part: false
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: rod, d: rod_d, len: rod_len}
   dims: [rod_d, rod_len, rod_thread_d]
   thread: "M10 beidseitig"
@@ -196,7 +196,7 @@
   material: brass
   wear_part: false
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: piston, d: piston_d, h: piston_h}
   dims: [piston_d, piston_h, piston_lower_groove_z]
   thread: "M10 (auf die Stange geschraubt)"
@@ -215,7 +215,7 @@
   material: silicone
   wear_part: true
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: lip_seal, od: piston_seal_od, id: piston_seal_id, h: piston_seal_h}
   dims: [piston_seal_od, piston_seal_id, piston_seal_h]
   notes: {de: "Instanz 1 = obere Dichtung: Nut (offene Seite) nach OBEN. Instanz 2 = untere Dichtung: Nut nach UNTEN. Die Lippe zeigt immer zur Druckseite: oben Kesseldruck, unten Brühdruck (Q7, Q17, Q19)."}
@@ -235,7 +235,7 @@
   material: stainless
   wear_part: true
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: screen, d: screen_d, h: screen_h}
   dims: [screen_d, screen_h]
   notes: {de: "Ohne Clip: wird von der Siebträger-Dichtung gehalten und beim Austreiben vom Kolben mit herausgedrückt (Q7, Q20)."}
@@ -252,7 +252,7 @@
   material: rubber_black
   wear_part: true
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: group_gasket, od: group_gasket_od, id: group_gasket_id, h: group_gasket_h}
   dims: [group_gasket_od, group_gasket_id, group_gasket_h]
   notes: {de: "Gerundete Seite nach oben (zum Sieb), flache Seite nach unten zum Siebrand (Q12, Q19). Ab 3/2008 Ausführung II mit gerippter Außenkante."}
@@ -270,7 +270,7 @@
   material: plastic_black
   wear_part: true
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: connector, d: connector_d}
   dims: [connector_d, group_hole_d]
   thread: "innen M8 für das Rohr"
@@ -288,7 +288,7 @@
   material: brass
   wear_part: false
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: tube, d: dip_tube_d, drop: dip_tube_drop}
   dims: [dip_tube_d, dip_tube_drop]
   thread: M8
@@ -306,7 +306,7 @@
   material: rubber_black
   wear_part: true
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: o_ring, id: group_oring_id, cs: group_oring_cs}
   dims: [group_oring_id, group_oring_cs]
   notes: {de: "O-Ring, keine Flachdichtung: sitzt in einer Nut auf der Rückseite des Gruppenflansches (Q12, Q17)."}
@@ -325,7 +325,7 @@
   material: chrome
   wear_part: false
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: hex_bolt, d: group_bolt_d, len: group_bolt_len, af: group_bolt_af}
   dims: [group_bolt_d, group_bolt_len, group_bolt_af]
   thread: M6x14
@@ -344,7 +344,7 @@
   material: chrome
   wear_part: false
   detail_tier: A
-  status: blockout
+  status: modeled
   spec: {type: lever, len: lever_len}
   dims: [lever_len, lever_rod_d, lever_fork_t, lever_rest_deg]
   thread: "M12 am Griffende"
@@ -362,7 +362,7 @@
   material: bakelite
   wear_part: false
   detail_tier: B
-  status: blockout
+  status: modeled
   spec: {type: grip, len: grip_len, d: grip_d}
   dims: [grip_len, grip_d]
   thread: M12
@@ -379,7 +379,7 @@
   material: stainless
   wear_part: false
   detail_tier: A
-  status: blockout
+  status: modeled
   spec: {type: roller, od: roller_od, id: roller_id, w: roller_w}
   dims: [roller_od, roller_id, roller_w]
   notes: {de: "Glattes Röhrchen auf dem hinteren Bolzen, läuft im Schlitz des Gruppenturms (Q4, Q17)."}
@@ -396,7 +396,7 @@
   material: stainless
   wear_part: false
   detail_tier: A
-  status: blockout
+  status: modeled
   spec: {type: pin, d: lever_pin_d, len: lever_pin_len}
   dims: [lever_pin_d, lever_pin_len]
   notes: {de: "Instanz 1 = vorn, durch die Kolbenstange; Instanz 2 = hinten, durch die Rolle (Q17). Linke Sicherungsscheibe ab, Bolzen nach rechts herausschieben. Verschleißen, etwa alle 5 Jahre tauschen (Q12)."}
@@ -414,7 +414,7 @@
   material: stainless
   wear_part: false
   detail_tier: A
-  status: blockout
+  status: modeled
   spec: {type: eclip, od: eclip_od, t: eclip_t}
   dims: [eclip_od, eclip_t, eclip_groove_d]
   notes: {de: "Vier Stück, je eine pro Bolzenende: 1 vorn links, 2 vorn rechts, 3 hinten links, 4 hinten rechts. Zum Ausbau genügt je eine Seite (Q7, Q19)."}
@@ -434,7 +434,7 @@
   material: chrome
   wear_part: false
   detail_tier: A
-  status: blockout
+  status: modeled
   spec: {type: hex_nut, af: top_nut_af, h: lock_nut_h}
   dims: [top_nut_af, lock_nut_h]
   thread: M10
@@ -453,7 +453,7 @@
   material: chrome
   wear_part: false
   detail_tier: A
-  status: blockout
+  status: modeled
   spec: {type: cap_nut, af: top_nut_af, h: cap_nut_h}
   dims: [top_nut_af, cap_nut_h]
   thread: M10
@@ -472,7 +472,7 @@
   material: chrome
   wear_part: false
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: sg_fitting}
   dims: [nipple_thread_d, sg_axis_r]
   thread: "Nippel M12 (gefolgert), oben M12 für die Manometermutter"
@@ -490,7 +490,7 @@
   material: chrome
   wear_part: false
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: sg_fitting}
   dims: [nipple_thread_d]
   sources: [Q15, Q17]
@@ -505,7 +505,7 @@
   material: glass
   wear_part: true
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: glass_tube, od: glass_od, id: glass_id, len: glass_len}
   dims: [glass_od, glass_id, glass_len]
   notes: {de: "Wird nach Lösen beider 17-mm-Muttern oben durch den oberen Halter herausgezogen (Q9)."}
@@ -522,7 +522,7 @@
   material: silicone
   wear_part: true
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: glass_seal, od: glass_seal_od, id: glass_seal_id, h: glass_seal_h}
   dims: [glass_seal_od, glass_seal_id, glass_seal_h]
   notes: {de: "Instanz 1 oben, 2 unten. Reihenfolge von der Glasmitte nach außen: Mutter (Gewinde nach außen) - Messingscheibe - Silikondichtung - Glasende (ca. 1,5 mm überstehend) im Halter (Q17)."}
@@ -542,7 +542,7 @@
   material: brass
   wear_part: false
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: washer, od: glass_washer_od, id: glass_washer_id, t: glass_washer_t}
   dims: [glass_washer_od, glass_washer_id, glass_washer_t]
   sources: [Q15, Q17]
@@ -558,7 +558,7 @@
   material: chrome
   wear_part: false
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: glass_nut, af: glass_nut_af}
   dims: [glass_nut_af]
   notes: {de: "Schlüssel 17 mm. Hohlschraube: Gewindeseite zeigt zum Halter und drückt Messingscheibe und Dichtung in die Senkung (Q9, Q17). Instanz 1 oben, 2 unten. Nach dem Lösen gleiten sie am Glas zur Mitte; ganz heraus kommen sie erst mit dem Glas."}
@@ -576,7 +576,7 @@
   material: ptfe
   wear_part: true
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: washer, od: fitting_washer_od, id: fitting_washer_id, t: fitting_washer_t}
   dims: [fitting_washer_od, fitting_washer_id, fitting_washer_t]
   notes: {de: "Instanz 1/2: außen in der Vertiefung der Halter-Nippel (oben/unten), dichtet Halter gegen Kessel. Instanz 3: unter der Manometermutter (gefolgert, nicht belegt)."}
@@ -595,7 +595,7 @@
   material: brass
   wear_part: false
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: washer, od: inner_washer_od, id: inner_washer_id, t: inner_washer_t}
   dims: [inner_washer_od, inner_washer_id, inner_washer_t]
   notes: {de: "Im Kessel innen. Nur über die Bodenöffnung erreichbar (Heizelement ausgebaut)."}
@@ -611,7 +611,7 @@
   material: brass
   wear_part: false
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: hex_nut, af: inner_nut_af}
   dims: [inner_nut_af, nipple_thread_d]
   thread: "M12 (gefolgert)"
@@ -644,7 +644,7 @@
   material: chrome
   wear_part: false
   detail_tier: A
-  status: blockout
+  status: modeled
   spec: {type: gauge_nut}
   dims: [nipple_thread_d]
   thread: "außen M12 in den oberen Halter, innen 1/8 Zoll BSP für das Manometer"
@@ -662,7 +662,7 @@
   material: chrome
   wear_part: false
   detail_tier: B
-  status: blockout
+  status: modeled
   spec: {type: gauge, d: gauge_d}
   dims: [gauge_d, gauge_depth]
   thread: "1/8 Zoll BSP"
@@ -681,7 +681,7 @@
   material: plastic_clear
   wear_part: false
   detail_tier: B
-  status: blockout
+  status: verified
   spec: {type: cover, h: sg_cover_h, w: sg_cover_w}
   dims: [sg_cover_h, sg_cover_w, sg_cover_d]
   notes: {de: "Gesteckt, zwei Nasen in zwei Nuten (je Halter). Erst oben, dann unten abhebeln; bricht leicht (Q9, Q21)."}
@@ -698,7 +698,7 @@
   material: gauge_face
   wear_part: false
   detail_tier: C
-  status: blockout
+  status: modeled
   notes: {de: "Darstellungsteil des Manometers (kein Ersatzteil)."}
   explode: {axis: [0, 0, 1], distance_mm: 0, stage: 4}
   requires_removed: [p069_gauge]
@@ -712,7 +712,7 @@
   material: chrome
   wear_part: false
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: steam_body, d: steam_tube_d}
   dims: [steam_tube_d, steam_total_w, steam_z_above_shoulder, steam_back]
   notes: {de: "Waagerechtes Rohr hinter dem Kesselhals, Stutzen nach unten in den Konus, mit Innenmutter im Kessel gehalten (Q15, Q17, F). Sitz Metall auf Metall."}
@@ -729,7 +729,7 @@
   material: rubber_black
   wear_part: true
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: o_ring, id: wand_oring_id, cs: wand_oring_cs}
   dims: [wand_oring_id, wand_oring_cs]
   notes: {de: "Zwei Stück in Nuten auf dem Zapfen des T-Stücks; die Lanze dreht darauf. Paarweise tauschen (Q15, Q17)."}
@@ -749,7 +749,7 @@
   material: chrome
   wear_part: false
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: shaft, d: steam_shaft_d}
   dims: [steam_shaft_d]
   notes: {de: "Schließt mit der flachen Stirnseite Metall auf Metall auf dem Sitz; keine Dichtung an der Spitze (Q15)."}
@@ -765,7 +765,7 @@
   material: brass
   wear_part: false
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: washer, od: steam_packing_od, id: steam_packing_id, t: steam_washer_t}
   dims: [steam_packing_od, steam_packing_id, steam_washer_t]
   notes: {de: "Je eine vor und hinter der Gummipackung (Q15; Q2 zeigt nur eine)."}
@@ -783,7 +783,7 @@
   material: rubber_black
   wear_part: true
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: packing, od: steam_packing_od, id: steam_packing_id, h: steam_packing_h}
   dims: [steam_packing_od, steam_packing_id, steam_packing_h]
   notes: {de: "Dichtet die Spindel zum Knauf hin; die Mutter drückt sie zusammen und stellt die Gängigkeit ein (Q15, Q20). Ceccarelli beschreibt sie als Schließdichtung (Q10) - Widerspruch, siehe SOURCES."}
@@ -801,7 +801,7 @@
   material: chrome
   wear_part: false
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: gland_nut}
   notes: {de: "Schlüssel 14 mm (Q10); Dr. Pavoni nennt „10MM“. Nur leicht anziehen."}
   tools: [wrench_14]
@@ -817,7 +817,7 @@
   material: bakelite
   wear_part: false
   detail_tier: B
-  status: blockout
+  status: modeled
   spec: {type: star_knob, d: steam_knob_d}
   dims: [steam_knob_d]
   order_terms: ["La Pavoni 475010"]
@@ -833,7 +833,7 @@
   material: steel
   wear_part: false
   detail_tier: A
-  status: blockout
+  status: modeled
   spec: {type: pin, d: knob_pin_d, len: knob_pin_len}
   dims: [knob_pin_d, knob_pin_len]
   notes: {de: "Mit 3-mm-Durchschlag austreiben, Knauf auf Holz abstützen (Q10)."}
@@ -850,7 +850,7 @@
   material: chrome
   wear_part: false
   detail_tier: B
-  status: blockout
+  status: modeled
   spec: {type: wand, d: wand_d}
   dims: [wand_d, wand_drop]
   sources: [Q15, F]
@@ -865,7 +865,7 @@
   material: chrome
   wear_part: false
   detail_tier: A
-  status: blockout
+  status: modeled
   spec: {type: tip, thread: tip_thread_d}
   dims: [tip_thread_d]
   thread: M6
@@ -882,7 +882,7 @@
   material: brass
   wear_part: false
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: hex_nut, af: inner_nut_af}
   dims: [inner_nut_af]
   notes: {de: "Im Kessel, hält das T-Stück (Q18, Q22). Nur über die Bodenöffnung erreichbar."}
@@ -898,7 +898,7 @@
   material: brass
   wear_part: false
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: washer, od: inner_washer_od, id: inner_washer_id, t: inner_washer_t}
   dims: [inner_washer_od, inner_washer_id, inner_washer_t]
   sources: [Q15]
@@ -958,7 +958,7 @@
   material: chrome
   wear_part: false
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: sv_fitting, thread: sv_thread_d, af: sv_hex_af}
   dims: [sv_thread_d, sv_hex_af]
   thread: "M12 (nur Millennium)"
@@ -977,7 +977,7 @@
   material: chrome
   wear_part: false
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: sv_cap, af: sv_hex_af}
   dims: [sv_hex_af]
   thread: M12
@@ -994,7 +994,7 @@
   material: ptfe
   wear_part: true
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: poppet}
   notes: {de: "PTFE-„Pilz“, sitzt nach unten auf dem Fittingsitz; darin ein kleines Anti-Vakuum-Ventil mit Mini-O-Ring (Maß unbekannt), das beim Aufheizen Luft ablässt (Q20)."}
   order_terms: ["La Pavoni 396754R"]
@@ -1011,7 +1011,7 @@
   material: steel
   wear_part: false
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: spring, d: sv_spring_d, len: sv_spring_len}
   dims: [sv_spring_d, sv_spring_len, sv_spring_coils, sv_open_pressure]
   notes: {de: "8 Windungen (Millennium). Die Feder der Vor-Millennium-Ventile passt nicht (Q4)."}
@@ -1028,7 +1028,7 @@
   material: chrome
   wear_part: false
   detail_tier: B
-  status: blockout
+  status: verified
   spec: {type: sv_cup, d: sv_cup_d}
   dims: [sv_cup_d]
   notes: {de: "Lenkt austretenden Dampf nach unten; wird von der Kappe gehalten (Q15, Q18)."}
@@ -1045,7 +1045,7 @@
   material: brass
   wear_part: false
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: hex_nut, af: inner_nut_af}
   dims: [inner_nut_af]
   notes: {de: "Im Kessel. Fällt beim Losdrehen des Fittings in den Kessel (Q18, Q20)."}
@@ -1061,7 +1061,7 @@
   material: brass
   wear_part: false
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: washer, od: inner_washer_od, id: inner_washer_id, t: inner_washer_t}
   dims: [inner_washer_od, inner_washer_id, inner_washer_t]
   sources: [Q15, Q18]
@@ -1078,7 +1078,7 @@
   material: fiber
   wear_part: true
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: flat_gasket, od: base_gasket_upper_od, id: base_gasket_upper_id, t: base_gasket_upper_t}
   dims: [base_gasket_upper_od, base_gasket_upper_id, base_gasket_upper_t]
   notes: {de: "Faserscheibe zwischen Kesselfuß und Basis (Q11)."}
@@ -1095,7 +1095,7 @@
   material: fiber
   wear_part: true
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: flat_gasket, od: base_gasket_lower_od, id: base_gasket_lower_id, t: base_gasket_lower_t}
   dims: [base_gasket_lower_od, base_gasket_lower_id, base_gasket_lower_t]
   notes: {de: "Faserscheibe zwischen Basis-Unterseite und Ring (Q11)."}
@@ -1112,7 +1112,7 @@
   material: brass
   wear_part: false
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: ring, od: base_ring_od, h: base_ring_h}
   dims: [base_ring_od, base_ring_h, thread_pitch_bottom]
   thread: "innen ca. M80x1,5 (gefolgert)"
@@ -1133,7 +1133,7 @@
   material: chrome
   wear_part: false
   detail_tier: B
-  status: blockout
+  status: verified
   spec: {type: base, len: base_len, w: base_w, h: base_h}
   dims: [base_len, base_w, base_h]
   notes: {de: "Verchromte Schale mit Tropfmulde vorn, Kragen um den Kesselfuß, Schalterausschnitt links. v3.1: Basis und Unterboden geändert (Q1)."}
@@ -1149,7 +1149,7 @@
   material: emblem
   wear_part: false
   detail_tier: B
-  status: blockout
+  status: modeled
   spec: {type: emblem, d: emblem_d}
   dims: [emblem_d]
   sources: [F]
@@ -1164,7 +1164,7 @@
   material: plastic_black
   wear_part: false
   detail_tier: B
-  status: blockout
+  status: modeled
   spec: {type: bottom_plate, t: bottom_plate_t}
   dims: [bottom_plate_t, bottom_plate_hole_d]
   notes: {de: "Mit zwei großen runden Öffnungen und mehreren kleinen Bohrungen (Foto D1)."}
@@ -1180,7 +1180,7 @@
   material: rubber_black
   wear_part: false
   detail_tier: B
-  status: blockout
+  status: modeled
   spec: {type: foot, d: foot_d, h: foot_h}
   dims: [foot_d, foot_h]
   sources: [F]
@@ -1196,7 +1196,7 @@
   material: rubber_black
   wear_part: false
   detail_tier: B
-  status: blockout
+  status: modeled
   spec: {type: plug}
   notes: {de: "Zugang zum Reset-Knopf des Sicherheitsthermostats (Q18)."}
   sources: [Q18]
@@ -1211,7 +1211,7 @@
   material: steel
   wear_part: false
   detail_tier: B
-  status: blockout
+  status: modeled
   spec: {type: screw}
   thread: "M5x12 Senkkopf (neue Basis) bzw. Torx T20 (alt)"
   notes: {de: "Anzahl und Lage geschätzt."}
@@ -1228,7 +1228,7 @@
   material: plastic_black
   wear_part: false
   detail_tier: B
-  status: blockout
+  status: verified
   spec: {type: drip_tray, len: drip_len, w: drip_w}
   dims: [drip_len, drip_w, drip_tray_h]
   sources: [F]
@@ -1243,7 +1243,7 @@
   material: plastic_black
   wear_part: false
   detail_tier: B
-  status: blockout
+  status: verified
   spec: {type: drip_grid}
   dims: [drip_slots]
   notes: {de: "Schwarz, etwa zehn Querschlitze unterschiedlicher Länge, Griffmulden links und rechts (Foto B1)."}
@@ -1276,7 +1276,7 @@
   material: stainless
   wear_part: false
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: heating_element, flange: element_flange_d, h: element_h}
   dims: [element_flange_d, element_h, element_immersed, element_coil_d, heater_power]
   notes: {de: "Edelstahl, 1000 W, 230 V. Flansch mit drei Ohren, M4-Bolzen für das Sicherheitsthermostat, Anschluss für das Pressostat-Rohr (Q15, Q16)."}
@@ -1294,7 +1294,7 @@
   material: rubber_black
   wear_part: true
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: o_ring, id: element_oring_id, cs: element_oring_cs}
   dims: [element_oring_id, element_oring_cs]
   notes: {de: "Liegt im eigenen Sitz am Elementflansch und dichtet gegen das Halsende des Kessels (Q8). Alte Bauart: Flachdichtung 82x68x2."}
@@ -1313,7 +1313,7 @@
   material: steel
   wear_part: false
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: hex_bolt, d: element_bolt_d, len: element_bolt_len}
   dims: [element_bolt_d, element_bolt_len]
   thread: M5x12
@@ -1332,7 +1332,7 @@
   material: copper
   wear_part: false
   detail_tier: C
-  status: blockout
+  status: modeled
   spec: {type: tube, d: pstat_tube_d}
   dims: [pstat_tube_d]
   notes: {de: "Vom Heizelementflansch zum Pressostat; am Pressostat lösen, nicht am Element (Q18)."}
@@ -1348,7 +1348,7 @@
   material: plastic_white
   wear_part: false
   detail_tier: C
-  status: blockout
+  status: modeled
   spec: {type: pressurestat}
   dims: [pressurestat_w, pressurestat_d, working_pressure]
   thread: "1/4 Zoll BSP"
@@ -1366,7 +1366,7 @@
   material: plastic_white
   wear_part: false
   detail_tier: C
-  status: blockout
+  status: modeled
   spec: {type: thermostat}
   dims: [thermostat_d]
   notes: {de: "Manueller Reset, am M4-Bolzen in der Mitte des Elementflansches (Q21)."}
@@ -1383,7 +1383,7 @@
   material: plastic_black
   wear_part: false
   detail_tier: C
-  status: blockout
+  status: modeled
   spec: {type: cover}
   sources: [Q2, Q15]
   explode: {axis: [0, 0, -1], distance_mm: 30, stage: 3}
@@ -1397,7 +1397,7 @@
   material: steel
   wear_part: false
   detail_tier: C
-  status: blockout
+  status: modeled
   spec: {type: washer}
   sources: [Q2]
   explode: {axis: [0, 0, -1], distance_mm: 25, stage: 4}
@@ -1411,7 +1411,7 @@
   material: brass
   wear_part: false
   detail_tier: C
-  status: blockout
+  status: modeled
   spec: {type: hex_nut}
   thread: M4
   sources: [Q2]
@@ -1426,7 +1426,7 @@
   material: plastic_black
   wear_part: false
   detail_tier: C
-  status: blockout
+  status: modeled
   spec: {type: switch, w: switch_w, h: switch_h}
   dims: [switch_w, switch_h, switch_cutout_w, switch_cutout_h]
   notes: {de: "Zweipolig, 0-I, 16(4) A, Ausschnitt 22 x 30 (Q15)."}
@@ -1442,7 +1442,7 @@
   material: rubber_black
   wear_part: false
   detail_tier: C
-  status: blockout
+  status: modeled
   spec: {type: grommet}
   sources: [Q2, F]
   explode: {axis: [0, 1, 0], distance_mm: 0, stage: 3}
@@ -1456,7 +1456,7 @@
   material: cable
   wear_part: false
   detail_tier: C
-  status: blockout
+  status: modeled
   spec: {type: cable, d: cable_d}
   dims: [cable_d]
   notes: {de: "Tritt hinten rechts aus der Basis aus (Foto B2). Schematisch: wird im Modell nicht ausgebaut."}
@@ -1472,7 +1472,7 @@
   material: steel
   wear_part: false
   detail_tier: C
-  status: blockout
+  status: modeled
   spec: {type: bracket}
   sources: [Q2]
   explode: {axis: [0, 0, -1], distance_mm: 30, stage: 4}
@@ -1486,7 +1486,7 @@
   material: plastic_black
   wear_part: false
   detail_tier: C
-  status: blockout
+  status: modeled
   spec: {type: clamp}
   sources: [Q2]
   explode: {axis: [0, 0, 1], distance_mm: 0, stage: 4}
@@ -1500,7 +1500,7 @@
   material: plastic_white
   wear_part: false
   detail_tier: C
-  status: blockout
+  status: modeled
   spec: {type: terminal_block}
   sources: [Q2]
   explode: {axis: [0, 0, 1], distance_mm: 14, stage: 3}
@@ -1514,7 +1514,7 @@
   material: steel
   wear_part: false
   detail_tier: C
-  status: blockout
+  status: modeled
   spec: {type: washer}
   sources: [Q2]
   explode: {axis: [0, 0, 1], distance_mm: 10, stage: 4}
@@ -1528,7 +1528,7 @@
   material: steel
   wear_part: false
   detail_tier: C
-  status: blockout
+  status: modeled
   spec: {type: screw}
   sources: [Q2]
   explode: {axis: [0, 0, 1], distance_mm: 15, stage: 4}
@@ -1542,7 +1542,7 @@
   material: steel
   wear_part: false
   detail_tier: C
-  status: blockout
+  status: modeled
   spec: {type: hex_nut}
   thread: M3
   sources: [Q2]
@@ -1559,7 +1559,7 @@
   material: chrome
   wear_part: false
   detail_tier: B
-  status: blockout
+  status: verified
   spec: {type: portafilter, od: pf_head_od, len: pf_len}
   dims: [pf_head_od, pf_len, pf_ear_t]
   notes: {de: "Zwei Bajonett-Ohren, 4 mm (Q13). Seit 2001 für 60-mm-Siebe (Q21)."}
@@ -1576,7 +1576,7 @@
   material: chrome
   wear_part: false
   detail_tier: B
-  status: blockout
+  status: verified
   spec: {type: spout}
   thread: "3/8 Zoll BSP"
   sources: [Q4, F]
@@ -1591,7 +1591,7 @@
   material: steel
   wear_part: false
   detail_tier: B
-  status: blockout
+  status: modeled
   spec: {type: stud}
   dims: [pf_stud_len]
   thread: "M12 (Steigung widersprüchlich: 1,75 oder 1,0)"
@@ -1607,7 +1607,7 @@
   material: bakelite
   wear_part: false
   detail_tier: B
-  status: blockout
+  status: modeled
   spec: {type: grip}
   dims: [grip_len, grip_d]
   sources: [Q21, F]
@@ -1622,7 +1622,7 @@
   material: stainless
   wear_part: false
   detail_tier: B
-  status: blockout
+  status: verified
   spec: {type: basket, rim: basket_rim_d, h: basket_h}
   dims: [basket_rim_d, basket_id, basket_h]
   order_terms: ["La Pavoni 327053"]
@@ -1654,7 +1654,7 @@
   material: stainless
   wear_part: false
   detail_tier: A
-  status: blockout
+  status: verified
   spec: {type: wire_spring, wire: pf_spring_wire}
   dims: [pf_spring_wire]
   notes: {de: "Draht in der Innennut, hält das Sieb. Ab 2008 wieder serienmäßig (Q21); bei v3.0 evtl. ohne Nut."}

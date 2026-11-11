@@ -14,11 +14,29 @@ views:
   steam_valve: {label: "Dampfhahn", position: [-180, 520, 380], target: [0, 44, 280], fov: 26}
   safety_valve: {label: "Sicherheitsventil", position: [380, 260, 420], target: [40, 15, 270], fov: 22}
   base_bottom: {label: "Unterseite", position: [-260, -380, -420], target: [0, -40, 20], fov: 30}
+  sec_group: {label: "Gruppe im Schnitt", position: [-330, -113, 215], target: [0, -113, 220], fov: 34}
+  sec_group_top: {label: "Gruppe oben im Schnitt", position: [-200, -100, 270], target: [0, -100, 270], fov: 30}
+  sec_sg_upper: {label: "Schauglas oben im Schnitt", position: [-110, -220, 232], target: [-60, 8, 232], fov: 16}
+  sec_sg_lower: {label: "Schauglas unten im Schnitt", position: [-110, -220, 92], target: [-60, 8, 92], fov: 16}
+  sec_steam: {label: "Dampfhahn im Schnitt", position: [0, 380, 280], target: [0, 44, 280], fov: 38}
+  sec_safety: {label: "Sicherheitsventil im Schnitt", position: [120, -220, 300], target: [38, 14, 268], fov: 16}
+  sec_bottom: {label: "Kesselboden im Schnitt", position: [-300, -40, 45], target: [0, 0, 38], fov: 34}
+  sec_cap: {label: "Deckel im Schnitt", position: [-220, -60, 295], target: [0, 0, 290], fov: 22}
+  sec_portafilter: {label: "Siebträger im Schnitt", position: [-260, -160, 165], target: [0, -113, 160], fov: 28}
+  zoom_piston_seals: {label: "Kolbendichtungen (Detail)", position: [-160, -134.5, 205], target: [0, -134.5, 205.5], fov: 9}
+  zoom_rod_seal: {label: "Stangendichtung (Detail)", position: [-120, -122, 246], target: [0, -122, 246], fov: 6}
   photo_B3: {label: "Foto B3 (links)", position: [-411.3, -5.1, 299.2], target: [-37.5, -86.1, 178.6], fov: 67.0, photo: B3_left.jpg}
   photo_B2: {label: "Foto B2 (hinten)", position: [-20.0, 386.4, 187.9], target: [-4.4, 16.8, 182.3], fov: 67.0, photo: B2_rear.jpg}
 sections:
-  group: {label: "Schnitt durch Gruppe", normal: [-1, 0, 0], point: [0, 0, 0], view: group_side}
+  group: {label: "Schnitt durch Gruppe", normal: [-1, 0, 0], point: [0, 0, 0], view: sec_group}
+  group_top: {label: "Schnitt Gruppe oben (Stangendichtung, Hebel)", normal: [-1, 0, 0], point: [0, 0, 0], view: sec_group_top}
   sight_glass: {label: "Schnitt durch Schauglas", normal: [-0.992, 0.123, 0], point: [-67.1, 8.3, 0], view: sight_glass}
-  steam_valve: {label: "Schnitt durch Dampfhahn", normal: [0, 1, 0], point: [0, 43.7, 0], view: steam_valve}
-  safety_valve: {label: "Schnitt durch Sicherheitsventil", normal: [-0.342, 0.94, 0], point: [36.4, 13.3, 0], view: safety_valve}
-  boiler: {label: "Schnitt durch Kessel", normal: [-1, 0, 0], point: [0, 0, 0], view: left}
+  sight_glass_upper: {label: "Schnitt Schauglas oben", normal: [-0.123, -0.992, 0], point: [-67.1, 8.3, 0], view: sec_sg_upper}
+  sight_glass_lower: {label: "Schnitt Schauglas unten", normal: [-0.123, -0.992, 0], point: [-67.1, 8.3, 0], view: sec_sg_lower}
+  steam_valve: {label: "Schnitt durch Dampfhahn", normal: [0, 1, 0], point: [0, 43.7, 0], view: sec_steam}
+  safety_valve: {label: "Schnitt durch Sicherheitsventil", normal: [0.342, -0.94, 0], point: [36.4, 13.3, 0], view: sec_safety}
+  boiler_bottom: {label: "Schnitt Kesselboden (Heizelement, Ring, Dichtungen)", normal: [-1, 0, 0], point: [0, 0, 0], view: sec_bottom}
+  cap: {label: "Schnitt durch Kesseldeckel", normal: [-1, 0, 0], point: [0, 0, 0], view: sec_cap}
+  piston_seals: {label: "Kolbendichtungen im Schnitt", normal: [-1, 0, 0], point: [0, 0, 0], view: zoom_piston_seals}
+  rod_seal: {label: "Stangendichtung im Schnitt", normal: [-1, 0, 0], point: [0, 0, 0], view: zoom_rod_seal}
+  portafilter: {label: "Schnitt durch Siebträger", normal: [-1, 0, 0], point: [0, 0, 0], view: sec_portafilter}
