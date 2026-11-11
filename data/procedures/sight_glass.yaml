@@ -1,0 +1,73 @@
+id: sight_glass
+order: 4
+title: {de: "Schauglas-Dichtungen tauschen"}
+summary: {de: "Abdeckung ab, Manometer ab, Druckschrauben lösen, Glas nach oben heraus, Scheiben und Dichtungen tauschen."}
+difficulty: 2
+duration_min: 30
+tools: [screwdriver_flat_large, wrench_14, wrench_17, pick]
+parts_needed: [p060_glass_seal, p064_fitting_washer]
+preconditions: [unplugged, cold, depressurized, boiler_empty]
+sources: [Q9, Q17, Q21]
+steps:
+  - id: s1
+    title: {de: "Schauglas-Abdeckung abnehmen"}
+    text: {de: "Kessel mit Klebeband schützen. Abdeckung erst nahe der oberen Druckschraube abhebeln, festhalten, dann unten."}
+    remove: [p070_glass_cover]
+    motion: {type: pull}
+    camera: sight_glass
+    tools: [screwdriver_flat_large]
+    warn: {de: "Die Abdeckung bricht leicht (Q9, Q21)."}
+  - id: s2
+    title: {de: "Manometer abschrauben"}
+    text: {de: "Manometer am Vierkant mit 14 mm aus der Manometermutter drehen."}
+    remove: [p069_gauge]
+    motion: {type: unscrew}
+    camera: sight_glass
+    tools: [wrench_14]
+  - id: s3
+    title: {de: "Manometermutter herausdrehen"}
+    text: {de: "Mutter aus dem oberen Halter schrauben; darunter liegt eine weiße Scheibe."}
+    remove: [p068_gauge_nut]
+    motion: {type: unscrew}
+    camera: sec_sg_upper
+    section: sight_glass_upper
+    reassembly: {de: "Nicht fest anziehen: Dichtung und Mutter nehmen sonst Schaden."}
+  - id: s4
+    title: {de: "Weiße Scheibe unter der Manometermutter"}
+    text: {de: "Scheibe abnehmen und prüfen."}
+    remove: [p064_fitting_washer__3]
+    motion: {type: lift}
+    camera: sec_sg_upper
+    section: sight_glass_upper
+  - id: s5
+    title: {de: "Beide Druckschrauben lösen"}
+    text: {de: "Obere und untere Druckschraube mit 17 mm herausdrehen; sie gleiten am Glas zur Mitte."}
+    remove: [p061_glass_nut]
+    motion: {type: unscrew}
+    camera: sight_glass
+    section: sight_glass
+    tools: [wrench_17]
+  - id: s6
+    title: {de: "Glas nach oben herausziehen"}
+    text: {de: "Glasrohr durch den oberen Halter nach oben herausziehen. Reinigen (Essig/Entkalker) oder ersetzen."}
+    remove: [p062_sight_glass]
+    motion: {type: pull}
+    camera: sight_glass
+  - id: s7
+    title: {de: "Messingscheiben herausnehmen"}
+    text: {de: "Je eine Messingscheibe aus dem oberen und dem unteren Halter."}
+    remove: [p100_glass_washer]
+    motion: {type: pull}
+    camera: sec_sg_lower
+    section: sight_glass_lower
+    tools: [pick]
+  - id: s8
+    title: {de: "Silikondichtungen herausholen"}
+    text: {de: "Dichtungen mit dem Haken aus den Senkungen der Halter holen."}
+    remove: [p060_glass_seal]
+    motion: {type: pull}
+    highlight: [p060_glass_seal]
+    camera: sec_sg_lower
+    section: sight_glass_lower
+    tools: [pick]
+    reassembly: {de: "Reihenfolge auf dem Glas von der Mitte nach außen: Druckschraube (Gewinde zum Halter), Messingscheibe, Dichtung; Glas ca. 1,5 mm überstehen lassen (Q17)."}

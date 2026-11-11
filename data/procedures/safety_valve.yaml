@@ -1,0 +1,43 @@
+id: safety_valve
+order: 8
+title: {de: "Sicherheitsventil reinigen und tauschen"}
+summary: {de: "Kappe mit Feder und Ventil abschrauben, Fitting dabei gegenhalten. Das Fitting selbst kommt nur bei ausgebautem Heizelement heraus."}
+difficulty: 2
+duration_min: 20
+tools: [wrench_16_thin, pick]
+parts_needed: [p019_sv_valve]
+preconditions: [unplugged, cold, depressurized, boiler_empty]
+sources: [Q4, Q18, Q20, Q27]
+steps:
+  - id: s1
+    title: {de: "Kappe abschrauben"}
+    text: {de: "Fitting-Sechskant unter der Schale mit einem dünnen 16-mm-Schlüssel gegenhalten, Kappe gegen den Uhrzeigersinn abschrauben. Feder und Ventil kommen mit."}
+    remove: [boiler.safety_valve.cap]
+    motion: {type: unscrew}
+    camera: sec_safety
+    section: safety_valve
+    tools: [wrench_16_thin]
+    warn: {de: "Dreht sich das Fitting mit, sofort aufhören: sonst fällt die Innenmutter in den Kessel (Q18)."}
+  - id: s2
+    title: {de: "Ventil (PTFE-Pilz) herausnehmen"}
+    text: {de: "Ventil aus der Kappe nehmen. Mini-O-Ring des Anti-Vakuum-Ventils prüfen."}
+    remove: [p019_sv_valve]
+    motion: {type: pull}
+    highlight: [p019_sv_valve]
+    camera: sec_safety
+    section: safety_valve
+    reassembly: {de: "Ventil mit der Spitze nach unten in die Fase des Fittings setzen (Q18)."}
+  - id: s3
+    title: {de: "Feder herausnehmen"}
+    text: {de: "Feder (8 Windungen, 7 x 26) entnehmen. Nur die Millennium-Feder passt (Q4)."}
+    remove: [p020_sv_spring]
+    motion: {type: pull}
+    camera: sec_safety
+    section: safety_valve
+  - id: s4
+    title: {de: "Kondensatschale abnehmen"}
+    text: {de: "Schale vom Fitting heben, Sitz im Fitting reinigen."}
+    remove: [p021_sv_collar]
+    motion: {type: lift}
+    camera: sec_safety
+    section: safety_valve

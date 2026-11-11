@@ -9,3 +9,8 @@
 - {id: screwdriver_flat_large, name: {de: "Großer Schlitzschraubendreher"}, note: {de: "Schauglas-Kappe"}, source: "Q9"}
 - {id: base_ring_wrench, name: {de: "Spezialschlüssel Basisring"}, note: {de: "Ersatzweise den Kessel selbst drehen"}, source: "Q11"}
 - {id: silicone_grease, name: {de: "Lebensmittelechtes Silikonfett"}, source: "Q7"}
+- {id: wrench_16_thin, name: {de: "Dünner Maulschlüssel 16 mm (2x)"}, note: {de: "Sicherheitsventil: Fitting gegenhalten, Kappe lösen"}, source: "Q18, Q27"}
+- {id: screwdriver_set, name: {de: "Schraubendreher Kreuz/Torx T20"}, note: {de: "Bodenplatte; Schraubenkopf je nach Baujahr (Anzahl und Kopfform geschätzt)"}, source: "Q15"}
+- {id: wrench_8, name: {de: "Maulschlüssel 8 mm"}, note: {de: "Heizelement-Schrauben M5 (Normmaß für M5-Sechskant, Kopfform nicht belegt)"}, source: "Q17"}
+- {id: wrench_7, name: {de: "Maulschlüssel 7 mm"}, note: {de: "M4-Mutter am Sicherheitsthermostat (Normmaß M4)"}, source: "Q21"}
+- {id: wrench_adjustable, name: {de: "Verstellbarer Schlüssel"}, note: {de: "Überwurfmutter Pressostat-Rohr (Schlüsselweite nicht belegt)"}, source: "Q18"}

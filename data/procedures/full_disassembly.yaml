@@ -1,0 +1,194 @@
+id: full_disassembly
+order: 11
+title: {de: "Komplett zerlegen (Überholung)"}
+summary: {de: "Gültige Gesamtreihenfolge für eine Überholung mit allen Dichtungen. Die Einzelanleitungen 1-10 sind Ausschnitte davon. Elektrik bleibt in der Basis."}
+difficulty: 5
+duration_min: 240
+tools: [wrench_14, wrench_10, wrench_17, wrench_16_thin, wrench_8, wrench_7, wrench_adjustable, circlip_pliers, pick, rubber_mallet, punch_3, screwdriver_flat_large, screwdriver_set, base_ring_wrench, silicone_grease]
+parts_needed: [p002_cap_oring, p080_piston_seal, p073_rod_seal, p077_sleeve_oring, p081_shower_screen, p082_group_gasket, p085_group_oring, p060_glass_seal, p064_fitting_washer, p047_wand_oring, p050_steam_packing, p019_sv_valve, p008_element_oring, p004_base_gasket_upper, p006_base_gasket_lower]
+preconditions: [unplugged, cold, depressurized, boiler_empty]
+danger: {de: "Netzspannung und Druckkessel. Nur stromlos, kalt, drucklos und entleert. Kabelanschlüsse vor dem Lösen fotografieren. Nach dem Zusammenbau erst ohne Strom auf Dichtheit prüfen."}
+sources: [Q7, Q8, Q9, Q10, Q11, Q12, Q14, Q15, Q16, Q17, Q18, Q19, Q20, Q21, Q27]
+steps:
+  - id: s1
+    title: {de: "Siebträger und Tropfschale abnehmen"}
+    text: {de: "Siebträger nach links drehen und abnehmen, Tropfschale mit Gitter herausziehen."}
+    remove: [portafilter, base.drip_tray]
+    motion: {type: pull}
+    camera: iso
+  - id: s2
+    title: {de: "Siebträger zerlegen"}
+    text: {de: "Sieb mit einem Löffelstiel heraushebeln (die Feder hält es), Griff abschrauben."}
+    remove: [p098_basket_double, p101_portafilter_spring, p088_portafilter_grip, p097_handle_stud]
+    motion: {type: pull}
+    camera: sec_portafilter
+  - id: s3
+    title: {de: "Kesseldeckel und O-Ring"}
+    text: {de: "Deckel abschrauben, O-Ring abnehmen."}
+    remove: [boiler.cap, p002_cap_oring]
+    motion: {type: unscrew}
+    camera: sec_cap
+    section: cap
+    tools: [pick]
+  - id: s4
+    title: {de: "Hutmutter und Kontermutter"}
+    text: {de: "Kontermutter gegenhalten, Hutmutter und Kontermutter abschrauben."}
+    remove: [p093_cap_nut, p092_lock_nut]
+    motion: {type: unscrew}
+    camera: group_top
+    tools: [wrench_14]
+  - id: s5
+    title: {de: "Hebel abnehmen"}
+    text: {de: "Je eine Sicherungsscheibe pro Bolzen abhebeln, Bolzen herausziehen, Hebel und Rolle abnehmen."}
+    remove: [p091_eclip__1, p091_eclip__3, p090_lever_pin, boiler.group.lever.arm, p089_roller]
+    motion: {type: pull}
+    camera: group_top
+    tools: [pick]
+  - id: s6
+    title: {de: "Gruppe abnehmen"}
+    text: {de: "Zwei Schrauben mit 10 mm lösen, Gruppe nach vorn und unten abnehmen."}
+    remove: [p086_group_bolt, boiler.group]
+    motion: {type: pull}
+    camera: group_side
+    tools: [wrench_10]
+    warn: {de: "Schrauben scheren leicht ab; Steigrohr nicht verbiegen (Q12, Q14)."}
+  - id: s7
+    title: {de: "Kolben austreiben"}
+    text: {de: "Kolbenstange mit Gummihammer nach unten austreiben; Siebträger-Dichtung und Duschsieb kommen mit."}
+    remove: [p082_group_gasket, p081_shower_screen, boiler.group.piston]
+    motion: {type: tap_out}
+    camera: sec_group
+    section: group
+    tools: [rubber_mallet]
+  - id: s8
+    title: {de: "Kolbendichtungen"}
+    text: {de: "Beide Lippendichtungen abnehmen. Einbaurichtung: obere Lippe nach oben, untere nach unten."}
+    remove: [p080_piston_seal]
+    motion: {type: stretch_off}
+    highlight: [p080_piston_seal]
+    camera: zoom_piston_seals
+    section: piston_seals
+    tools: [pick]
+  - id: s9
+    title: {de: "Stangendichtung"}
+    text: {de: "Sicherungsring J-20, Messingscheibe und Stangendichtung nach unten herausnehmen."}
+    remove: [p075_rod_circlip, p074_rod_washer, p073_rod_seal]
+    motion: {type: pull}
+    highlight: [p073_rod_seal]
+    camera: zoom_rod_seal
+    section: rod_seal
+    tools: [circlip_pliers, pick]
+  - id: s10
+    title: {de: "Hülse und Hülsen-O-Ring"}
+    text: {de: "Hülse vorsichtig herausschrauben, O-Ring abnehmen."}
+    remove: [boiler.group.sleeve, p077_sleeve_oring]
+    motion: {type: unscrew}
+    camera: sec_group
+    section: group
+    warn: {de: "Kunststoffhülse bricht leicht (Q20)."}
+  - id: s11
+    title: {de: "Steigrohr, O-Ring und Verbinder"}
+    text: {de: "Steigrohr abschrauben, O-Ring hinten am Flansch und Kunststoff-Verbinder entnehmen."}
+    remove: [p084_dip_tube, p085_group_oring, p083_tube_connector]
+    motion: {type: unscrew}
+    camera: sec_group
+    section: group
+    tools: [pick]
+  - id: s12
+    title: {de: "Dampflanze und Lanzen-O-Ringe"}
+    text: {de: "Lanze abziehen, beide O-Ringe vom Zapfen nehmen."}
+    remove: [boiler.steam.wand, p047_wand_oring__2, p047_wand_oring__1]
+    motion: {type: pull}
+    camera: sec_steam
+    section: steam_valve
+    tools: [pick]
+  - id: s13
+    title: {de: "Dampfspindel ausbauen und zerlegen"}
+    text: {de: "Spindel samt Knauf ausschrauben, Stift austreiben, Knauf, Mutter, Scheiben und Packung abziehen."}
+    remove: [boiler.steam.spindle, p053_knob_pin, p052_steam_knob, p051_steam_nut, p049_steam_washer__1, p050_steam_packing, p049_steam_washer__2]
+    motion: {type: unscrew}
+    camera: sec_steam
+    section: steam_valve
+    tools: [wrench_14, punch_3, rubber_mallet]
+  - id: s14
+    title: {de: "Sicherheitsventil öffnen"}
+    text: {de: "Fitting gegenhalten, Kappe abschrauben, Ventil, Feder und Schale abnehmen."}
+    remove: [boiler.safety_valve.cap, p019_sv_valve, p020_sv_spring, p021_sv_collar]
+    motion: {type: unscrew}
+    camera: sec_safety
+    section: safety_valve
+    tools: [wrench_16_thin]
+  - id: s15
+    title: {de: "Schauglas: Abdeckung und Manometer"}
+    text: {de: "Abdeckung abhebeln, Manometer, Manometermutter und Scheibe abnehmen."}
+    remove: [p070_glass_cover, p069_gauge, p068_gauge_nut, p064_fitting_washer__3]
+    motion: {type: pull}
+    camera: sight_glass
+    tools: [screwdriver_flat_large, wrench_14]
+  - id: s16
+    title: {de: "Schauglas: Glas und Dichtungen"}
+    text: {de: "Druckschrauben lösen, Glas nach oben ziehen, Messingscheiben und Dichtungen herausholen."}
+    remove: [p061_glass_nut, p062_sight_glass, p100_glass_washer, p060_glass_seal]
+    motion: {type: pull}
+    camera: sec_sg_lower
+    section: sight_glass_lower
+    tools: [wrench_17, pick]
+  - id: s17
+    title: {de: "Bodenplatte abnehmen"}
+    text: {de: "Maschine auf die Seite legen, Bodenschrauben lösen, Platte abnehmen."}
+    remove: [p039_base_screw, base.bottom]
+    motion: {type: unscrew}
+    camera: base_bottom
+    tools: [screwdriver_set]
+  - id: s18
+    title: {de: "Thermostat und Pressostat-Rohr"}
+    text: {de: "Thermostat-Abdeckung, Mutter, Zahnscheibe und Thermostat abnehmen, Pressostat-Rohr am Pressostat lösen."}
+    remove: [p014_thermostat_cover, p016_nut_m4, p015_tooth_washer, p013_thermostat, p011_pstat_tube]
+    motion: {type: pull}
+    camera: sec_bottom
+    section: boiler_bottom
+    tools: [wrench_7, wrench_adjustable]
+  - id: s19
+    title: {de: "Heizelement und O-Ring"}
+    text: {de: "Drei Schrauben lösen, Element nach unten ziehen, O-Ring abnehmen."}
+    remove: [p010_element_bolt, heating, p008_element_oring]
+    motion: {type: pull}
+    camera: sec_bottom
+    section: boiler_bottom
+    tools: [wrench_8, pick]
+  - id: s20
+    title: {de: "Dampfhahn abnehmen"}
+    text: {de: "Durch die Bodenöffnung die Innenmutter am Dampfhahn lösen, Scheibe abnehmen, Ventilkörper außen abziehen."}
+    remove: [x002_steam_inner_nut, x003_steam_inner_washer, boiler.steam]
+    motion: {type: unscrew}
+    camera: iso
+    tools: [wrench_adjustable]
+  - id: s21
+    title: {de: "Schauglas-Halter abnehmen"}
+    text: {de: "Innenmuttern der beiden Halter lösen, Scheiben abnehmen, Halter außen abziehen, PTFE-Scheiben abnehmen."}
+    remove: [p066_inner_nut, p065_inner_washer, boiler.sight_glass, p064_fitting_washer]
+    motion: {type: pull}
+    camera: sight_glass
+    tools: [wrench_adjustable]
+  - id: s22
+    title: {de: "Sicherheitsventil-Fitting abnehmen"}
+    text: {de: "Innenmutter und Scheibe lösen, Fitting nach oben herausnehmen."}
+    remove: [x004_sv_inner_nut, x005_sv_inner_washer, p018_sv_fitting]
+    motion: {type: pull}
+    camera: sec_safety
+    section: safety_valve
+    tools: [wrench_adjustable]
+  - id: s23
+    title: {de: "Kessel von der Basis"}
+    text: {de: "Kessel gegen den Uhrzeigersinn aus dem Ring schrauben und abheben."}
+    remove: [boiler]
+    motion: {type: unscrew}
+    camera: iso
+    tools: [base_ring_wrench, rubber_mallet]
+  - id: s24
+    title: {de: "Basisdichtungen und Ring"}
+    text: {de: "Obere Faserscheibe, Ring und untere Faserscheibe entnehmen."}
+    remove: [p004_base_gasket_upper, p007_base_ring, p006_base_gasket_lower]
+    motion: {type: pull}
+    camera: sec_bottom
+    section: boiler_bottom

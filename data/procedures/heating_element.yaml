@@ -1,0 +1,69 @@
+id: heating_element
+order: 9
+title: {de: "Heizelement-Dichtung tauschen"}
+summary: {de: "Maschine auf die Seite legen, Bodenplatte ab, Thermostat und Pressostat-Rohr lösen, Element nach unten herausnehmen, O-Ring tauschen."}
+difficulty: 4
+duration_min: 60
+tools: [screwdriver_set, wrench_7, wrench_8, wrench_adjustable, pick, silicone_grease]
+parts_needed: [p008_element_oring]
+preconditions: [unplugged, cold, depressurized, boiler_empty]
+danger: {de: "Netzspannung. Nur stromlos (Stecker gezogen), kalt, drucklos und mit leerem Kessel arbeiten. Kabelanschlüsse vor dem Lösen fotografieren; Schutzleiter wieder anschließen. Nach dem Zusammenbau erst ohne Strom auf Dichtheit prüfen (Wasser einfüllen, stehen lassen)."}
+sources: [Q8, Q15, Q16, Q17, Q18, Q21]
+steps:
+  - id: s1
+    title: {de: "Bodenschrauben lösen"}
+    text: {de: "Kessel leeren, Tropfschale abnehmen, Maschine auf ein Tuch auf die Seite legen. Schrauben der Bodenplatte lösen (Anzahl und Lage im Modell geschätzt)."}
+    remove: [p039_base_screw]
+    motion: {type: unscrew}
+    camera: base_bottom
+    tools: [screwdriver_set]
+  - id: s2
+    title: {de: "Bodenplatte abnehmen"}
+    text: {de: "Bodenplatte abheben. Die Kabel bleiben an Schalter und Klemmleiste."}
+    remove: [base.bottom]
+    motion: {type: pull}
+    camera: base_bottom
+  - id: s3
+    title: {de: "Sicherheitsthermostat lösen"}
+    text: {de: "Abdeckung abnehmen, M4-Mutter und Zahnscheibe vom Bolzen in der Elementmitte, Thermostat abnehmen. Kabel am Thermostat bleiben dran oder werden markiert abgezogen."}
+    remove: [p014_thermostat_cover, p016_nut_m4, p015_tooth_washer, p013_thermostat]
+    motion: {type: pull}
+    camera: sec_bottom
+    section: boiler_bottom
+    tools: [wrench_7]
+    reassembly: {de: "Thermostat plan auf den Flansch, Wärmeleitpaste falls vorhanden erneuern."}
+  - id: s4
+    title: {de: "Pressostat-Rohr abschrauben"}
+    text: {de: "Rohr am Pressostat lösen, nicht am Element: dort reißt es leicht ab (Q18)."}
+    remove: [p011_pstat_tube]
+    motion: {type: pull}
+    camera: sec_bottom
+    section: boiler_bottom
+    tools: [wrench_adjustable]
+  - id: s5
+    title: {de: "Element-Schrauben lösen"}
+    text: {de: "Lage des Elements am Ring markieren. Die drei M5-Schrauben herausdrehen; Kabel am Element markieren und abziehen."}
+    remove: [p010_element_bolt]
+    motion: {type: unscrew}
+    camera: sec_bottom
+    section: boiler_bottom
+    tools: [wrench_8]
+    reassembly: {de: "Über Kreuz in kleinen Schritten anziehen, bis die Ohren am Ring anliegen. Nicht überdrehen (Q17)."}
+  - id: s6
+    title: {de: "Heizelement herausziehen"}
+    text: {de: "Element mit leichtem Hin- und Herdrehen nach unten aus dem Kesselhals ziehen. Kalk im Kessel bei dieser Gelegenheit entfernen."}
+    remove: [heating]
+    motion: {type: pull}
+    camera: sec_bottom
+    section: boiler_bottom
+    warn: {de: "Die Heizwendel nicht verbiegen."}
+  - id: s7
+    title: {de: "Element-O-Ring tauschen"}
+    text: {de: "O-Ring (OR 176, 73,03 x 3,53) aus seinem Sitz am Elementflansch heben. Alte Bauart: Flachdichtung 82 x 68 x 2 (Q8)."}
+    remove: [p008_element_oring]
+    motion: {type: stretch_off}
+    highlight: [p008_element_oring]
+    camera: sec_bottom
+    section: boiler_bottom
+    tools: [pick, silicone_grease]
+    reassembly: {de: "Neuen O-Ring leicht gefettet in den Sitz legen, Element nach der Markierung einsetzen. Dichtfläche am Kesselhals vorher reinigen."}

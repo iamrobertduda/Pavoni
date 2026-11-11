@@ -1,0 +1,28 @@
+id: cap_gasket
+order: 7
+title: {de: "Kesseldeckel-Dichtung tauschen"}
+summary: {de: "Einfachste Anleitung, guter Einstieg."}
+difficulty: 1
+duration_min: 5
+tools: [pick, silicone_grease]
+parts_needed: [p002_cap_oring]
+preconditions: [unplugged, cold, depressurized, boiler_empty]
+sources: [Q16, Q17, Q21]
+steps:
+  - id: s1
+    title: {de: "Deckel abschrauben"}
+    text: {de: "Nur bei kalter, druckloser Maschine öffnen."}
+    remove: [boiler.cap]
+    motion: {type: unscrew}
+    camera: sec_cap
+    warn: {de: "Niemals unter Druck öffnen."}
+  - id: s2
+    title: {de: "O-Ring abnehmen"}
+    text: {de: "O-Ring (OR 4112, 28,17 x 3,53) aus der Nut am Deckel heben."}
+    remove: [p002_cap_oring]
+    motion: {type: stretch_off}
+    highlight: [p002_cap_oring]
+    camera: sec_cap
+    section: cap
+    tools: [pick, silicone_grease]
+    reassembly: {de: "Neuen O-Ring leicht fetten. Deckel handfest schließen; das Kunststoffgewinde verträgt keine Gewalt (Q21)."}

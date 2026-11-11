@@ -583,7 +583,7 @@ Jede Phase endet mit grünem `make all` und einem Commit. Fortschritt durch Abha
 - Abnahme: E2E-Tests grün; Budgets aus 6.4 eingehalten.
 
 **Phase 6 — Anleitungen**
-- [ ] Alle elf Anleitungen als Daten, Player fertig, Validator grün.
+- [x] Alle elf Anleitungen als Daten, Player fertig, Validator grün.
 - Abnahme: jedes Verschleißteil kommt in mindestens einer Anleitung vor; jede Anleitung lässt sich
   vorwärts und rückwärts ohne Kollision abspielen.
 
@@ -792,9 +792,32 @@ Hier steht, was bei der Umsetzung anders gelöst wurde als oben beschrieben, und
 **Phase 5 (2026-11-11)**
 
 - Dichtungs-Karte mit Liste aller Dichtungen (Maß, schwächste Konfidenz, Bestellbegriff), Schnittansicht mit
-  gefüllten Schnittflächen je Material und zehn Voreinstellungen, Zerlege-Modus (Ausbau-Reihenfolge auf
+  gefüllten Schnittflächen je Material und zwölf Voreinstellungen, Zerlege-Modus (Ausbau-Reihenfolge auf
   Instanz-Ebene, z. B. nur die eine nötige Sicherungsscheibe je Bolzen), Anleitungs-Player mit Ersatzteilliste,
   Kamera folgt Teilen „auf der Werkbank“, Deep-Links, Hochformat-Layout (Kameraabstand passt sich an).
 - HDRI bleibt prozedural (siehe Phase 0/1). Materialien aus `parts.yaml`.
 - E2E (Playwright, 11 Tests): Laden, Auswahl über Baum und Klick, Explode, Schnitt mit Füllflächen,
   Dichtungs-Karte, Zerlege-Modus, alle Anleitungen vor/zurück, Deep-Link, Handy-Layout. Budgets eingehalten.
+
+**Phase 6 (2026-11-11)**
+
+- Alle elf Anleitungen als Daten in `data/procedures/` (Reihenfolge wie Tabelle in Abschnitt 10). Jede
+  beginnt mit denselben vier Voraussetzungen; 9, 10 und 11 tragen einen Gefahrenhinweis (`danger`).
+- **Prüfung:** `make validate` spielt jede Anleitung Schritt für Schritt ab: Vorbedingungen (`requires_removed`
+  inkl. Baugruppen und Instanzen) und kollisionsfreier Weg jeder Bewegung gegen alles, was in dem Moment
+  noch verbaut ist (169 Bewegungen, 0 Fehler). Rückwärts (Zusammenbau) = dieselben Wege umgekehrt.
+  Jedes der 17 Verschleißteile kommt in mindestens einer Anleitung vor (bei elf Anleitungen streng geprüft).
+  vitest prüft dieselbe Logik im Viewer, der E2E-Test klickt jede Anleitung vorwärts und rückwärts durch.
+- **Abweichungen/Ergänzungen:**
+  - Anleitung 3 (Stangendichtung) und 10 (Basisdichtungen) setzen auf einen Zwischenstand auf
+    (`start_removed`: Kolben ausgetrieben bzw. Heizelement ausgebaut), statt die Schritte aus 1 bzw. 9 zu
+    wiederholen. Der Hülsen-O-Ring ist in Anleitung 3 als optionaler Schluss enthalten (nur bei Undichtigkeit,
+    Hülse bricht leicht, Q20) – so ist die offene Frage aus Abschnitt 10 zur Hülse 76/77 umgesetzt.
+  - Anleitung 11 baut Dampfhahn, Schauglas-Halter und Sicherheitsventil-Fitting über die Innenmuttern durch
+    die Bodenöffnung aus (erst nach dem Heizelement). Die Elektrik bleibt in der Basis (Stufe C, schematisch).
+  - Neue Werkzeuge: dünner 16-mm-Schlüssel (Sicherheitsventil, Q27), Schraubendreher Kreuz/T20 (Boden),
+    Schlüssel 8 und 7 mm (Normmaße für M5-Sechskant und M4-Mutter – Kopfform der Element-Schrauben nicht
+    belegt), verstellbarer Schlüssel (Pressostat-Rohr, Innenmuttern; Schlüsselweiten nicht belegt).
+- **Nicht geprüft:** ob die Innenmuttern von Dampfhahn/Schauglas/Sicherheitsventil durch die Bodenöffnung mit
+  Werkzeug erreichbar sind (Modell prüft nur den Weg der Teile, nicht den der Hand/des Schlüssels).
+

@@ -1,0 +1,67 @@
+id: steam_valve
+order: 6
+title: {de: "Dampfhahn-Dichtungen tauschen"}
+summary: {de: "Lanze abziehen, zwei O-Ringe am Zapfen tauschen; Spindel ausschrauben, Stift austreiben, Packung tauschen."}
+difficulty: 2
+duration_min: 30
+tools: [wrench_14, punch_3, rubber_mallet, pick, silicone_grease]
+parts_needed: [p047_wand_oring, p050_steam_packing]
+preconditions: [unplugged, cold, depressurized, boiler_empty]
+sources: [Q10, Q15, Q17]
+steps:
+  - id: s1
+    title: {de: "Dampflanze abziehen"}
+    text: {de: "Lanze von Hand nach rechts vom Zapfen ziehen."}
+    remove: [boiler.steam.wand]
+    motion: {type: pull}
+    camera: steam_valve
+  - id: s2
+    title: {de: "Äußeren O-Ring abnehmen"}
+    text: {de: "Den äußeren der beiden O-Ringe aus seiner Nut rollen."}
+    remove: [p047_wand_oring__2]
+    motion: {type: stretch_off}
+    highlight: [p047_wand_oring]
+    camera: sec_steam
+    section: steam_valve
+    tools: [pick]
+  - id: s3
+    title: {de: "Inneren O-Ring abnehmen"}
+    text: {de: "Den inneren O-Ring über den Zapfen abziehen. Beide paarweise ersetzen (OR 106, 6,75 x 1,78)."}
+    remove: [p047_wand_oring__1]
+    motion: {type: stretch_off}
+    highlight: [p047_wand_oring]
+    camera: sec_steam
+    section: steam_valve
+    tools: [silicone_grease]
+    reassembly: {de: "Neue O-Ringe leicht fetten, Lanze aufschieben."}
+  - id: s4
+    title: {de: "Spindel samt Knauf ausschrauben"}
+    text: {de: "Mutter am Ventilkörper mit 14 mm lösen und die Spindel mit Knauf aus dem Körper drehen."}
+    remove: [boiler.steam.spindle]
+    motion: {type: unscrew}
+    camera: steam_valve
+    tools: [wrench_14]
+  - id: s5
+    title: {de: "Stift austreiben"}
+    text: {de: "Knauf auf ein dickes Holz legen und den Spannstift mit einem 3-mm-Durchschlag austreiben."}
+    remove: [p053_knob_pin]
+    motion: {type: tap_out}
+    camera: sec_steam
+    section: steam_valve
+    tools: [punch_3, rubber_mallet]
+  - id: s6
+    title: {de: "Knauf und Mutter abziehen"}
+    text: {de: "Knauf von der Spindel ziehen, dann die Stopfbuchsmutter."}
+    remove: [p052_steam_knob, p051_steam_nut]
+    motion: {type: pull}
+    camera: sec_steam
+    section: steam_valve
+  - id: s7
+    title: {de: "Scheiben und Packung abnehmen"}
+    text: {de: "Messingscheibe, Gummipackung (12 x 7 x 5) und zweite Messingscheibe von der Spindel ziehen."}
+    remove: [p049_steam_washer__1, p050_steam_packing, p049_steam_washer__2]
+    motion: {type: pull}
+    highlight: [p050_steam_packing]
+    camera: sec_steam
+    section: steam_valve
+    reassembly: {de: "Reihenfolge vom Ventil zum Knauf: Messingscheibe, Packung, Messingscheibe, Mutter. Mutter nur leicht anziehen: sie stellt die Gängigkeit ein (Q17)."}

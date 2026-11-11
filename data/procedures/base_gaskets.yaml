@@ -1,0 +1,52 @@
+id: base_gaskets
+order: 10
+title: {de: "Basisdichtungen tauschen (Kessel von der Basis)"}
+summary: {de: "Beginnt nach Anleitung 9 (Heizelement ausgebaut). Kessel gegen den Uhrzeigersinn aus dem Basisring schrauben, beide Faserscheiben tauschen."}
+difficulty: 4
+duration_min: 45
+tools: [base_ring_wrench, rubber_mallet]
+parts_needed: [p004_base_gasket_upper, p006_base_gasket_lower]
+preconditions: [unplugged, cold, depressurized, boiler_empty]
+danger: {de: "Netzspannung: Kabel zum Element und Pressostat sind gelöst; beim Zusammenbau Schutzleiter prüfen."}
+sources: [Q11, Q15, Q21, Q23]
+start_removed: [heating]
+steps:
+  - id: s1
+    title: {de: "Siebträger abnehmen"}
+    text: {de: "Siebträger entfernen, damit er beim Drehen nicht stört."}
+    remove: [portafilter]
+    motion: {type: pull}
+    camera: iso
+  - id: s2
+    title: {de: "Kessel aus dem Ring schrauben"}
+    text: {de: "Basis festhalten und den Kessel von oben gesehen gegen den Uhrzeigersinn drehen. Geht er schwer, den Ring über die Nasen mit Spezialschlüssel oder Durchschlag und Gummihammer lösen. Dann den Kessel nach oben abheben."}
+    remove: [boiler]
+    motion: {type: unscrew}
+    camera: iso
+    tools: [base_ring_wrench, rubber_mallet]
+    warn: {de: "Ein Kunststoffring (frühe Millennium) bricht leicht; dann Messingring einsetzen (Q11, Q21)."}
+    reassembly: {de: "Kessel so weit einschrauben, dass die Gruppe genau nach vorn zeigt; Ring nur so fest, dass nichts wackelt."}
+  - id: s3
+    title: {de: "Obere Faserscheibe abnehmen"}
+    text: {de: "Faserscheibe zwischen Kesselfuß und Basis abheben."}
+    remove: [p004_base_gasket_upper]
+    motion: {type: lift}
+    highlight: [p004_base_gasket_upper]
+    camera: sec_bottom
+    section: boiler_bottom
+  - id: s4
+    title: {de: "Basisring herausnehmen"}
+    text: {de: "Ring nach unten aus der Basis nehmen."}
+    remove: [p007_base_ring]
+    motion: {type: pull}
+    camera: sec_bottom
+    section: boiler_bottom
+  - id: s5
+    title: {de: "Untere Faserscheibe abnehmen"}
+    text: {de: "Faserscheibe unter der Basis entnehmen und beide Scheiben ersetzen."}
+    remove: [p006_base_gasket_lower]
+    motion: {type: pull}
+    highlight: [p006_base_gasket_lower]
+    camera: sec_bottom
+    section: boiler_bottom
+    reassembly: {de: "Untere Scheibe, Ring von unten, obere Scheibe auf die Basis, Kessel aufsetzen und einschrauben (Q11)."}

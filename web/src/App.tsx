@@ -3,10 +3,12 @@ import { data } from './data';
 import { Viewer } from './scene/Viewer';
 import { useStore } from './state/store';
 import { InfoPanel } from './ui/InfoPanel';
+import { Loader, ModelErrorBoundary } from './ui/Loader';
 import { PartTree } from './ui/PartTree';
 import { SealList } from './ui/SealList';
 import { DisassemblyPlayer, ProcedureList, ProcedurePlayer } from './ui/ProcedurePlayer';
 import { Toolbar } from './ui/Toolbar';
+import { useKeyboard } from './ui/keys';
 import { readUrl, syncUrl } from './url';
 
 export default function App() {
@@ -16,6 +18,7 @@ export default function App() {
   const treeOpen = useStore((s) => s.treeOpen);
   const sealMap = useStore((s) => s.sealMap);
   const setView = useStore((s) => s.setView);
+  useKeyboard();
   useEffect(() => {
     syncUrl();
     // a procedure step chooses its own camera (ProcedurePlayer)
@@ -23,7 +26,10 @@ export default function App() {
   }, [init, setView]);
   return (
     <div className={`app ${ui ? '' : 'no-ui'} ${init.transparent ? 'transparent' : ''}`}>
-      <Viewer transparent={init.transparent} />
+      <ModelErrorBoundary>
+        <Viewer transparent={init.transparent} />
+      </ModelErrorBoundary>
+      {ui && <Loader />}
       {ui && (
         <>
           <Toolbar />

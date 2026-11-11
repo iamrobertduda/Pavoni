@@ -1,0 +1,60 @@
+id: rod_seal
+order: 3
+title: {de: "Kolbenstangen-Dichtung tauschen"}
+summary: {de: "Beginnt dort, wo Anleitung 1 nach Schritt 8 steht: Gruppe ab, Kolben ausgetrieben. Optional am Ende: Hülsen-O-Ring."}
+difficulty: 2
+duration_min: 20
+tools: [circlip_pliers, pick, silicone_grease]
+parts_needed: [p073_rod_seal, p074_rod_washer, p075_rod_circlip]
+preconditions: [unplugged, cold, depressurized, boiler_empty]
+sources: [Q7, Q12, Q14, Q19, Q20]
+start_removed: [boiler.group.piston]
+steps:
+  - id: s1
+    title: {de: "Sicherungsring J-20 herausnehmen"}
+    text: {de: "Von unten durch die Zylinderbohrung mit der Innen-Sicherungsringzange den Ring aus seiner Nut an der Zylinderdecke nehmen."}
+    remove: [p075_rod_circlip]
+    motion: {type: pull}
+    highlight: [p075_rod_circlip]
+    camera: zoom_rod_seal
+    section: rod_seal
+    tools: [circlip_pliers]
+    warn: {de: "Ring und Scheibe sind oft angerostet und brechen: dann ersetzen (Q7)."}
+    reassembly: {de: "Ring muss hörbar in seine Nut einrasten; sitzt die Dichtung nicht ganz oben, rastet er nicht (Q20)."}
+  - id: s2
+    title: {de: "Messingscheibe herausnehmen"}
+    text: {de: "Gelochte Messingscheibe nach unten herausnehmen."}
+    remove: [p074_rod_washer]
+    motion: {type: pull}
+    highlight: [p074_rod_washer]
+    camera: zoom_rod_seal
+    section: rod_seal
+  - id: s3
+    title: {de: "Stangendichtung herausdrücken"}
+    text: {de: "Dichtung mit einem Kunststoffwerkzeug aus der Senkung drücken. Einbaurichtung merken: flache Seite oben, Lippe (Nut) nach unten in den Zylinder."}
+    remove: [p073_rod_seal]
+    motion: {type: pull}
+    highlight: [p073_rod_seal]
+    camera: zoom_rod_seal
+    section: rod_seal
+    tools: [pick]
+    reassembly: {de: "Neue Dichtung (21x11x4,5 Silikon) mit der flachen Seite nach oben, Lippe nach unten ganz in die Senkung drücken, dann Scheibe und Sicherungsring (Q7, Q14, Q19)."}
+  - id: s4
+    title: {de: "Optional: Hülse herausschrauben"}
+    text: {de: "Nur wenn es zwischen Hülse und Gruppe undicht ist: Hülse mit einer Stange in den beiden Nuten unten herausschrauben."}
+    remove: [boiler.group.sleeve]
+    motion: {type: unscrew}
+    camera: sec_group
+    section: group
+    warn: {de: "Die Kunststoffhülse bricht leicht. Ersatzhülse bereithalten (Q20)."}
+    reassembly: {de: "Hülse einschrauben, bis die Nasen oben an der Decke anliegen; Einlass zeigt meist nach vorn (Q20)."}
+  - id: s5
+    title: {de: "Optional: Hülsen-O-Ring tauschen"}
+    text: {de: "O-Ring aus der Nut unten außen an der Hülse nehmen (47,63 x 3,53)."}
+    remove: [p077_sleeve_oring]
+    motion: {type: stretch_off}
+    highlight: [p077_sleeve_oring]
+    camera: sec_group
+    section: group
+    tools: [pick, silicone_grease]
+    reassembly: {de: "Neuen O-Ring leicht fetten und in die Nut legen (Q12)."}

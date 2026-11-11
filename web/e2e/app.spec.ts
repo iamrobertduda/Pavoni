@@ -34,6 +34,7 @@ test('loads the model with every built instance', async ({ page }) => {
   }));
   expect(inst.sort()).toEqual(expected.sort());
   expect(errors).toEqual([]);
+  await expect(page.getByTestId('loader')).toHaveCount(0);
 });
 
 test('select a part from the tree shows the info panel', async ({ page }) => {
@@ -71,18 +72,31 @@ test('section preset can be chosen', async ({ page }) => {
 });
 
 test('every procedure can be clicked through forward and backward', async ({ page }) => {
-  await load(page);
+  test.setTimeout(600_000);
+  const errors = await load(page);
   const procs = await page.evaluate(() => window.__pavoni.data.procedures.map((p) => ({ id: p.id, n: p.steps.length })));
   for (const pr of procs) {
     await page.evaluate((id) => window.__pavoni.gotoStep(id, 0), pr.id);
     const player = page.getByTestId('procedure-player');
     await expect(player).toBeVisible();
-    for (let i = 1; i < pr.n; i++) await page.getByTestId('next-step').click();
-    expect(await page.evaluate(() => window.__pavoni.state().stepIdx)).toBe(pr.n - 1);
+    // first step by button, the rest by keyboard (a click waits for stable frames, slow under SwiftShader)
+    const forward = async () => {
+      if (pr.n > 1) await page.getByTestId('next-step').click();
+      for (let i = 2; i < pr.n; i++) await page.keyboard.press('ArrowRight');
+      await page.keyboard.press('ArrowRight'); // past the end: stays on the last step
+      expect(await page.evaluate(() => window.__pavoni.state().stepIdx)).toBe(pr.n - 1);
+    };
+    await forward();
     await page.getByRole('button', { name: 'Zusammenbauen' }).click();
-    for (let i = 1; i < pr.n; i++) await page.getByTestId('next-step').click();
-    expect(await page.evaluate(() => window.__pavoni.state().stepIdx)).toBe(pr.n - 1);
+    await forward();
+    if (pr.n > 1) {
+      await page.keyboard.press('ArrowLeft');
+      expect(await page.evaluate(() => window.__pavoni.state().stepIdx)).toBe(pr.n - 2);
+    }
   }
+  expect(errors).toEqual([]);
+  await page.keyboard.press('Escape');
+  expect(await page.evaluate(() => window.__pavoni.state().mode)).toBe('explore');
 });
 
 test('seal map shows the seal list and colours seals', async ({ page }) => {

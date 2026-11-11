@@ -1,0 +1,37 @@
+id: group_gasket
+order: 2
+title: {de: "Siebträger-Dichtung und Duschsieb tauschen"}
+summary: {de: "Geht bei montierter Gruppe. Teil von Anleitung 1, hier einzeln."}
+difficulty: 1
+duration_min: 15
+tools: [pick, silicone_grease]
+parts_needed: [p082_group_gasket, p081_shower_screen]
+preconditions: [unplugged, cold, depressurized, boiler_empty]
+sources: [Q7, Q12, Q19, Q20]
+steps:
+  - id: s1
+    title: {de: "Siebträger abnehmen"}
+    text: {de: "Siebträger nach links drehen und nach unten herausnehmen."}
+    remove: [portafilter]
+    motion: {type: pull}
+    camera: group_side
+  - id: s2
+    title: {de: "Siebträger-Dichtung herausheben"}
+    text: {de: "Dichtung mit einem Haken (Kunststoff oder Messing) an mehreren Stellen lösen und nach unten herausziehen. Sie hält das Duschsieb; das Sieb kann dabei mitkommen."}
+    remove: [p082_group_gasket]
+    motion: {type: pull}
+    highlight: [p082_group_gasket]
+    camera: sec_portafilter
+    section: portafilter
+    tools: [pick]
+    warn: {de: "Dichtfläche in der Gruppe nicht verkratzen."}
+    reassembly: {de: "Neue Dichtung mit der gerundeten Seite nach oben (zum Sieb), flache Seite nach unten zum Siebrand eindrücken, rundum gleichmäßig (Q12, Q19)."}
+  - id: s3
+    title: {de: "Duschsieb abnehmen"}
+    text: {de: "Sieb nach unten herausnehmen und reinigen oder ersetzen (Ø54 Millennium)."}
+    remove: [p081_shower_screen]
+    motion: {type: pull}
+    highlight: [p081_shower_screen]
+    camera: sec_portafilter
+    section: portafilter
+    reassembly: {de: "Sieb mit dem Rand nach oben einsetzen, dann die Dichtung darum eindrücken."}

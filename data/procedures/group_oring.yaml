@@ -1,0 +1,56 @@
+id: group_oring
+order: 5
+title: {de: "Dichtung Gruppe/Kessel tauschen"}
+summary: {de: "Gruppe abnehmen (Hebel kann dranbleiben), Steigrohr abschrauben, O-Ring hinten am Flansch tauschen."}
+difficulty: 2
+duration_min: 25
+tools: [wrench_10, pick, silicone_grease]
+parts_needed: [p085_group_oring]
+preconditions: [unplugged, cold, depressurized, boiler_empty]
+sources: [Q7, Q12, Q13, Q14, Q17]
+steps:
+  - id: s1
+    title: {de: "Siebträger abnehmen"}
+    text: {de: "Siebträger nach links drehen und abnehmen."}
+    remove: [portafilter]
+    motion: {type: pull}
+    camera: group_side
+  - id: s2
+    title: {de: "Schrauben Gruppe/Kessel lösen"}
+    text: {de: "Zwei Schrauben M6 mit 10 mm lösen, gleichmäßig und ohne Gewalt."}
+    remove: [p086_group_bolt]
+    motion: {type: unscrew}
+    camera: group_side
+    tools: [wrench_10]
+    warn: {de: "Die Schrauben scheren leicht ab (Q12)."}
+  - id: s3
+    title: {de: "Gruppe abnehmen"}
+    text: {de: "Gruppe nach vorn und dabei nach unten abnehmen, damit das Steigrohr nicht verbiegt."}
+    remove: [boiler.group]
+    motion: {type: pull}
+    camera: group_side
+  - id: s4
+    title: {de: "Steigrohr abschrauben"}
+    text: {de: "Messingrohr vorsichtig aus dem Kunststoff-Verbinder drehen."}
+    remove: [p084_dip_tube]
+    motion: {type: unscrew}
+    camera: sec_group
+    section: group
+    warn: {de: "Nicht zu fest anziehen beim Einbau: bricht (Q14)."}
+  - id: s5
+    title: {de: "O-Ring aus der Flanschnut nehmen"}
+    text: {de: "O-Ring (28,24 x 2,62, OR 3112) aus der Nut hinten am Flansch heben."}
+    remove: [p085_group_oring]
+    motion: {type: stretch_off}
+    highlight: [p085_group_oring]
+    camera: sec_group
+    section: group
+    tools: [pick, silicone_grease]
+    reassembly: {de: "Neuen O-Ring leicht gefettet in die Nut legen, Gruppe ansetzen, Schrauben gleichmäßig, nicht fest anziehen."}
+  - id: s6
+    title: {de: "Optional: Kunststoff-Verbinder ersetzen"}
+    text: {de: "Den schwarzen Verbinder aus dem Gruppenhals schrauben, wenn er spröde ist."}
+    remove: [p083_tube_connector]
+    motion: {type: unscrew}
+    camera: sec_group
+    section: group
