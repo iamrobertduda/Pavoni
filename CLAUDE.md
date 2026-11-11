@@ -22,6 +22,7 @@ Fortschritt: Checkboxen in `PLAN.md` Abschnitt 12 und `status` je Teil in `data/
 - Koordinaten: mm, Z oben, Ursprung Kesselachse ∩ Tisch, −Y vorn (Gruppe), +X rechts. GLB: m, Y oben.
 - `requires_removed` darf Baugruppen-IDs enthalten (= als Einheit abgenommen, z. B. `group`).
   `carrier`: elastisches Teil wird über diesen Träger gezogen (Ausbaupfad ignoriert den Träger).
+  `instance_requires` überschreibt `requires_removed` je Instanz; `optional: true` = nicht verbaut, nicht modellieren.
 - Nach jeder Modellier-Iteration: `make cad validate renders`, PNGs ansehen, mit `reference/photos/` vergleichen.
   Erst dann `status: verified`.
 - `build123d`: `bounding_box()`/`volume` löschen die Tessellierung - in `export.py` zuletzt vernetzen.

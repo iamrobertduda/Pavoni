@@ -27,6 +27,7 @@ export interface Part {
   explode: Explode;
   instance_explode?: Record<string, Explode>;
   requires_removed: string[];
+  instance_requires?: Record<string, string[]>;
   carrier?: string;
 }
 

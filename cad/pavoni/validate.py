@@ -33,9 +33,8 @@ from .proportions import evaluate
 ENVELOPE = {"x": 200.0, "y": 290.0, "z": 320.0}  # B x T x H, Q3
 ENVELOPE_TOL = 0.07
 ENVELOPE_EXCLUDE = ("p087_", "p088_lever_grip", "p088_portafilter_grip", "p095_portafilter")
-# Model counts as complete (envelope and coverage become hard errors) when no part is
-# 'planned' and every one of these top-level assemblies has built instances.
-REQUIRED_TOP = {"boiler", "group", "lever", "sight_glass", "steam", "safety_valve", "base", "heating", "electrical", "portafilter"}
+# The model counts as complete (envelope and wear-part coverage become hard errors) once no
+# non-optional part is 'planned'.
 BUDGET = {"bytes": 15e6, "triangles": 1.5e6, "draw_calls": 300}
 SHRINK = 0.05  # mm, moving meshes are shrunk so touching faces are not collisions
 STEP = 0.5  # mm path sampling
@@ -120,9 +119,12 @@ class Ctx:
         if k == "asm":
             return self.asm[ref].get("requires_removed", [])
         if k == "part":
-            return self.parts[ref]["requires_removed"]
+            p = self.parts[ref]
+            extra = [r for v in (p.get("instance_requires") or {}).values() for r in v]
+            return list(dict.fromkeys(p["requires_removed"] + extra))
         if k == "inst":
-            return self.parts[ref.split("__")[0]]["requires_removed"]
+            p = self.parts[ref.split("__")[0]]
+            return (p.get("instance_requires") or {}).get(ref, p["requires_removed"])
         return []
 
     def closure(self, refs) -> set[str]:
@@ -133,12 +135,10 @@ class Ctx:
             r = stack.pop()
             k = self.kind(r)
             if k == "part":
-                items = [r]
-                if not self.part_instances[r]:
-                    items = []
-                new = [i for i in self.part_instances[r] if i not in out]
+                # declared instances (independent of what is modelled yet)
+                new = [i for i in self.parts[r]["instances"] if i not in out]
                 out.update(new)
-                if new or not items:
+                if new:
                     stack.extend(self.requires(r))
             elif k == "inst":
                 if r not in out:
@@ -282,7 +282,10 @@ def check_data(ctx: Ctx, rep: Report, D: Dims):
                 rep.add(name, "error", f"{pid}: Instanz {i} passt nicht zur Teile-ID")
         if p["assembly"] not in ctx.asm:
             rep.add(name, "error", f"{pid}: Baugruppe {p['assembly']} fehlt in assemblies.yaml")
-        for r in p["requires_removed"] + ([p["carrier"]] if p.get("carrier") else []):
+        for iid in (p.get("instance_requires") or {}):
+            if iid not in p["instances"]:
+                rep.add(name, "error", f"{pid}: instance_requires für unbekannte Instanz {iid}")
+        for r in p["requires_removed"] + [x for v in (p.get("instance_requires") or {}).values() for x in v] + ([p["carrier"]] if p.get("carrier") else []):
             if ctx.kind(r) == "unknown":
                 rep.add(name, "error", f"{pid}: Referenz {r} unbekannt")
         for t in p.get("tools", []):
@@ -328,7 +331,10 @@ def check_data(ctx: Ctx, rep: Report, D: Dims):
         except Exception as e:  # noqa: BLE001
             rep.add(name, "error", f"Maß {k}: {e}")
     rep.ok(name, f"{len(data['parts'])} Positionen, {len(all_inst)} Instanzen, {len(data['assemblies'])} Baugruppen, {len(list(D.keys()))} Maße")
-    planned = [p["id"] for p in data["parts"] if p["status"] == "planned"]
+    planned = [p["id"] for p in data["parts"] if p["status"] == "planned" and not p.get("optional")]
+    for p in data["parts"]:
+        if p.get("optional") and p["status"] != "planned":
+            rep.add(name, "error", f"{p['id']}: optional (nicht verbaut), darf nicht gebaut werden")
     by_status = defaultdict(int)
     for p in data["parts"]:
         by_status[p["status"]] += 1
@@ -425,7 +431,7 @@ def check_paths(ctx: Ctx, rep: Report):
         axis, dist = ctx.explode_of(unit)
         if dist <= 0:
             continue
-        reqs = ctx.requires(unit) if kind == "asm" else ctx.parts[unit.split("__")[0]]["requires_removed"]
+        reqs = ctx.requires(unit)
         removed = ctx.closure(reqs)
         removed.discard(unit)
         moving, present = ctx.context(unit, removed)
@@ -501,7 +507,7 @@ def check_procedures(ctx: Ctx, rep: Report, coverage_strict: bool):
                 missing = sorted(need - removed - {r})
                 if missing:
                     rep.add(name, "error", f"{pid}/{st['id']}: {r} ausgebaut, aber noch nicht entfernt: {', '.join(missing[:6])}")
-                units = [r] if k in ("asm", "inst") else ctx.part_instances[r]
+                units = [r] if k == "asm" else ([r] if r in ctx.inst else []) if k == "inst" else ctx.part_instances[r]
                 for u in units:
                     axis, dist = ctx.explode_of(u)
                     moving, present = ctx.context(u, removed)
@@ -510,8 +516,10 @@ def check_procedures(ctx: Ctx, rep: Report, coverage_strict: bool):
                     if hit:
                         rep.add(name, "error", f"{pid}/{st['id']}: {u} kollidiert bei {hit['travel_mm']} mm mit {hit['hit']}")
                     removed.add(u)
+                if k == "inst":
+                    removed.add(r)
                 if k == "part":
-                    removed.update(ctx.part_instances[r])
+                    removed.update(ctx.parts[r]["instances"])
         rep.ok(name, f"{pid}: {len(proc['steps'])} Schritte, {n_moves} Bewegungen vorwärts kollisionsfrei geprüft (rückwärts = gleiche Pfade)")
     wear = [p["id"] for p in ctx.data["parts"] if p["wear_part"] and p["status"] != "planned"]
     for w in wear:
@@ -544,10 +552,9 @@ def main(argv=None) -> int:
     meshes = dict(np.load(MANIFEST.parent / "meshes.npz"))
     ctx = Ctx(data, manifest, meshes)
     planned = check_data(ctx, rep, D)
-    tops = {a.split(".")[0] for a in ctx.inst_asm.values()}
-    complete = not planned and REQUIRED_TOP <= tops
+    complete = not planned
     if not complete:
-        print(f"Hinweis: Modell unvollständig ({len(planned)} Teile planned, fehlende Baugruppen: {sorted(REQUIRED_TOP - tops)}) - Hüllmaß nur als Warnung")
+        print(f"Hinweis: Modell unvollständig ({len(planned)} Positionen noch 'planned') - Hüllmaß und Abdeckung nur als Warnung")
     stats = glb_stats(WEB_MODEL)
     check_reconcile(ctx, rep, stats)
     check_solids(ctx, rep)

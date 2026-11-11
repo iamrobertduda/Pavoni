@@ -5,15 +5,47 @@
   "type": "array",
   "items": {
     "type": "object",
-    "required": ["id", "name", "detachable", "explode"],
+    "required": [
+      "id",
+      "name",
+      "detachable",
+      "explode"
+    ],
     "additionalProperties": false,
     "properties": {
-      "id": {"$ref": "common.schema.json#/$defs/assemblyId", "description": "Pfad, z. B. group.piston; Eltern = Präfix"},
-      "name": {"$ref": "common.schema.json#/$defs/i18n"},
-      "detachable": {"type": "boolean", "description": "Wird als Einheit abgenommen (Teile bleiben zusammen)"},
-      "explode": {"$ref": "common.schema.json#/$defs/explode"},
-      "requires_removed": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/ref"}},
-      "notes": {"$ref": "common.schema.json#/$defs/i18n"}
+      "id": {
+        "$ref": "common.schema.json#/$defs/assemblyId",
+        "description": "Pfad, z. B. group.piston; Eltern = Präfix"
+      },
+      "name": {
+        "$ref": "common.schema.json#/$defs/i18n"
+      },
+      "detachable": {
+        "type": "boolean",
+        "description": "Wird als Einheit abgenommen (Teile bleiben zusammen)"
+      },
+      "explode": {
+        "$ref": "common.schema.json#/$defs/explode"
+      },
+      "requires_removed": {
+        "type": "array",
+        "items": {
+          "$ref": "common.schema.json#/$defs/ref"
+        }
+      },
+      "notes": {
+        "$ref": "common.schema.json#/$defs/i18n"
+      },
+      "pos": {
+        "type": [
+          "integer",
+          "null"
+        ],
+        "description": "Positionsnummer der Komplett-Baugruppe (z. B. 71 Gruppe komplett)"
+      },
+      "optional": {
+        "type": "boolean"
+      }
     }
   }
 }

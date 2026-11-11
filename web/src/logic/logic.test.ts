@@ -22,7 +22,8 @@ describe('graph', () => {
     for (const p of data.parts) {
       const c = idx.closure([p.id]);
       for (const r of p.requires_removed) {
-        const units = idx.kind(r) === 'asm' ? [r] : idx.expand(r);
+        const k = idx.kind(r);
+        const units = k === 'asm' || k === 'inst' ? [r] : idx.parts[r].instances;
         for (const u of units) expect(c.has(u)).toBe(true);
       }
     }

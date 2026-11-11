@@ -5,14 +5,46 @@
   "type": "array",
   "items": {
     "type": "object",
-    "required": ["a", "b", "reason", "max_mm3"],
+    "required": [
+      "a",
+      "b",
+      "reason",
+      "max_mm3"
+    ],
     "additionalProperties": false,
     "properties": {
-      "a": {"type": "string"},
-      "b": {"type": "string"},
-      "reason": {"enum": ["seal_squeeze", "cosmetic_thread", "press_fit", "simplified"]},
-      "max_mm3": {"type": "number", "minimum": 0},
-      "note": {"type": "string"}
+      "a": {
+        "type": "string"
+      },
+      "b": {
+        "type": "string"
+      },
+      "reason": {
+        "enum": [
+          "seal_squeeze",
+          "cosmetic_thread",
+          "press_fit",
+          "simplified",
+          "hook_path",
+          "bayonet_turn"
+        ]
+      },
+      "max_mm3": {
+        "type": "number",
+        "minimum": 0
+      },
+      "note": {
+        "type": "string"
+      },
+      "scope": {
+        "enum": [
+          "static",
+          "path",
+          "both"
+        ],
+        "default": "static",
+        "description": "static = Durchdringung im Ruhezustand erlaubt; path = Paar wird in der Ausbaupfad-Prüfung ignoriert (Bewegung ist keine reine Verschiebung)"
+      }
     }
   }
 }

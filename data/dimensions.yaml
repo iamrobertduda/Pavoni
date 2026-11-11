@@ -1,25 +1,242 @@
-# Alle Maße mit Quelle und Konfidenz (PLAN.md 5.2).
+# Alle Maße mit Quelle und Konfidenz (PLAN.md 5.2). Quellenkürzel: reference/SOURCES.md.
 # confidence: measured > catalog > spec > photo > guess
-# Foto-Proportionen stehen als Verhältnis zum Kesseldurchmesser (ratio_of: boiler_od).
-# Keine Zahl im CAD-Code: alles kommt von hier.
+# Foto-Proportionen stehen als Verhältnis zum Kesseldurchmesser (ratio_of: boiler_od): misst der Besitzer
+# den Kessel, skaliert alles Foto-Abgeleitete mit. Keine Zahl im CAD-Code - alles kommt von hier.
+# Forenwerte ohne Katalogbestätigung und eigene Folgerungen stehen als guess.
 machine:
   version: v3.1
   version_confidence: guess
-  note: "Typenschild (Foto D1) nennt kein Baujahr. Messingkolben = v3.1, Kunststoffkolben = v3.0."
+  note: "Typenschild (Foto D1) nennt kein Baujahr. Messingkolben = v3.1, Kunststoffkolben = v3.0 (Q1)."
 dims:
-  # --- Kessel ---------------------------------------------------------------
+  # ===================================================================== Kessel (Pos. 3)
   boiler_od: {value: 100.0, unit: mm, confidence: photo, source: "PLAN 8.2: Fotos B2/B3 gegen Katalog-Hülle 200x290x320 (Q3)", note: "Wichtigstes Messmaß: kalibriert alle Foto-Proportionen."}
   boiler_wall: {value: 1.5, unit: mm, confidence: guess, source: "Annahme (Messing-Tiefziehteil)"}
   boiler_foot_z: {ratio_of: boiler_od, ratio: 0.50, confidence: photo, source: "PLAN 8.2: Kesselfuß-Unterkante über Tisch"}
   boiler_cyl_h: {ratio_of: boiler_od, ratio: 1.85, confidence: photo, source: "PLAN 8.2: Fußunterkante bis Schulterkante 1,8-1,9 D"}
+  boiler_seam_frac: {value: 0.64, unit: ratio, confidence: photo, source: "PLAN 2.3: Naht/Ringnut bei 64 % der Zylinderhöhe"}
   boiler_shoulder_h: {ratio_of: boiler_od, ratio: 0.26, confidence: photo, source: "PLAN 8.2: Schulterkonus"}
-  # --- Gruppe ---------------------------------------------------------------
+  boiler_foot_od: {ratio_of: boiler_od, ratio: 1.06, confidence: photo, source: "Fotos B2/B3: ausgestellter Fußring"}
+  boiler_foot_h: {ratio_of: boiler_od, ratio: 0.08, confidence: photo, source: "Fotos B2/B3"}
+  boiler_neck_od: {ratio_of: boiler_od, ratio: 0.40, confidence: photo, source: "Foto B2: Einfüllhals unter dem Deckelsockel"}
+  boiler_neck_h: {ratio_of: boiler_od, ratio: 0.08, confidence: photo, source: "Fotos A1/B2"}
+  cap_thread_d: {value: 32.0, unit: mm, confidence: guess, source: "Forum (Q20): Deckelgewinde M32x2, Innengewinde im Hals"}
+  bottom_neck_od: {value: 80.0, unit: mm, confidence: guess, source: "gefolgert: Innen-Ø der Dichtungen Kessel/Basis = 80 (Q15, Q16)", note: "Außengewinde, Steigung 1,5 seit 1996 (Q15)."}
+  bottom_neck_wall: {value: 3.0, unit: mm, confidence: guess, source: "gefolgert: Element-O-Ring 73,03 innen dichtet stirnseitig auf dem Halsende (Q8, Q16)"}
+  bottom_neck_h: {expr: "base_gasket_upper_t + base_wall + base_gasket_lower_t + base_ring_h", confidence: guess, source: "gefolgert: Dichtung + Basisblech + Dichtung + Ring (Q15, Q21); Halsende bündig mit der Ring-Unterseite"}
+  group_boss_h: {value: 2.0, unit: mm, confidence: guess, source: "Annahme: flache Anlage für den Gruppenflansch am runden Kessel"}
+  thread_pitch_bottom: {value: 1.5, unit: mm, confidence: catalog, source: "Q15 (Basisring P06): Steigung 1,5 seit 1996"}
+  boiler_capacity: {value: 1.6, unit: ratio, confidence: spec, source: "Typenschild D1, Q3", note: "Liter. Einheit hier nur als Zahl."}
+  sight_hole_d: {value: 12.5, unit: mm, confidence: guess, source: "gefolgert aus Schauglas-Nippel M12 (Q16 LP362021 12 mm innen)"}
+  group_hole_d: {value: 14.0, unit: mm, confidence: guess, source: "Annahme: Durchgang Steigrohr Ø8 mit Verbinder"}
+  # ===================================================================== Deckel (Pos. 1, 2)
+  cap_od: {value: 60.0, unit: mm, confidence: catalog, source: "Q21 (01_tappo_caldaia): Kunststoffdeckel 6,0 x 6,5 cm seit 2000", alt: [{value: 60.0, source: "Foto: 0,60 D"}]}
+  cap_h: {value: 65.0, unit: mm, confidence: catalog, source: "Q21 (01_tappo_caldaia)"}
+  cap_lobes: {value: 6, unit: count, confidence: photo, source: "Fotos B2/A1: gelappter Knauf"}
+  cap_oring_id: {value: 28.17, unit: mm, confidence: catalog, source: "Q16 LP465204, Q24: OR 4112", note: "AS568-216. Dr. Pavoni: Dash #216 (Q17)."}
+  cap_oring_cs: {value: 3.53, unit: mm, confidence: catalog, source: "Q16 LP465204, Q24: OR 4112"}
+  # ===================================================================== Basis (Pos. 5, 29, 36-41)
+  base_len: {ratio_of: boiler_od, ratio: 2.50, confidence: photo, source: "PLAN 8.2: Basis Länge"}
+  base_w: {ratio_of: boiler_od, ratio: 1.60, confidence: photo, source: "PLAN 8.2: Basis Breite"}
+  base_h: {ratio_of: boiler_od, ratio: 0.50, confidence: photo, source: "PLAN 8.2: Chrom-Schürze samt Bodenplatte"}
+  base_wall: {value: 1.2, unit: mm, confidence: guess, source: "Annahme: verchromtes Tiefziehblech"}
+  base_rear_overhang: {ratio_of: boiler_od, ratio: 0.80, confidence: photo, source: "Fotos B2/B3: Basis hinten fast halbrund um den Kessel"}
+  base_side_draft: {value: 7.0, unit: deg, confidence: photo, source: "Fotos B1/B3: Seitenwände nach unten eingezogen"}
+  base_step_h: {ratio_of: boiler_od, ratio: 0.10, confidence: photo, source: "Foto B1: umlaufender Absatz unter der Oberkante"}
+  base_collar_od: {ratio_of: boiler_od, ratio: 1.22, confidence: photo, source: "Fotos B2/B3: erhöhter runder Kragen um den Kesselfuß"}
+  base_collar_h: {ratio_of: boiler_od, ratio: 0.05, confidence: photo, source: "Foto B2"}
+  bottom_plate_t: {value: 3.0, unit: mm, confidence: guess, source: "Foto D1: schwarze Kunststoff-Bodenplatte"}
+  bottom_plate_hole_d: {ratio_of: boiler_od, ratio: 0.33, confidence: photo, source: "Foto D1: zwei große runde Öffnungen"}
+  foot_d: {value: 12.0, unit: mm, confidence: guess, source: "Annahme"}
+  foot_h: {value: 3.0, unit: mm, confidence: guess, source: "Annahme"}
+  emblem_d: {ratio_of: boiler_od, ratio: 0.28, confidence: photo, source: "Fotos B1/A1"}
+  emblem_t: {value: 1.5, unit: mm, confidence: guess, source: "Annahme"}
+  switch_w: {ratio_of: boiler_od, ratio: 0.29, confidence: photo, source: "PLAN 8.2: Schalter-Rahmen Breite", note: "Ausschnitt laut Q15: 22 x 30 mm."}
+  switch_h: {ratio_of: boiler_od, ratio: 0.23, confidence: photo, source: "PLAN 8.2: Schalter-Rahmen Höhe"}
+  switch_pos_frac: {value: 0.47, unit: ratio, confidence: photo, source: "PLAN 8.2: Schalter-Mitte bei 47 % von hinten"}
+  switch_cutout_w: {value: 30.0, unit: mm, confidence: catalog, source: "Q15 P85P: Ausschnitt 22 x 30"}
+  switch_cutout_h: {value: 22.0, unit: mm, confidence: catalog, source: "Q15 P85P"}
+  drip_len: {ratio_of: boiler_od, ratio: 1.30, confidence: photo, source: "Fotos B1/B3/A1: Tropfmulde quer"}
+  drip_w: {ratio_of: boiler_od, ratio: 1.02, confidence: photo, source: "Fotos B1/B3/A1: Tropfmulde längs"}
+  drip_depth: {ratio_of: boiler_od, ratio: 0.17, confidence: photo, source: "Foto A1: Mulde ohne Tropfschale"}
+  drip_tray_h: {ratio_of: boiler_od, ratio: 0.16, confidence: photo, source: "Foto B1: Tropfschale"}
+  drip_slots: {value: 10, unit: count, confidence: photo, source: "Foto B1: etwa zehn Querschlitze"}
+  # ===================================================================== Kessel/Basis-Verschraubung (Pos. 4, 6, 7)
+  base_gasket_upper_od: {value: 104.0, unit: mm, confidence: catalog, source: "Q15 P04P (OEM 362081): 104 x 80 x 2", alt: [{value: 108.0, source: "Q21 (04-06): 108 x ca. 1"}]}
+  base_gasket_upper_id: {value: 80.0, unit: mm, confidence: catalog, source: "Q15 P04P"}
+  base_gasket_upper_t: {value: 2.0, unit: mm, confidence: catalog, source: "Q15 P04P", alt: [{value: 1.0, source: "Q21"}]}
+  base_gasket_lower_od: {value: 93.0, unit: mm, confidence: catalog, source: "Q15 P04E, Q16 LP362019 (OEM 362019)", alt: [{value: 94.0, source: "Q21"}]}
+  base_gasket_lower_id: {value: 80.0, unit: mm, confidence: catalog, source: "Q15, Q16"}
+  base_gasket_lower_t: {value: 1.5, unit: mm, confidence: catalog, source: "Q15 P04E", alt: [{value: 1.6, source: "Q16"}]}
+  base_ring_od: {value: 100.0, unit: mm, confidence: catalog, source: "Q21 (07_ghiera): Messing 10,0 x 1,4 cm"}
+  base_ring_h: {value: 14.0, unit: mm, confidence: catalog, source: "Q21 (07_ghiera)"}
+  # ===================================================================== Heizung (Pos. 8-10)
+  element_flange_d: {value: 84.0, unit: mm, confidence: catalog, source: "Q15 P10PS, Q16 LP331335: Flansch Ø84 ohne Ohren"}
+  element_flange_t: {value: 3.0, unit: mm, confidence: guess, source: "Annahme"}
+  element_h: {value: 63.0, unit: mm, confidence: catalog, source: "Q16 LP331335: Gesamthöhe 63"}
+  element_immersed: {value: 46.0, unit: mm, confidence: catalog, source: "Q15 P10PS: eingetauchte Länge 46"}
+  element_coil_d: {value: 56.0, unit: mm, confidence: catalog, source: "Q16 LP331335: Wendel Ø56"}
+  element_tube_d: {value: 8.0, unit: mm, confidence: guess, source: "Annahme Rohrheizkörper"}
+  element_bolt_circle: {value: 92.0, unit: mm, confidence: guess, source: "gefolgert: Ohren außerhalb Flansch Ø84, Ring Ø100"}
+  element_bolt_d: {value: 5.0, unit: mm, confidence: catalog, source: "Q2: Pos. 10 Schraube M5x12"}
+  element_bolt_len: {value: 12.0, unit: mm, confidence: catalog, source: "Q2", alt: [{value: 22.0, source: "Q21 (10_vite): 2,2 x 0,8 cm (vermutlich Gesamtlänge)"}]}
+  element_oring_id: {value: 73.03, unit: mm, confidence: catalog, source: "Q16 LP465225, Q15 P07SS, Q24: OR 176"}
+  element_oring_cs: {value: 3.53, unit: mm, confidence: catalog, source: "Q16 LP465225, Q24"}
+  # ===================================================================== Gruppe (Pos. 71-86)
   group_offset: {ratio_of: boiler_od, ratio: 1.09, confidence: photo, source: "PLAN 8.2: Kesselachse zu Gruppenachse (Foto B3)"}
-  group_bottom_z: {ratio_of: boiler_od, ratio: 1.60, confidence: photo, source: "PLAN 8.2: Unterkante Gruppe über Tisch"}
-  # --- Kolben ---------------------------------------------------------------
-  piston_seal_od: {value: 44.0, unit: mm, confidence: catalog, source: "Q5 Art. 361005"}
-  piston_seal_id: {value: 36.0, unit: mm, confidence: catalog, source: "Q5 Art. 361005", note: "Widersprüchlich: andere Listung nennt 33 mm (Q6). Vor Bestellung am Kolben messen.", alt: [{value: 33.0, source: "Q6"}]}
-  piston_seal_h: {value: 5.5, unit: mm, confidence: catalog, source: "Q5 Art. 361005"}
-  piston_od: {expr: "piston_seal_od - 0.8", confidence: guess, source: "Annahme: Kolben 0,4 mm radiales Spiel zur Bohrung"}
-  piston_h: {value: 26.0, unit: mm, confidence: guess, source: "Annahme"}
-  piston_z: {expr: "group_bottom_z + 30", confidence: guess, source: "Annahme: Kolben in Ruhelage (Hebel unten)"}
+  group_arm_z: {ratio_of: boiler_od, ratio: 2.00, confidence: photo, source: "PLAN 8.2: Gruppenarm, Achshöhe über Tisch"}
+  group_bottom_z: {ratio_of: boiler_od, ratio: 1.60, confidence: photo, source: "PLAN 8.2: Unterkante Gruppe (Siebträger-Ebene)"}
+  group_top_z: {ratio_of: boiler_od, ratio: 2.80, confidence: photo, source: "PLAN 8.2: Oberkante Hebelständer"}
+  group_upper_od: {value: 60.0, unit: mm, confidence: catalog, source: "Q14: Millennium-Gruppenzylinder außen 60 mm", alt: [{value: 54.0, source: "Foto B3: 0,54 D bei D = 100"}]}
+  group_bell_od: {ratio_of: boiler_od, ratio: 0.64, confidence: photo, source: "PLAN 8.2: Glocke größter Durchmesser"}
+  group_arm_od: {ratio_of: boiler_od, ratio: 0.30, confidence: photo, source: "Fotos B3/A1: Gruppenhals"}
+  group_flange_w: {ratio_of: boiler_od, ratio: 0.52, confidence: photo, source: "Fotos A1/C1: Rautenflansch (Q14: diamond-shape flange)"}
+  group_flange_h: {ratio_of: boiler_od, ratio: 0.34, confidence: photo, source: "Fotos A1/C1"}
+  group_flange_t: {value: 8.0, unit: mm, confidence: guess, source: "Annahme"}
+  group_bolt_spacing: {ratio_of: boiler_od, ratio: 0.38, confidence: photo, source: "Foto A1: Schrauben links und rechts am Flansch (Q17)"}
+  group_bolt_d: {value: 6.0, unit: mm, confidence: catalog, source: "Q4, Q12 (4030224): M6 x 14", alt: [{value: 16.0, source: "Q14: Länge 16 (neuere Kessel)"}]}
+  group_bolt_len: {value: 14.0, unit: mm, confidence: catalog, source: "Q4, Q12"}
+  group_bolt_af: {value: 10.0, unit: mm, confidence: catalog, source: "Q7, Q19: Schlüssel 10 mm"}
+  group_oring_id: {value: 28.24, unit: mm, confidence: catalog, source: "Q12 (465128), Q24: OR 3112 / AS568-122", note: "Sitzt in einer Nut auf der Kesselseite des Flansches (Q17)."}
+  group_oring_cs: {value: 2.62, unit: mm, confidence: catalog, source: "Q12 (465128), Q24"}
+  group_bore: {expr: "piston_seal_od", confidence: catalog, source: "= Außen-Ø Kolbendichtung (Q5); Forum misst 44 mm (Q20)"}
+  group_mouth_bore: {expr: "group_gasket_od", confidence: catalog, source: "= Außen-Ø Siebträger-Dichtung (Q5)"}
+  sleeve_od: {value: 50.0, unit: mm, confidence: guess, source: "gefolgert: Ringraum um die Hülse (Q20)"}
+  sleeve_seal_od: {value: 53.5, unit: mm, confidence: guess, source: "gefolgert: O-Ring 47,63 x 3,53 in der Hülsennut, Bohrung ca. 54 (Q12)"}
+  sleeve_len: {value: 62.0, unit: mm, confidence: guess, source: "Annahme; Hauck-CAD (Q28) würde es klären"}
+  sleeve_oring_id: {value: 47.63, unit: mm, confidence: catalog, source: "Q12 (465302): O-Ring 47,63 x 3,53"}
+  sleeve_oring_cs: {value: 3.53, unit: mm, confidence: catalog, source: "Q12 (465302)"}
+  screen_face_above_bottom: {value: 1.5, unit: mm, confidence: guess, source: "Annahme: Siebfläche knapp über der Gruppenunterkante"}
+  rod_end_in_piston: {value: 4.0, unit: mm, confidence: guess, source: "Annahme: M10-Sackgewinde im Kolben, Stangenende 4 mm über Kolbenunterkante"}
+  cap_nut_engage: {value: 12.0, unit: mm, confidence: guess, source: "Annahme: Gewindetiefe der Hutmutter"}
+  ceiling_t: {value: 8.0, unit: mm, confidence: guess, source: "Annahme: Zylinderdecke mit Senkung Ø20 für Dichtung, Scheibe, J-20"}
+  piston_stroke: {value: 32.0, unit: mm, confidence: guess, source: "gefolgert: 48 ml unter dem Kolben bei Hebel oben (Hauck-CAD laut Q20) / 15,2 cm²"}
+  lever_pin_rise: {ratio_of: boiler_od, ratio: 0.13, confidence: photo, source: "Foto B3: hinterer Bolzen in Ruhelage ca. 0,13 D höher als der vordere (Q17: vorderes Loch tiefer)"}
+  inlet_above_piston: {value: 5.5, unit: mm, confidence: guess, source: "Forum (Q20, t41195): Einlass 5-6 mm über Kolbenunterkante bei Hebel oben"}
+  screen_d: {value: 54.0, unit: mm, confidence: catalog, source: "Q5, Q12 (327115): Duschsieb Ø54 x 14"}
+  screen_h: {value: 14.0, unit: mm, confidence: catalog, source: "Q12 (327115)"}
+  screen_body_d: {expr: "group_gasket_id", confidence: guess, source: "gefolgert: Dichtung (innen 50) sitzt um den abgesetzten unteren Teil des Siebs"}
+  group_gasket_od: {value: 60.0, unit: mm, confidence: catalog, source: "Q5, Q12 (465301/361028): 60 x 50 x 5,5", alt: [{value: 62.0, source: "Q14: 62 x 52"}]}
+  group_gasket_id: {value: 50.0, unit: mm, confidence: catalog, source: "Q5, Q12"}
+  group_gasket_h: {value: 5.5, unit: mm, confidence: catalog, source: "Q5, Q12", alt: [{value: 5.0, source: "Espresso Parts MP55: bis 3/2008"}]}
+  rod_d: {value: 12.0, unit: mm, confidence: catalog, source: "Q4, Q12 (312382): Ø12 x 111, M10 beidseitig"}
+  rod_len: {value: 111.0, unit: mm, confidence: catalog, source: "Q4, Q12 (312382)"}
+  rod_thread_d: {value: 10.0, unit: mm, confidence: catalog, source: "Q4, Q12: M10"}
+  rod_cross_hole_d: {expr: "lever_pin_d", confidence: guess, source: "gefolgert: vorderer Hebelbolzen geht durch die Stange (Q17)"}
+  rod_seal_od: {value: 21.0, unit: mm, confidence: catalog, source: "Q12 (361006): Lippendichtung 21 x 11 x 4,5 Silikon"}
+  rod_seal_id: {value: 11.0, unit: mm, confidence: catalog, source: "Q12 (361006)"}
+  rod_seal_h: {value: 4.5, unit: mm, confidence: catalog, source: "Q12 (361006)"}
+  rod_washer_od: {value: 19.7, unit: mm, confidence: catalog, source: "Q12 (313002): 19,7 x 13 x 0,9 Messing"}
+  rod_washer_id: {value: 13.0, unit: mm, confidence: catalog, source: "Q12 (313002)"}
+  rod_washer_t: {value: 0.9, unit: mm, confidence: catalog, source: "Q12 (313002)"}
+  circlip_bore: {value: 20.0, unit: mm, confidence: catalog, source: "Q12 (404108): J-20, Q25 DIN 472"}
+  circlip_t: {value: 1.0, unit: mm, confidence: catalog, source: "Q25 DIN 472 J-20"}
+  circlip_groove_d: {value: 21.0, unit: mm, confidence: catalog, source: "Q25 DIN 472 J-20"}
+  dip_tube_d: {value: 8.0, unit: mm, confidence: catalog, source: "Q13 (326002): Anschluss Ø8, Eintauchtiefe 115"}
+  dip_tube_drop: {value: 115.0, unit: mm, confidence: catalog, source: "Q13 (326002)"}
+  connector_d: {value: 14.0, unit: mm, confidence: guess, source: "Annahme; Gewinde für das Rohr M8 (Q13)"}
+  # ===================================================================== Kolben (Pos. 78-80)
+  piston_d: {value: 43.0, unit: mm, confidence: catalog, source: "Q4, Q13 (314044): Messingkolben Ø43 x 23, M10"}
+  piston_h: {value: 23.0, unit: mm, confidence: catalog, source: "Q4, Q13 (314044)"}
+  piston_seal_od: {value: 44.0, unit: mm, confidence: catalog, source: "Q5, Q12 (361005)"}
+  piston_seal_id: {value: 36.0, unit: mm, confidence: catalog, source: "Q5, Q12 (361005)", note: "Widersprüchlich: Silikon-Varianten 44 x 33 x 5,5 (Q6). Vor Bestellung am Kolben messen.", alt: [{value: 33.0, source: "Q6"}]}
+  piston_seal_h: {value: 5.5, unit: mm, confidence: catalog, source: "Q5, Q12 (361005)"}
+  piston_lower_groove_z: {value: 7.0, unit: mm, confidence: guess, source: "Forum (Q20, t41195): untere Dichtung ca. 7 mm über Kolbenunterkante"}
+  piston_screen_gap: {value: 2.5, unit: mm, confidence: guess, source: "Q19: ca. 2,5 mm Spiel unter der Kontermutter; Kolben setzt knapp über dem Sieb auf (Q20)"}
+  # ===================================================================== Hebel (Pos. 87-93)
+  lever_len: {value: 230.0, unit: mm, confidence: catalog, source: "Q4: Hebel Gesamtlänge 230, Griffgewinde M12"}
+  lever_rod_d: {ratio_of: boiler_od, ratio: 0.095, confidence: photo, source: "PLAN 8.2: Hebelstange 0,09-0,10 D"}
+  lever_fork_t: {value: 4.0, unit: mm, confidence: guess, source: "Forum (Q20, t16676): Gabelbleche 4 mm"}
+  lever_fork_h: {value: 18.0, unit: mm, confidence: guess, source: "Fotos A1/B3"}
+  lever_pivot_back: {ratio_of: boiler_od, ratio: 0.20, confidence: photo, source: "PLAN 8.2: Drehpunkt hinter der Gruppenachse", alt: [{value: 25.0, source: "Forum (Q20): ca. 1 Zoll Bolzenabstand"}]}
+  lever_rest_deg: {value: 24.0, unit: deg, confidence: photo, source: "PLAN 2.3 / Foto B3: Ruhelage 24° unter der Waagerechten"}
+  lever_pin_d: {value: 6.0, unit: mm, confidence: guess, source: "Forum (Q20, t16676): 6,00 mm"}
+  lever_pin_len: {value: 29.0, unit: mm, confidence: catalog, source: "Q4, Q12 (3140463)"}
+  roller_od: {value: 12.0, unit: mm, confidence: catalog, source: "Q4 (3140453): 12 x 5,9 x 13"}
+  roller_id: {value: 5.9, unit: mm, confidence: catalog, source: "Q4"}
+  roller_w: {value: 13.0, unit: mm, confidence: catalog, source: "Q4"}
+  eclip_od: {value: 11.3, unit: mm, confidence: catalog, source: "Q12 (404101): Größe 5, 11,3 x 0,7"}
+  eclip_t: {value: 0.7, unit: mm, confidence: catalog, source: "Q12 (404101)"}
+  eclip_groove_d: {value: 5.0, unit: mm, confidence: catalog, source: "Q25 DIN 6799 RS5"}
+  grip_len: {value: 90.0, unit: mm, confidence: catalog, source: "Q21 (88): 9,0 x 3,0 cm"}
+  grip_d: {value: 30.0, unit: mm, confidence: catalog, source: "Q21 (88)"}
+  top_nut_af: {value: 14.0, unit: mm, confidence: catalog, source: "Q7, Q17, Q19: Schlüssel 14", alt: [{value: 15.0, source: "Forum (Q20)"}]}
+  lock_nut_h: {value: 6.0, unit: mm, confidence: guess, source: "Annahme"}
+  cap_nut_h: {value: 14.0, unit: mm, confidence: guess, source: "Foto B3"}
+  tower_cap_t: {value: 3.0, unit: mm, confidence: guess, source: "Annahme: Material über dem Rollenschlitz"}
+  tower_w: {value: 14.0, unit: mm, confidence: guess, source: "Forum (Q20, t38028): Gruppe am Schlitz 14 mm dick"}
+  # ===================================================================== Siebträger (Pos. 94-101)
+  pf_head_od: {ratio_of: boiler_od, ratio: 0.62, confidence: photo, source: "PLAN 8.2 (0,55 D Körper); Q21 nennt 6,0 cm", note: "In Phase 3 per Overlay prüfen."}
+  pf_len: {value: 170.0, unit: mm, confidence: catalog, source: "Q21 (94): 6,0 x 17,0 cm, 328 g"}
+  pf_ear_t: {value: 4.0, unit: mm, confidence: catalog, source: "Q13 (395307): Ohren 4 mm"}
+  pf_stud_len: {value: 45.0, unit: mm, confidence: catalog, source: "Q13: M12 x 45"}
+  basket_rim_d: {value: 60.0, unit: mm, confidence: catalog, source: "Q13, Q21 (98): Sieb 6,0 x 2,5 cm"}
+  basket_id: {value: 51.7, unit: mm, confidence: catalog, source: "Q14: 51,7 innen"}
+  basket_h: {value: 25.0, unit: mm, confidence: catalog, source: "Q13 (327053): Doppelsieb 25 hoch"}
+  spout_bottom_z: {ratio_of: boiler_od, ratio: 1.20, confidence: photo, source: "PLAN 8.2: Auslauf-Unterkante über Tisch"}
+  pf_spring_wire: {value: 1.0, unit: mm, confidence: catalog, source: "Q12 (311437): Edelstahldraht 1,0"}
+  # ===================================================================== Schauglas, Manometer (Pos. 59-70, 100)
+  sg_axis_r: {ratio_of: boiler_od, ratio: 0.65, confidence: photo, source: "PLAN 8.2: Schauglas-Achse zu Kesselachse"}
+  sg_axis_back: {ratio_of: boiler_od, ratio: 0.08, confidence: photo, source: "PLAN 2.2: minimal nach hinten versetzt"}
+  sg_cover_h: {value: 162.0, unit: mm, confidence: catalog, source: "Q21 (70): 162 x 26", alt: [{value: 150.0, source: "Foto: 1,5 D"}]}
+  sg_cover_w: {value: 26.0, unit: mm, confidence: catalog, source: "Q21 (70)", alt: [{value: 30.0, source: "Foto: 0,30 D"}]}
+  sg_cover_d: {ratio_of: boiler_od, ratio: 0.23, confidence: photo, source: "PLAN 8.2: Abdeckung Tiefe"}
+  glass_od: {value: 9.0, unit: mm, confidence: catalog, source: "Q16 LP453101: 9 x 6 x 131"}
+  glass_id: {value: 6.0, unit: mm, confidence: catalog, source: "Q16 LP453101"}
+  glass_len: {value: 131.0, unit: mm, confidence: catalog, source: "Q16 LP453101", alt: [{value: 132.0, source: "Q15 P66"}]}
+  glass_seal_od: {value: 15.0, unit: mm, confidence: catalog, source: "Q5, Q16 LP362020: 15 x 9 x 5 Silikon"}
+  glass_seal_id: {value: 9.0, unit: mm, confidence: catalog, source: "Q5, Q16"}
+  glass_seal_h: {value: 5.0, unit: mm, confidence: catalog, source: "Q5, Q16"}
+  glass_washer_od: {value: 14.5, unit: mm, confidence: catalog, source: "Q15 P62: 14,5 x 9,5 x 1,5 Messing"}
+  glass_washer_id: {value: 9.5, unit: mm, confidence: catalog, source: "Q15 P62"}
+  glass_washer_t: {value: 1.5, unit: mm, confidence: catalog, source: "Q15 P62"}
+  glass_nut_af: {value: 17.0, unit: mm, confidence: catalog, source: "Q9, Q17: 17 mm", alt: [{value: 16.0, source: "Ceccarelli manometro_ep"}]}
+  glass_proud: {value: 1.5, unit: mm, confidence: guess, source: "Q17: ca. 1/16 Zoll Glas steht über"}
+  fitting_washer_od: {value: 17.0, unit: mm, confidence: catalog, source: "Q16 LP362021: 17 x 12 x 1,5 PTFE"}
+  fitting_washer_id: {value: 12.0, unit: mm, confidence: catalog, source: "Q16 LP362021"}
+  fitting_washer_t: {value: 1.5, unit: mm, confidence: catalog, source: "Q16 LP362021"}
+  inner_washer_od: {value: 17.0, unit: mm, confidence: catalog, source: "Q15 (inner-tank-washer): 17 x 12 x 1 Messing"}
+  inner_washer_id: {value: 12.0, unit: mm, confidence: catalog, source: "Q15"}
+  inner_washer_t: {value: 1.0, unit: mm, confidence: catalog, source: "Q15"}
+  inner_nut_af: {value: 16.0, unit: mm, confidence: catalog, source: "Q17, Q22: 16 mm"}
+  nipple_thread_d: {value: 12.0, unit: mm, confidence: guess, source: "gefolgert: Scheiben innen 12 (Q15, Q16); Sicherheitsventil M12 (Q4)"}
+  gauge_d: {value: 41.0, unit: mm, confidence: catalog, source: "Q5-Händler coffeesection 453040: Ø41, 0-2,5 bar, 1/8 Zoll BSP", alt: [{value: 43.0, source: "Foto: 0,43 D"}]}
+  gauge_depth: {value: 24.0, unit: mm, confidence: guess, source: "Annahme"}
+  sg_upper_z: {ratio_of: boiler_od, ratio: 2.20, confidence: photo, source: "Fotos B3/A1: oberer Anschluss knapp unter der Schulter"}
+  sg_boss_reach: {value: 10.0, unit: mm, confidence: guess, source: "Annahme: Stirnfläche des Halters (Mutterngewinde) 10 mm von der Nippelachse"}
+  # ===================================================================== Dampfhahn, Lanze (Pos. 45-55)
+  steam_z_above_shoulder: {ratio_of: boiler_od, ratio: 0.35, confidence: photo, source: "PLAN 8.2: Dampfhahn-Rohrachse über Schulterkante"}
+  steam_back: {ratio_of: boiler_od, ratio: 0.42, confidence: photo, source: "PLAN 8.2: Rohrachse hinter der Kesselachse 0,40-0,45 D"}
+  steam_tube_d: {ratio_of: boiler_od, ratio: 0.20, confidence: photo, source: "PLAN 8.2: Rohr-Ø 0,18-0,22 D"}
+  steam_total_w: {ratio_of: boiler_od, ratio: 1.91, confidence: photo, source: "PLAN 8.2: Gesamtbreite Dampfhahn-Baugruppe"}
+  steam_knob_d: {ratio_of: boiler_od, ratio: 0.44, confidence: photo, source: "PLAN 8.2: Dampfknauf 0,41-0,47 D"}
+  steam_packing_od: {value: 12.0, unit: mm, confidence: catalog, source: "Q15 P772, Q16 LP361023: 12 x 7 x 5"}
+  steam_packing_id: {value: 7.0, unit: mm, confidence: catalog, source: "Q15 P772"}
+  steam_packing_h: {value: 5.0, unit: mm, confidence: catalog, source: "Q15 P772"}
+  steam_washer_t: {value: 1.0, unit: mm, confidence: catalog, source: "Q15 P22: 12 x 7 x 1, zwei je Ventil"}
+  steam_shaft_d: {value: 7.0, unit: mm, confidence: guess, source: "gefolgert: Packung innen 7 (Q15)"}
+  knob_pin_d: {value: 3.0, unit: mm, confidence: catalog, source: "Q15 P20: Spannstift 3 x 22"}
+  knob_pin_len: {value: 22.0, unit: mm, confidence: catalog, source: "Q15 P20"}
+  wand_oring_id: {value: 6.75, unit: mm, confidence: catalog, source: "Q15 P110CA, Q24: OR 106", alt: [{value: 6.07, source: "Q17: Dash #010"}]}
+  wand_oring_cs: {value: 1.78, unit: mm, confidence: catalog, source: "Q15 P110CA"}
+  wand_d: {value: 8.0, unit: mm, confidence: guess, source: "Fotos B2/A2"}
+  wand_drop: {ratio_of: boiler_od, ratio: 1.35, confidence: photo, source: "Foto B2: Lanze hängt bis etwa Kesselmitte"}
+  tip_thread_d: {value: 6.0, unit: mm, confidence: catalog, source: "Q15 P29: Düse M6, 3 Löcher Ø1,2"}
+  steam_stub_tilt: {value: 30.0, unit: deg, confidence: photo, source: "PLAN 2.2 / Fotos B2/B3: Stutzen schräg nach vorn unten in den Konus (Winkel zur Senkrechten)"}
+  # ===================================================================== Sicherheitsventil (Pos. 17-21)
+  sv_thread_d: {value: 12.0, unit: mm, confidence: catalog, source: "Q4 MP751: M12 (nicht BSP), nur Millennium"}
+  sv_hex_af: {value: 16.0, unit: mm, confidence: catalog, source: "Q18, Q22, Q27: 16 mm"}
+  sv_spring_d: {value: 7.0, unit: mm, confidence: catalog, source: "Q4 MP39: Feder 7 x 26"}
+  sv_spring_len: {value: 26.0, unit: mm, confidence: catalog, source: "Q4 MP39"}
+  sv_spring_coils: {value: 8, unit: count, confidence: catalog, source: "Q2 (Foto-Dateiname), Q27: 8 Windungen"}
+  sv_azimuth: {value: 20.0, unit: deg, confidence: photo, source: "Fotos A2/B2: rechts auf dem Konus, etwas nach hinten"}
+  sv_cup_d: {ratio_of: boiler_od, ratio: 0.26, confidence: photo, source: "Foto A2: Kondensatschale"}
+  sv_open_pressure: {value: 1.5, unit: bar, confidence: guess, source: "Forum (Q20); Ceccarelli ital.: über 3 atm. Kein offizieller Wert."}
+  # ===================================================================== Elektrik (Stufe C)
+  pressurestat_w: {value: 60.0, unit: mm, confidence: catalog, source: "Q21 (12): 6,0 x 3,0 cm"}
+  pressurestat_d: {value: 30.0, unit: mm, confidence: catalog, source: "Q21 (12)"}
+  pstat_tube_d: {value: 4.0, unit: mm, confidence: guess, source: "Annahme Kupferrohr"}
+  thermostat_d: {value: 20.0, unit: mm, confidence: guess, source: "Annahme (127-°C-Klixon mit Reset)"}
+  cable_d: {value: 7.0, unit: mm, confidence: guess, source: "Annahme H05VV-F 3G0,75"}
+  # ===================================================================== Betrieb (nur Info)
+  working_pressure: {value: 0.8, unit: bar, confidence: spec, source: "Q3, Q26: 0,7-0,8 bar"}
+  heater_power: {value: 1000, unit: W, confidence: spec, source: "Typenschild D1"}

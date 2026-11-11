@@ -1,14 +1,134 @@
-# Baugruppenbaum. id ist ein Pfad (group.piston -> Eltern group).
-# detachable: wird als Einheit abgenommen; Teile darin bleiben zusammen.
+# Baugruppenbaum. id ist ein Pfad (boiler.group.piston -> Eltern boiler.group -> boiler).
+# detachable: wird als Einheit abgenommen; alles darin bleibt zusammen ("Werkbank").
+# explode: Richtung im Weltrahmen (CAD: Z oben, -Y vorn, +X rechts), Weg in mm, Stufe der Explosionsansicht.
+# requires_removed: was vorher raus muss, damit die Einheit entlang der Achse frei herauskommt.
 - id: boiler
-  name: {de: "Kessel", en: "Boiler", it: "Caldaia"}
-  detachable: false
-  explode: {axis: [0, 0, 1], distance_mm: 0, stage: 1}
-- id: group
-  name: {de: "Brühgruppe", en: "Group head", it: "Gruppo"}
+  pos: null
+  name: {de: "Kessel mit Anbauteilen", en: "Boiler with fittings", it: "Caldaia con accessori"}
   detachable: true
-  explode: {axis: [0, -1, 0], distance_mm: 60, stage: 1}
-- id: group.piston
+  explode: {axis: [0, 0, 1], distance_mm: 170, stage: 1}
+  requires_removed: [heating]
+  notes: {de: "Kessel samt Gruppe, Schauglas, Dampfhahn und Sicherheitsventil. Wird nach Ausbau des Heizelements gegen den Uhrzeigersinn (von oben) aus dem Basisring geschraubt (Q11)."}
+- id: boiler.cap
+  pos: null
+  name: {de: "Kesseldeckel", en: "Boiler cap", it: "Tappo caldaia"}
+  detachable: true
+  explode: {axis: [0, 0, 1], distance_mm: 90, stage: 2}
+  requires_removed: []
+- id: boiler.group
+  pos: 71
+  name: {de: "Brühgruppe (Millennium)", en: "Group head (Millennium)", it: "Gruppo erogazione"}
+  detachable: true
+  explode: {axis: [0, -1, 0], distance_mm: 120, stage: 2}
+  requires_removed: [p086_group_bolt, portafilter]
+  notes: {de: "Nach dem Lösen der zwei Schrauben nach vorn und unten abnehmen: das Steigrohr hängt an der Gruppe und reicht in den Kessel (Q17)."}
+- id: boiler.group.piston
+  pos: null
   name: {de: "Kolben mit Stange und Dichtungen", en: "Piston assembly", it: "Pistone completo"}
   detachable: true
-  explode: {axis: [0, 0, -1], distance_mm: 70, stage: 2}
+  explode: {axis: [0, 0, -1], distance_mm: 150, stage: 3}
+  requires_removed: [boiler.group, p093_cap_nut, p092_lock_nut, p090_lever_pin__1, p081_shower_screen, p082_group_gasket]
+  notes: {de: "Wird mit Gummihammer oder Holz-Zwischenlage nach unten ausgetrieben und schiebt dabei Duschsieb und Siebträger-Dichtung vor sich her (Q7)."}
+- id: boiler.group.lever
+  pos: null
+  name: {de: "Hebel", en: "Lever", it: "Leva"}
+  detachable: false
+  explode: {axis: [0, 0, 1], distance_mm: 60, stage: 3}
+  requires_removed: []
+- id: boiler.group.lever.arm
+  pos: 87
+  name: {de: "Hebelarm mit Griff", en: "Lever arm with grip", it: "Leva con impugnatura"}
+  detachable: true
+  explode: {axis: [0, -0.5, 0.866], distance_mm: 70, stage: 4}
+  requires_removed: [p090_lever_pin]
+- id: boiler.sight_glass
+  pos: null
+  name: {de: "Schauglas und Manometer", en: "Sight glass and gauge", it: "Livello e manometro"}
+  detachable: true
+  explode: {axis: [-1, 0, 0], distance_mm: 80, stage: 2}
+  requires_removed: [p066_inner_nut, p065_inner_washer]
+- id: boiler.steam
+  pos: 45
+  name: {de: "Dampfhahn", en: "Steam valve", it: "Rubinetto vapore"}
+  detachable: true
+  explode: {axis: [0, 0.5, 0.866], distance_mm: 80, stage: 2}
+  requires_removed: [x002_steam_inner_nut, x003_steam_inner_washer]
+- id: boiler.steam.spindle
+  pos: null
+  name: {de: "Spindel mit Knauf und Packung", en: "Valve shaft with knob and packing", it: "Perno con manopola"}
+  detachable: true
+  explode: {axis: [-1, 0, 0], distance_mm: 70, stage: 3}
+  requires_removed: []
+  notes: {de: "Mutter lösen, dann Spindel samt Knauf aus dem Ventilkörper schrauben (Q10, Q17)."}
+- id: boiler.steam.wand
+  pos: 54
+  name: {de: "Dampflanze", en: "Steam wand", it: "Tubo vapore"}
+  detachable: true
+  explode: {axis: [1, 0, 0], distance_mm: 60, stage: 3}
+  requires_removed: []
+  notes: {de: "Seit ca. 1994 von Hand abziehbar; dreht auf einem Zapfen mit zwei O-Ringen (Q15, Q17)."}
+- id: boiler.safety_valve
+  pos: 17
+  name: {de: "Sicherheitsventil (mit Anti-Vakuum)", en: "Safety valve (anti-vacuum)", it: "Valvola di sicurezza antivuoto"}
+  detachable: false
+  explode: {axis: [0.71, 0.258, 0.655], distance_mm: 50, stage: 2}
+  requires_removed: []
+- id: boiler.safety_valve.cap
+  pos: null
+  name: {de: "Ventilkappe mit Feder und Ventil", en: "Valve cap with spring and poppet", it: "Corpo valvola con molla"}
+  detachable: true
+  explode: {axis: [0.71, 0.258, 0.655], distance_mm: 45, stage: 3}
+  requires_removed: []
+  notes: {de: "Fitting-Sechskant unter der Schale mit dünnem 16-mm-Schlüssel gegenhalten, sonst dreht sich die Innenmutter mit (Q18, Q27)."}
+- id: mount
+  pos: null
+  name: {de: "Kessel/Basis-Verschraubung", en: "Boiler-to-base fixing", it: "Fissaggio caldaia"}
+  detachable: false
+  explode: {axis: [0, 0, -1], distance_mm: 0, stage: 2}
+  requires_removed: []
+- id: heating
+  pos: null
+  name: {de: "Heizung", en: "Heating", it: "Riscaldamento"}
+  detachable: true
+  explode: {axis: [0, 0, -1], distance_mm: 130, stage: 1}
+  requires_removed: [base.bottom, p010_element_bolt, p011_pstat_tube, p013_thermostat]
+  notes: {de: "Netzspannung und Druckkessel: nur stromlos, kalt, drucklos und entleert. Element nicht überdrehen (Q8, Q17)."}
+- id: electrical
+  pos: null
+  name: {de: "Elektrik", en: "Electrics", it: "Impianto elettrico"}
+  detachable: false
+  explode: {axis: [0, 0, -1], distance_mm: 40, stage: 2}
+  requires_removed: []
+  notes: {de: "Stufe C: vereinfachte Körper an der richtigen Stelle, Verkabelung nur schematisch."}
+- id: base
+  pos: null
+  name: {de: "Basis", en: "Base", it: "Base"}
+  detachable: false
+  explode: {axis: [0, 0, 1], distance_mm: 0, stage: 1}
+  requires_removed: []
+- id: base.bottom
+  pos: null
+  name: {de: "Bodenplatte", en: "Bottom plate", it: "Fondo"}
+  detachable: true
+  explode: {axis: [0, 0, -1], distance_mm: 60, stage: 1}
+  requires_removed: [p039_base_screw]
+- id: base.drip_tray
+  pos: null
+  name: {de: "Tropfschale", en: "Drip tray", it: "Vaschetta"}
+  detachable: true
+  explode: {axis: [0, 0, 1], distance_mm: 60, stage: 1}
+  requires_removed: []
+- id: portafilter
+  pos: 94
+  name: {de: "Siebträger", en: "Portafilter", it: "Portafiltro"}
+  detachable: true
+  explode: {axis: [0, -0.8, -0.6], distance_mm: 90, stage: 1}
+  requires_removed: []
+  notes: {de: "Bajonett: erst nach links drehen, dann nach unten abnehmen."}
+- id: accessories
+  pos: null
+  name: {de: "Zubehör (nicht modelliert)", en: "Accessories", it: "Accessori"}
+  detachable: false
+  optional: true
+  explode: {axis: [0, 0, 1], distance_mm: 0, stage: 1}
+  requires_removed: []

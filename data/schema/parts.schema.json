@@ -5,36 +5,192 @@
   "type": "array",
   "items": {
     "type": "object",
-    "required": ["id", "pos", "name", "assembly", "instances", "kind", "material", "wear_part", "detail_tier", "status", "explode", "requires_removed"],
+    "required": [
+      "id",
+      "pos",
+      "name",
+      "assembly",
+      "instances",
+      "kind",
+      "material",
+      "wear_part",
+      "detail_tier",
+      "status",
+      "explode",
+      "requires_removed"
+    ],
     "additionalProperties": false,
     "properties": {
-      "id": {"$ref": "common.schema.json#/$defs/partId"},
-      "pos": {"type": ["integer", "null"], "description": "Positionsnummer der Hersteller-Explosionszeichnung; null bei x-Teilen"},
-      "name": {"$ref": "common.schema.json#/$defs/i18n"},
-      "assembly": {"$ref": "common.schema.json#/$defs/assemblyId"},
-      "instances": {"type": "array", "minItems": 1, "items": {"$ref": "common.schema.json#/$defs/instanceId"}},
-      "kind": {"enum": ["seal", "fastener", "structural", "electrical", "accessory"]},
-      "material": {"enum": ["chrome", "brass", "stainless", "steel", "copper", "aluminium", "rubber_black", "silicone", "silicone_red", "ptfe", "glass", "bakelite", "plastic_black", "plastic_clear", "plastic_white", "fiber", "gauge_face", "cable", "emblem"]},
-      "wear_part": {"type": "boolean"},
-      "detail_tier": {"enum": ["A", "B", "C"]},
-      "status": {"$ref": "common.schema.json#/$defs/status"},
-      "spec": {"type": "object", "required": ["type"], "properties": {"type": {"type": "string"}}, "additionalProperties": {"type": ["string", "number"]}},
-      "dims": {"type": "array", "items": {"type": "string"}, "description": "Schlüssel aus dimensions.yaml, die im Info-Panel gezeigt werden"},
-      "thread": {"type": "string"},
-      "notes": {"$ref": "common.schema.json#/$defs/i18n"},
-      "order_terms": {"type": "array", "items": {"type": "string"}},
-      "tools": {"type": "array", "items": {"type": "string"}},
-      "versions": {"type": "array", "items": {"enum": ["v3.0", "v3.1"]}},
-      "sources": {"type": "array", "items": {"type": "string"}},
-      "open_questions": {"type": "array", "items": {"type": "string"}},
-      "explode": {"$ref": "common.schema.json#/$defs/explode"},
+      "id": {
+        "$ref": "common.schema.json#/$defs/partId"
+      },
+      "pos": {
+        "type": [
+          "integer",
+          "null"
+        ],
+        "description": "Positionsnummer der Hersteller-Explosionszeichnung; null bei x-Teilen"
+      },
+      "name": {
+        "$ref": "common.schema.json#/$defs/i18n"
+      },
+      "assembly": {
+        "$ref": "common.schema.json#/$defs/assemblyId"
+      },
+      "instances": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "$ref": "common.schema.json#/$defs/instanceId"
+        }
+      },
+      "kind": {
+        "enum": [
+          "seal",
+          "fastener",
+          "structural",
+          "electrical",
+          "accessory"
+        ]
+      },
+      "material": {
+        "enum": [
+          "chrome",
+          "brass",
+          "stainless",
+          "steel",
+          "copper",
+          "aluminium",
+          "rubber_black",
+          "silicone",
+          "silicone_red",
+          "ptfe",
+          "glass",
+          "bakelite",
+          "plastic_black",
+          "plastic_clear",
+          "plastic_white",
+          "fiber",
+          "gauge_face",
+          "cable",
+          "emblem"
+        ]
+      },
+      "wear_part": {
+        "type": "boolean"
+      },
+      "detail_tier": {
+        "enum": [
+          "A",
+          "B",
+          "C"
+        ]
+      },
+      "status": {
+        "$ref": "common.schema.json#/$defs/status"
+      },
+      "spec": {
+        "type": "object",
+        "required": [
+          "type"
+        ],
+        "properties": {
+          "type": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": {
+          "type": [
+            "string",
+            "number"
+          ]
+        }
+      },
+      "dims": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Schlüssel aus dimensions.yaml, die im Info-Panel gezeigt werden"
+      },
+      "thread": {
+        "type": "string"
+      },
+      "notes": {
+        "$ref": "common.schema.json#/$defs/i18n"
+      },
+      "order_terms": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "tools": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "versions": {
+        "type": "array",
+        "items": {
+          "enum": [
+            "v3.0",
+            "v3.1"
+          ]
+        }
+      },
+      "sources": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "open_questions": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "explode": {
+        "$ref": "common.schema.json#/$defs/explode"
+      },
       "instance_explode": {
         "type": "object",
-        "propertyNames": {"pattern": "^[px][0-9]{3}_[a-z0-9_]+__[0-9]+$"},
-        "additionalProperties": {"$ref": "common.schema.json#/$defs/explode"}
+        "propertyNames": {
+          "pattern": "^[px][0-9]{3}_[a-z0-9_]+__[0-9]+$"
+        },
+        "additionalProperties": {
+          "$ref": "common.schema.json#/$defs/explode"
+        }
       },
-      "requires_removed": {"type": "array", "items": {"$ref": "common.schema.json#/$defs/ref"}},
-      "carrier": {"$ref": "common.schema.json#/$defs/partId", "description": "Elastisches Teil (Dichtung, Sicherungsring), das über diesen Träger gedehnt/abgezogen wird; Ausbaupfad-Prüfung ignoriert den Träger"}
+      "requires_removed": {
+        "type": "array",
+        "items": {
+          "$ref": "common.schema.json#/$defs/ref"
+        }
+      },
+      "carrier": {
+        "$ref": "common.schema.json#/$defs/partId",
+        "description": "Elastisches Teil (Dichtung, Sicherungsring), das über diesen Träger gedehnt/abgezogen wird; Ausbaupfad-Prüfung ignoriert den Träger"
+      },
+      "optional": {
+        "type": "boolean",
+        "description": "Gehört zur Stückliste, ist an dieser Maschine aber nicht verbaut bzw. Zubehör; wird nicht modelliert"
+      },
+      "instance_requires": {
+        "type": "object",
+        "description": "Voraussetzungen je Instanz; ersetzt requires_removed für diese Instanz",
+        "propertyNames": {
+          "pattern": "^[px][0-9]{3}_[a-z0-9_]+__[0-9]+$"
+        },
+        "additionalProperties": {
+          "type": "array",
+          "items": {
+            "$ref": "common.schema.json#/$defs/ref"
+          }
+        }
+      }
     }
   }
 }

@@ -1,6 +1,11 @@
-# Stückliste (Single Source of Truth, PLAN.md 5.1).
+# Stückliste (Single Source of Truth, PLAN.md 5.1). Positionsnummern nach Zeichnung cod. 383131 (Q2).
 # id: p<Pos.-Nr.>_<name>; Teile ohne Position: x<nnn>_<name>; Instanzen: <id>__<n>.
-# status: planned | blockout | modeled | verified (verified = im Rendering geprüft)
+# status: planned = nur in der Stückliste | blockout = grobe Form | modeled = detailliert | verified = im Rendering geprüft.
+# optional: true = an dieser Maschine nicht verbaut bzw. Zubehör; wird nicht modelliert.
+# explode.axis im Weltrahmen (CAD: Z oben, -Y vorn, +X rechts); distance_mm = Ausbauweg, auch für die Pfadprüfung.
+# requires_removed: was vorher raus muss (Teile-, Instanz- oder Baugruppen-IDs). carrier: Dichtung wird über diesen Träger gezogen.
+
+# ====================================================================== boiler
 - id: p003_boiler
   pos: 3
   name: {de: "Kessel", en: "Boiler", it: "Caldaia"}
@@ -9,33 +14,202 @@
   kind: structural
   material: chrome
   wear_part: false
-  detail_tier: B
+  detail_tier: A
   status: blockout
   spec: {type: boiler, od: boiler_od, wall: boiler_wall}
-  dims: [boiler_od, boiler_wall, boiler_cyl_h]
+  dims: [boiler_od, boiler_cyl_h, boiler_shoulder_h, boiler_wall, bottom_neck_od, boiler_capacity]
+  thread: "unten Außengewinde ca. M80x1,5 (gefolgert), oben Innengewinde M32x2 (Forum)"
+  notes: {de: "Messing verchromt, 1,6 l. Öffnungen: Einfüllhals oben, Sicherheitsventil und Dampfhahn auf dem Konus, zwei Schauglas-Bohrungen links, Gruppenflansch vorn, Gewindehals unten für Basisring und Heizelement."}
+  sources: [Q3, Q15, Q17, Q18, F]
+  open_questions: ["Außen-Ø und Höhe nicht veröffentlicht: Messung durch den Besitzer (PLAN 14.1)."]
   explode: {axis: [0, 0, 1], distance_mm: 0, stage: 1}
   requires_removed: []
+- id: p001_boiler_cap
+  pos: 1
+  name: {de: "Kesseldeckel", en: "Boiler cap", it: "Tappo caldaia"}
+  assembly: boiler.cap
+  instances: [p001_boiler_cap__1]
+  kind: structural
+  material: bakelite
+  wear_part: false
+  detail_tier: B
+  status: planned
+  spec: {type: cap, od: cap_od, h: cap_h}
+  dims: [cap_od, cap_h, cap_thread_d]
+  thread: "M32x2 (Forum)"
+  notes: {de: "Kunststoff seit 2000; Gewinde kann bei Überhitzung schmelzen (Q21). Kein Sicherheitsventil im Deckel."}
+  sources: [Q21, Q20]
+  explode: {axis: [0, 0, 1], distance_mm: 0, stage: 2}
+  requires_removed: [boiler.cap]
+- id: p002_cap_oring
+  pos: 2
+  name: {de: "Deckeldichtung (O-Ring OR 4112)", en: "Boiler cap O-ring", it: "Guarnizione tappo"}
+  assembly: boiler.cap
+  instances: [p002_cap_oring__1]
+  kind: seal
+  material: rubber_black
+  wear_part: true
+  detail_tier: A
+  status: planned
+  spec: {type: o_ring, id: cap_oring_id, cs: cap_oring_cs}
+  dims: [cap_oring_id, cap_oring_cs]
+  notes: {de: "Sitzt in der Nut am Deckel und dichtet auf dem Einfüllhals (Q17)."}
+  order_terms: ["La Pavoni 465204", "O-Ring OR 4112 28,17 x 3,53 EPDM"]
+  tools: [pick]
+  sources: [Q16, Q17, Q24]
+  explode: {axis: [0, 0, -1], distance_mm: 25, stage: 5}
+  requires_removed: [boiler.cap]
+  carrier: p001_boiler_cap
+- id: p072_group_body
+  pos: 72
+  name: {de: "Gruppenkörper", en: "Group body", it: "Corpo gruppo"}
+  assembly: boiler.group
+  instances: [p072_group_body__1]
+  kind: structural
+  material: chrome
+  wear_part: false
+  detail_tier: A
+  status: planned
+  spec: {type: group_body, od: group_upper_od, bore: group_bore}
+  dims: [group_upper_od, group_bell_od, group_bore, group_offset, group_arm_z]
+  notes: {de: "Ein Messing-Gussteil verchromt: Zylinder, Hals mit Rautenflansch und Hebelturm mit Rollenschlitz (Q12, Q14, Q20)."}
+  order_terms: ["La Pavoni 2120039451", "La Pavoni 3111114"]
+  sources: [Q12, Q14, Q20, F]
+  open_questions: ["Turm- und Schlitzmaße nur aus Fotos; Hauck-CAD (Q28) oder Messung würde sie klären."]
+  explode: {axis: [0, -1, 0], distance_mm: 0, stage: 2}
+  requires_removed: [boiler.group]
+- id: p073_rod_seal
+  pos: 73
+  name: {de: "Kolbenstangen-Dichtung", en: "Piston rod seal", it: "Guarnizione tirante centrale"}
+  assembly: boiler.group
+  instances: [p073_rod_seal__1]
+  kind: seal
+  material: silicone
+  wear_part: true
+  detail_tier: A
+  status: planned
+  spec: {type: lip_seal, od: rod_seal_od, id: rod_seal_id, h: rod_seal_h}
+  dims: [rod_seal_od, rod_seal_id, rod_seal_h]
+  notes: {de: "Lippendichtung in der Bohrung der Zylinderdecke. Flache Seite nach oben, Nut/Lippe nach unten in den Zylinder (Druckseite). Darunter Messingscheibe und Sicherungsring J-20 (Q7, Q14, Q19)."}
+  order_terms: ["La Pavoni 361006", "Dichtung Kolbenstange 21x11x4,5 Silikon"]
+  tools: [circlip_pliers, pick]
+  sources: [Q12, Q14, Q7, Q19]
+  explode: {axis: [0, 0, -1], distance_mm: 160, stage: 5}
+  requires_removed: [boiler.group.piston, p074_rod_washer]
+- id: p074_rod_washer
+  pos: 74
+  name: {de: "Scheibe (Kolbenstange)", en: "Rod seal washer", it: "Rondella forata"}
+  assembly: boiler.group
+  instances: [p074_rod_washer__1]
+  kind: fastener
+  material: brass
+  wear_part: false
+  detail_tier: A
+  status: planned
+  spec: {type: washer, od: rod_washer_od, id: rod_washer_id, t: rod_washer_t}
+  dims: [rod_washer_od, rod_washer_id, rod_washer_t]
+  notes: {de: "Bei Rost zusammen mit dem Sicherungsring ersetzen (Q7)."}
+  order_terms: ["La Pavoni 313002"]
+  sources: [Q12]
+  explode: {axis: [0, 0, -1], distance_mm: 150, stage: 5}
+  requires_removed: [p075_rod_circlip]
+- id: p075_rod_circlip
+  pos: 75
+  name: {de: "Sicherungsring J-20", en: "Circlip J-20", it: "Anello seeger"}
+  assembly: boiler.group
+  instances: [p075_rod_circlip__1]
+  kind: fastener
+  material: steel
+  wear_part: false
+  detail_tier: A
+  status: planned
+  spec: {type: circlip_internal, bore: circlip_bore, t: circlip_t}
+  dims: [circlip_bore, circlip_groove_d, circlip_t]
+  notes: {de: "Innen-Sicherungsring (DIN 472) in der Nut der Zylinderdecke, von unten durch die Bohrung mit Sicherungsringzange (Q7, Q20)."}
+  order_terms: ["La Pavoni 404108", "Sicherungsring J-20 DIN 472 Edelstahl"]
+  tools: [circlip_pliers]
+  sources: [Q12, Q25]
+  explode: {axis: [0, 0, -1], distance_mm: 140, stage: 5}
+  requires_removed: [boiler.group.piston]
+- id: p076_sleeve
+  pos: 76
+  name: {de: "Kolbenhülse (Kunststoff)", en: "Piston sleeve", it: "Camicia gruppo"}
+  assembly: boiler.group
+  instances: [p076_sleeve__1]
+  kind: structural
+  material: plastic_black
+  wear_part: false
+  detail_tier: A
+  status: planned
+  spec: {type: sleeve, id: group_bore, od: sleeve_od, h: sleeve_len}
+  dims: [group_bore, sleeve_od, sleeve_len]
+  notes: {de: "PPS/„Teflon“, von unten eingeschraubt bis die Nasen oben an der Decke anliegen. Nur ausbauen, wenn es dort undicht ist: bricht leicht (Q7, Q20)."}
+  order_terms: ["La Pavoni 371133"]
+  tools: [pick]
+  sources: [Q12, Q14, Q20]
+  open_questions: ["Gewindegröße und Lage des O-Rings (über/unter dem Gewinde) nicht belegt."]
+  explode: {axis: [0, 0, -1], distance_mm: 120, stage: 4}
+  requires_removed: [boiler.group.piston]
+- id: p077_sleeve_oring
+  pos: 77
+  name: {de: "Hülsen-Dichtung (O-Ring)", en: "Sleeve O-ring", it: "Guarnizione camicia"}
+  assembly: boiler.group
+  instances: [p077_sleeve_oring__1]
+  kind: seal
+  material: rubber_black
+  wear_part: true
+  detail_tier: A
+  status: planned
+  spec: {type: o_ring, id: sleeve_oring_id, cs: sleeve_oring_cs}
+  dims: [sleeve_oring_id, sleeve_oring_cs]
+  notes: {de: "In der Außennut der Hülse, dichtet den Ringraum um die Hülse nach unten ab. Nur tauschen, wenn die Hülse herausgeschraubt wurde (Q7)."}
+  order_terms: ["La Pavoni 465302", "O-Ring 47,63 x 3,53 EPDM"]
+  sources: [Q12]
+  explode: {axis: [0, 0, -1], distance_mm: 20, stage: 5}
+  requires_removed: [p076_sleeve]
+  carrier: p076_sleeve
+- id: p078_piston_rod
+  pos: 78
+  name: {de: "Kolbenstange", en: "Piston rod", it: "Tirante pistone"}
+  assembly: boiler.group.piston
+  instances: [p078_piston_rod__1]
+  kind: structural
+  material: stainless
+  wear_part: false
+  detail_tier: A
+  status: planned
+  spec: {type: rod, d: rod_d, len: rod_len}
+  dims: [rod_d, rod_len, rod_thread_d]
+  thread: "M10 beidseitig"
+  notes: {de: "Querbohrung für den vorderen Hebelbolzen. Kolben ist unten aufgeschraubt (Q4, Q17, Q20)."}
+  order_terms: ["La Pavoni 312382"]
+  sources: [Q4, Q12]
+  explode: {axis: [0, 0, 1], distance_mm: 0, stage: 4}
+  requires_removed: [boiler.group.piston]
 - id: p079_piston
   pos: 79
-  name: {de: "Kolben", en: "Piston", it: "Pistone"}
-  assembly: group.piston
+  name: {de: "Kolben (Messing)", en: "Piston (brass)", it: "Pistone"}
+  assembly: boiler.group.piston
   instances: [p079_piston__1]
   kind: structural
   material: brass
   wear_part: false
   detail_tier: A
   status: blockout
-  spec: {type: piston, od: piston_od, h: piston_h}
-  dims: [piston_od, piston_h]
+  spec: {type: piston, d: piston_d, h: piston_h}
+  dims: [piston_d, piston_h, piston_lower_groove_z]
+  thread: "M10 (auf die Stange geschraubt)"
+  notes: {de: "v3.1: Messing; v3.0: Kunststoff; heute Edelstahl (Q1, Q12). Zwei Nuten für die Lippendichtungen."}
+  order_terms: ["La Pavoni 314044"]
   versions: [v3.1]
-  notes: {de: "v3.1: Messing. v3.0: Kunststoff."}
-  explode: {axis: [0, 0, -1], distance_mm: 0, stage: 2}
-  requires_removed: [group.piston]
+  sources: [Q1, Q4, Q13]
+  explode: {axis: [0, 0, -1], distance_mm: 0, stage: 4}
+  requires_removed: [boiler.group.piston]
 - id: p080_piston_seal
   pos: 80
   name: {de: "Kolbendichtung (Lippendichtung)", en: "Piston lip seal", it: "Guarnizione pistone"}
-  assembly: group.piston
-  instances: [p080_piston_seal__1]
+  assembly: boiler.group.piston
+  instances: [p080_piston_seal__1, p080_piston_seal__2]
   kind: seal
   material: silicone
   wear_part: true
@@ -43,8 +217,1472 @@
   status: blockout
   spec: {type: lip_seal, od: piston_seal_od, id: piston_seal_id, h: piston_seal_h}
   dims: [piston_seal_od, piston_seal_id, piston_seal_h]
-  notes: {de: "Untere Dichtung: Nut (offene Seite) nach unten, zum Brühdruck hin."}
-  order_terms: ["La Pavoni Kolbendichtung Millennium", "361005"]
+  notes: {de: "Instanz 1 = obere Dichtung: Nut (offene Seite) nach OBEN. Instanz 2 = untere Dichtung: Nut nach UNTEN. Die Lippe zeigt immer zur Druckseite: oben Kesseldruck, unten Brühdruck (Q7, Q17, Q19)."}
+  order_terms: ["La Pavoni 361005", "Kolbendichtung 44x36x5,5 Millennium"]
+  tools: [pick, silicone_grease]
+  sources: [Q5, Q6, Q7, Q12, Q17, Q19]
+  explode: {axis: [0, 0, -1], distance_mm: 30, stage: 5}
+  instance_explode: {p080_piston_seal__1: {axis: [0, 0, 1], distance_mm: 45, stage: 5}, p080_piston_seal__2: {axis: [0, 0, -1], distance_mm: 30, stage: 5}}
+  requires_removed: [boiler.group.piston]
   carrier: p079_piston
+- id: p081_shower_screen
+  pos: 81
+  name: {de: "Duschsieb", en: "Shower screen", it: "Doccetta"}
+  assembly: boiler.group
+  instances: [p081_shower_screen__1]
+  kind: structural
+  material: stainless
+  wear_part: true
+  detail_tier: A
+  status: planned
+  spec: {type: screen, d: screen_d, h: screen_h}
+  dims: [screen_d, screen_h]
+  notes: {de: "Ohne Clip: wird von der Siebträger-Dichtung gehalten und beim Austreiben vom Kolben mit herausgedrückt (Q7, Q20)."}
+  order_terms: ["La Pavoni 327115", "Duschsieb 54 mm Millennium"]
+  sources: [Q5, Q12, Q20]
+  explode: {axis: [0, 0, -1], distance_mm: 70, stage: 4}
+  requires_removed: [p082_group_gasket]
+- id: p082_group_gasket
+  pos: 82
+  name: {de: "Siebträger-Dichtung", en: "Group gasket", it: "Guarnizione sottocoppa"}
+  assembly: boiler.group
+  instances: [p082_group_gasket__1]
+  kind: seal
+  material: rubber_black
+  wear_part: true
+  detail_tier: A
+  status: planned
+  spec: {type: group_gasket, od: group_gasket_od, id: group_gasket_id, h: group_gasket_h}
+  dims: [group_gasket_od, group_gasket_id, group_gasket_h]
+  notes: {de: "Gerundete Seite nach oben (zum Sieb), flache Seite nach unten zum Siebrand (Q12, Q19). Ab 3/2008 Ausführung II mit gerippter Außenkante."}
+  order_terms: ["La Pavoni 465301", "La Pavoni 361028", "Siebträgerdichtung 60x50x5,5 Millennium"]
+  tools: [pick]
+  sources: [Q5, Q12, Q14, Q19]
+  explode: {axis: [0, 0, -1], distance_mm: 90, stage: 4}
+  requires_removed: [portafilter]
+- id: p083_tube_connector
+  pos: 83
+  name: {de: "Kunststoff-Verbinder Steigrohr/Gruppe", en: "Dip tube connector", it: "Tappo gruppo con camicia"}
+  assembly: boiler.group
+  instances: [p083_tube_connector__1]
+  kind: structural
+  material: plastic_black
+  wear_part: true
+  detail_tier: A
+  status: planned
+  spec: {type: connector, d: connector_d}
+  dims: [connector_d, group_hole_d]
+  thread: "innen M8 für das Rohr"
+  notes: {de: "In die Rückseite des Gruppenhalses geschraubt, Rohr darin eingeschraubt. Wird spröde (Q12, Q14)."}
+  order_terms: ["La Pavoni 371132"]
+  sources: [Q12, Q13, Q14]
+  explode: {axis: [0, 1, 0], distance_mm: 40, stage: 4}
+  requires_removed: [boiler.group, p084_dip_tube]
+- id: p084_dip_tube
+  pos: 84
+  name: {de: "Steigrohr Kessel→Gruppe", en: "Dip tube", it: "Tubo pescante"}
+  assembly: boiler.group
+  instances: [p084_dip_tube__1]
+  kind: structural
+  material: brass
+  wear_part: false
+  detail_tier: A
+  status: planned
+  spec: {type: tube, d: dip_tube_d, drop: dip_tube_drop}
+  dims: [dip_tube_d, dip_tube_drop]
+  thread: M8
+  notes: {de: "Messing, hängt ca. 115 mm in den Kessel und bleibt beim Abnehmen an der Gruppe. Nicht zu fest anziehen, bricht (Q13, Q14, Q17)."}
+  order_terms: ["La Pavoni 326002"]
+  sources: [Q13, Q14, Q17]
+  explode: {axis: [0, 1, 0], distance_mm: 60, stage: 4}
+  requires_removed: [boiler.group]
+- id: p085_group_oring
+  pos: 85
+  name: {de: "Dichtung Gruppe/Kessel (O-Ring OR 3112)", en: "Group-to-boiler O-ring", it: "Guarnizione gruppo"}
+  assembly: boiler.group
+  instances: [p085_group_oring__1]
+  kind: seal
+  material: rubber_black
+  wear_part: true
+  detail_tier: A
+  status: planned
+  spec: {type: o_ring, id: group_oring_id, cs: group_oring_cs}
+  dims: [group_oring_id, group_oring_cs]
+  notes: {de: "O-Ring, keine Flachdichtung: sitzt in einer Nut auf der Rückseite des Gruppenflansches (Q12, Q17)."}
+  order_terms: ["La Pavoni 465128", "O-Ring 03112 EPDM 28,24 x 2,62"]
+  tools: [pick]
+  sources: [Q5, Q12, Q17, Q24]
+  explode: {axis: [0, 1, 0], distance_mm: 20, stage: 5}
+  requires_removed: [boiler.group]
+  carrier: p072_group_body
+- id: p086_group_bolt
+  pos: 86
+  name: {de: "Schraube Gruppe/Kessel", en: "Group bolt", it: "Vite gruppo"}
+  assembly: boiler.group
+  instances: [p086_group_bolt__1, p086_group_bolt__2]
+  kind: fastener
+  material: chrome
+  wear_part: false
+  detail_tier: A
+  status: planned
+  spec: {type: hex_bolt, d: group_bolt_d, len: group_bolt_len, af: group_bolt_af}
+  dims: [group_bolt_d, group_bolt_len, group_bolt_af]
+  thread: M6x14
+  notes: {de: "Schlüssel 10 mm. Reißen leicht ab: nicht mit Gewalt (Q12)."}
+  order_terms: ["La Pavoni 4030224"]
+  tools: [wrench_10]
+  sources: [Q4, Q7, Q12]
+  explode: {axis: [0, -1, 0], distance_mm: 40, stage: 3}
+  requires_removed: []
+- id: p087_lever
+  pos: 87
+  name: {de: "Hebel", en: "Lever", it: "Leva"}
+  assembly: boiler.group.lever.arm
+  instances: [p087_lever__1]
+  kind: structural
+  material: chrome
+  wear_part: false
+  detail_tier: A
+  status: planned
+  spec: {type: lever, len: lever_len}
+  dims: [lever_len, lever_rod_d, lever_fork_t, lever_rest_deg]
+  thread: "M12 am Griffende"
+  notes: {de: "Gabel aus Flachmaterial, mit der Stange vernietet. Das vordere Loch (Kolbenstange) sitzt tiefer als das hintere: falsch herum eingebaut stößt die Gabel an die Gruppe (Q7, Q17, Q19)."}
+  order_terms: ["La Pavoni 3954004"]
+  sources: [Q4, Q7, Q17, Q19, F]
+  explode: {axis: [0, 0, 1], distance_mm: 0, stage: 4}
+  requires_removed: [boiler.group.lever.arm]
+- id: p088_lever_grip
+  pos: 88
+  name: {de: "Hebelgriff", en: "Lever grip", it: "Impugnatura leva"}
+  assembly: boiler.group.lever.arm
+  instances: [p088_lever_grip__1]
+  kind: structural
+  material: bakelite
+  wear_part: false
+  detail_tier: B
+  status: planned
+  spec: {type: grip, len: grip_len, d: grip_d}
+  dims: [grip_len, grip_d]
+  thread: M12
+  order_terms: ["La Pavoni 371125"]
+  sources: [Q21]
+  explode: {axis: [0, -1, 0], distance_mm: 30, stage: 5}
+  requires_removed: [boiler.group.lever.arm]
+- id: p089_roller
+  pos: 89
+  name: {de: "Hebelrolle („Rollenmutter“)", en: "Lever roller", it: "Rullino per leva"}
+  assembly: boiler.group.lever
+  instances: [p089_roller__1]
+  kind: structural
+  material: stainless
+  wear_part: false
+  detail_tier: A
+  status: planned
+  spec: {type: roller, od: roller_od, id: roller_id, w: roller_w}
+  dims: [roller_od, roller_id, roller_w]
+  notes: {de: "Glattes Röhrchen auf dem hinteren Bolzen, läuft im Schlitz des Gruppenturms (Q4, Q17)."}
+  order_terms: ["La Pavoni 3140453"]
+  sources: [Q4, Q17]
+  explode: {axis: [0, 0, 1], distance_mm: 60, stage: 4}
+  requires_removed: [boiler.group.lever.arm]
+- id: p090_lever_pin
+  pos: 90
+  name: {de: "Hebelbolzen", en: "Lever pin", it: "Spina forcella"}
+  assembly: boiler.group.lever
+  instances: [p090_lever_pin__1, p090_lever_pin__2]
+  kind: fastener
+  material: stainless
+  wear_part: false
+  detail_tier: A
+  status: planned
+  spec: {type: pin, d: lever_pin_d, len: lever_pin_len}
+  dims: [lever_pin_d, lever_pin_len]
+  notes: {de: "Instanz 1 = vorn, durch die Kolbenstange; Instanz 2 = hinten, durch die Rolle (Q17). Linke Sicherungsscheibe ab, Bolzen nach rechts herausschieben. Verschleißen, etwa alle 5 Jahre tauschen (Q12)."}
+  order_terms: ["La Pavoni 3140463"]
+  sources: [Q4, Q12, Q17, Q20]
+  explode: {axis: [1, 0, 0], distance_mm: 45, stage: 4}
+  requires_removed: [p091_eclip__1, p091_eclip__3]
+  instance_requires: {p090_lever_pin__1: [p091_eclip__1], p090_lever_pin__2: [p091_eclip__3]}
+- id: p091_eclip
+  pos: 91
+  name: {de: "Sicherungsscheibe Gr. 5", en: "E-clip size 5", it: "Anello benzing"}
+  assembly: boiler.group.lever
+  instances: [p091_eclip__1, p091_eclip__2, p091_eclip__3, p091_eclip__4]
+  kind: fastener
+  material: stainless
+  wear_part: false
+  detail_tier: A
+  status: planned
+  spec: {type: eclip, od: eclip_od, t: eclip_t}
+  dims: [eclip_od, eclip_t, eclip_groove_d]
+  notes: {de: "Vier Stück, je eine pro Bolzenende: 1 vorn links, 2 vorn rechts, 3 hinten links, 4 hinten rechts. Zum Ausbau genügt je eine Seite (Q7, Q19)."}
+  order_terms: ["La Pavoni 404101", "Sicherungsscheibe DIN 6799 RS5"]
+  tools: [pick]
+  sources: [Q12, Q25]
+  explode: {axis: [-1, 0, 0], distance_mm: 25, stage: 4}
+  instance_explode: {p091_eclip__2: {axis: [1, 0, 0], distance_mm: 70, stage: 5}, p091_eclip__4: {axis: [1, 0, 0], distance_mm: 70, stage: 5}}
+  requires_removed: []
+- id: p092_lock_nut
+  pos: 92
+  name: {de: "Kontermutter", en: "Lock nut", it: "Controdado"}
+  assembly: boiler.group.lever
+  instances: [p092_lock_nut__1]
+  kind: fastener
+  material: chrome
+  wear_part: false
+  detail_tier: A
+  status: planned
+  spec: {type: hex_nut, af: top_nut_af, h: lock_nut_h}
+  dims: [top_nut_af, lock_nut_h]
+  thread: M10
+  notes: {de: "Begrenzt den unteren Kolbenweg: so einstellen, dass der Kolben knapp über dem Sieb stoppt (ca. 2,5 mm Spiel, Q19, Q20)."}
+  order_terms: ["La Pavoni 3135014"]
+  tools: [wrench_14]
+  sources: [Q7, Q12, Q19]
+  explode: {axis: [0, 0, 1], distance_mm: 70, stage: 4}
+  requires_removed: [p093_cap_nut]
+- id: p093_cap_nut
+  pos: 93
+  name: {de: "Obere Gruppenmutter (Hutmutter)", en: "Cap nut", it: "Dado regolatore"}
+  assembly: boiler.group.lever
+  instances: [p093_cap_nut__1]
+  kind: fastener
+  material: chrome
+  wear_part: false
+  detail_tier: A
+  status: planned
+  spec: {type: cap_nut, af: top_nut_af, h: cap_nut_h}
+  dims: [top_nut_af, cap_nut_h]
+  thread: M10
+  notes: {de: "Mit 14 mm lösen, Kontermutter dabei gegenhalten; Hebel bleibt dran, damit die Stange nicht mitdreht (Q7, Q20)."}
+  order_terms: ["La Pavoni 3135264"]
+  tools: [wrench_14]
+  sources: [Q7, Q12]
+  explode: {axis: [0, 0, 1], distance_mm: 90, stage: 4}
+  requires_removed: []
+- id: p059_upper_fitting
+  pos: 59
+  name: {de: "Schauglas-Halter oben", en: "Upper sight glass fitting", it: "Supporto livello superiore"}
+  assembly: boiler.sight_glass
+  instances: [p059_upper_fitting__1]
+  kind: structural
+  material: chrome
+  wear_part: false
+  detail_tier: A
+  status: planned
+  spec: {type: sg_fitting}
+  dims: [nipple_thread_d, sg_axis_r]
+  thread: "Nippel M12 (gefolgert), oben M12 für die Manometermutter"
+  notes: {de: "Professional: Bohrung oben 12 mm für die Manometermutter (Ceccarelli manometro_ep)."}
+  order_terms: ["La Pavoni 31111441"]
+  sources: [Q9, Q17]
+  explode: {axis: [-1, 0, 0], distance_mm: 0, stage: 3}
+  requires_removed: [boiler.sight_glass]
+- id: p063_lower_fitting
+  pos: 63
+  name: {de: "Schauglas-Halter unten", en: "Lower sight glass fitting", it: "Supporto livello inferiore"}
+  assembly: boiler.sight_glass
+  instances: [p063_lower_fitting__1]
+  kind: structural
+  material: chrome
+  wear_part: false
+  detail_tier: A
+  status: planned
+  spec: {type: sg_fitting}
+  dims: [nipple_thread_d]
+  sources: [Q15, Q17]
+  explode: {axis: [-1, 0, 0], distance_mm: 0, stage: 3}
+  requires_removed: [boiler.sight_glass]
+- id: p062_sight_glass
+  pos: 62
+  name: {de: "Schauglas (Glasrohr)", en: "Sight glass tube", it: "Vetro livello"}
+  assembly: boiler.sight_glass
+  instances: [p062_sight_glass__1]
+  kind: structural
+  material: glass
+  wear_part: true
+  detail_tier: A
+  status: planned
+  spec: {type: glass_tube, od: glass_od, id: glass_id, len: glass_len}
+  dims: [glass_od, glass_id, glass_len]
+  notes: {de: "Wird nach Lösen beider 17-mm-Muttern oben durch den oberen Halter herausgezogen (Q9)."}
+  order_terms: ["La Pavoni 453101", "Schauglas 9 x 131"]
+  sources: [Q9, Q15, Q16]
+  explode: {axis: [0, 0, 1], distance_mm: 175, stage: 4}
+  requires_removed: [p070_glass_cover, p069_gauge, p068_gauge_nut, p061_glass_nut]
+- id: p060_glass_seal
+  pos: 60
+  name: {de: "Schauglas-Dichtung", en: "Sight glass seal", it: "Guarnizione livello"}
+  assembly: boiler.sight_glass
+  instances: [p060_glass_seal__1, p060_glass_seal__2]
+  kind: seal
+  material: silicone
+  wear_part: true
+  detail_tier: A
+  status: planned
+  spec: {type: glass_seal, od: glass_seal_od, id: glass_seal_id, h: glass_seal_h}
+  dims: [glass_seal_od, glass_seal_id, glass_seal_h]
+  notes: {de: "Instanz 1 oben, 2 unten. Reihenfolge von der Glasmitte nach außen: Mutter (Gewinde nach außen) - Messingscheibe - Silikondichtung - Glasende (ca. 1,5 mm überstehend) im Halter (Q17)."}
+  order_terms: ["La Pavoni 362020", "Schauglasdichtung 15x9x5 Silikon"]
+  tools: [pick]
+  sources: [Q5, Q9, Q16, Q17]
+  explode: {axis: [0, 0, -1], distance_mm: 30, stage: 5}
+  instance_explode: {p060_glass_seal__1: {axis: [0, 0, -1], distance_mm: 30, stage: 5}, p060_glass_seal__2: {axis: [0, 0, 1], distance_mm: 30, stage: 5}}
+  requires_removed: [p062_sight_glass]
+- id: p100_glass_washer
+  pos: 100
+  name: {de: "Messingscheibe Schauglas", en: "Sight glass brass washer", it: "Rondella ottone livello"}
+  assembly: boiler.sight_glass
+  instances: [p100_glass_washer__1, p100_glass_washer__2]
+  kind: fastener
+  material: brass
+  wear_part: false
+  detail_tier: A
+  status: planned
+  spec: {type: washer, od: glass_washer_od, id: glass_washer_id, t: glass_washer_t}
+  dims: [glass_washer_od, glass_washer_id, glass_washer_t]
+  sources: [Q15, Q17]
+  explode: {axis: [0, 0, -1], distance_mm: 30, stage: 5}
+  instance_explode: {p100_glass_washer__1: {axis: [0, 0, -1], distance_mm: 30, stage: 5}, p100_glass_washer__2: {axis: [0, 0, 1], distance_mm: 30, stage: 5}}
+  requires_removed: [p062_sight_glass]
+- id: p061_glass_nut
+  pos: 61
+  name: {de: "Schauglas-Mutter", en: "Sight glass nut", it: "Ghiera livello"}
+  assembly: boiler.sight_glass
+  instances: [p061_glass_nut__1, p061_glass_nut__2]
+  kind: fastener
+  material: chrome
+  wear_part: false
+  detail_tier: A
+  status: planned
+  spec: {type: glass_nut, af: glass_nut_af}
+  dims: [glass_nut_af]
+  notes: {de: "Schlüssel 17 mm. Gewindeseite zeigt zum Halter (Q9, Q17). Instanz 1 oben, 2 unten. Nach dem Lösen gleiten sie am Glas zur Mitte; ganz heraus kommen sie erst mit dem Glas."}
+  tools: [wrench_17]
+  sources: [Q9, Q17]
+  explode: {axis: [0, 0, -1], distance_mm: 22, stage: 4}
+  instance_explode: {p061_glass_nut__1: {axis: [0, 0, -1], distance_mm: 22, stage: 4}, p061_glass_nut__2: {axis: [0, 0, 1], distance_mm: 22, stage: 4}}
+  requires_removed: [p070_glass_cover]
+- id: p064_fitting_washer
+  pos: 64
+  name: {de: "Weiße Scheibe Halter/Kessel (PTFE)", en: "PTFE fitting washer", it: "Rondella bianca"}
+  assembly: boiler.sight_glass
+  instances: [p064_fitting_washer__1, p064_fitting_washer__2, p064_fitting_washer__3]
+  kind: seal
+  material: ptfe
+  wear_part: true
+  detail_tier: A
+  status: planned
+  spec: {type: washer, od: fitting_washer_od, id: fitting_washer_id, t: fitting_washer_t}
+  dims: [fitting_washer_od, fitting_washer_id, fitting_washer_t]
+  notes: {de: "Instanz 1/2: außen in der Vertiefung der Halter-Nippel (oben/unten), dichtet Halter gegen Kessel. Instanz 3: unter der Manometermutter (gefolgert, nicht belegt)."}
+  order_terms: ["La Pavoni 362021", "PTFE-Scheibe 17x12x1,5"]
+  sources: [Q16, Q17]
+  explode: {axis: [-1, 0, 0], distance_mm: 15, stage: 4}
+  instance_explode: {p064_fitting_washer__3: {axis: [0, 0, 1], distance_mm: 25, stage: 5}}
+  requires_removed: [boiler.sight_glass]
+- id: p065_inner_washer
+  pos: 65
+  name: {de: "Messingscheibe innen (Schauglas)", en: "Inner brass washer", it: "Rondella ottone interna"}
+  assembly: boiler.sight_glass
+  instances: [p065_inner_washer__1, p065_inner_washer__2]
+  kind: fastener
+  material: brass
+  wear_part: false
+  detail_tier: A
+  status: planned
+  spec: {type: washer, od: inner_washer_od, id: inner_washer_id, t: inner_washer_t}
+  dims: [inner_washer_od, inner_washer_id, inner_washer_t]
+  notes: {de: "Im Kessel innen. Nur über die Bodenöffnung erreichbar (Heizelement ausgebaut)."}
+  sources: [Q15, Q17]
+  explode: {axis: [1, 0, 0], distance_mm: 30, stage: 4}
+  requires_removed: [p066_inner_nut]
+- id: p066_inner_nut
+  pos: 66
+  name: {de: "Mutter Schauglas/Kessel (innen)", en: "Inner nut", it: "Dado interno"}
+  assembly: boiler.sight_glass
+  instances: [p066_inner_nut__1, p066_inner_nut__2]
+  kind: fastener
+  material: brass
+  wear_part: false
+  detail_tier: A
+  status: planned
+  spec: {type: hex_nut, af: inner_nut_af}
+  dims: [inner_nut_af, nipple_thread_d]
+  thread: "M12 (gefolgert)"
+  notes: {de: "16 mm, im Kessel. Obere schwer erreichbar (Q17). Nicht fest anziehen."}
+  tools: [wrench_17]
+  sources: [Q17, Q22]
+  explode: {axis: [1, 0, 0], distance_mm: 25, stage: 4}
+  requires_removed: [heating]
+- id: p067_upper_plug
+  pos: 67
+  name: {de: "Stopfen oben", en: "Upper plug", it: "Tappo superiore"}
+  assembly: boiler.sight_glass
+  instances: [p067_upper_plug__1]
+  kind: structural
+  material: chrome
+  wear_part: false
+  detail_tier: B
+  status: planned
+  optional: true
+  notes: {de: "Nur Europiccola; bei der Professional sitzt hier die Manometermutter."}
+  sources: [Q2, Q15]
+  explode: {axis: [0, 0, 1], distance_mm: 30, stage: 4}
+  requires_removed: []
+- id: p068_gauge_nut
+  pos: 68
+  name: {de: "Manometer-Mutter", en: "Gauge nut", it: "Dado manometro"}
+  assembly: boiler.sight_glass
+  instances: [p068_gauge_nut__1]
+  kind: fastener
+  material: chrome
+  wear_part: false
+  detail_tier: A
+  status: planned
+  spec: {type: gauge_nut}
+  dims: [nipple_thread_d]
+  thread: "außen M12 in den oberen Halter, innen 1/8 Zoll BSP für das Manometer"
+  notes: {de: "Nicht zu fest anziehen, beschädigt Dichtung und Mutter (Ceccarelli manometro_ep)."}
+  order_terms: ["La Pavoni 3120104", "La Pavoni 349045"]
+  sources: [Q15]
+  explode: {axis: [0, 0, 1], distance_mm: 45, stage: 4}
+  requires_removed: [p069_gauge]
+- id: p069_gauge
+  pos: 69
+  name: {de: "Manometer", en: "Pressure gauge", it: "Manometro"}
+  assembly: boiler.sight_glass
+  instances: [p069_gauge__1]
+  kind: structural
+  material: chrome
+  wear_part: false
+  detail_tier: B
+  status: planned
+  spec: {type: gauge, d: gauge_d}
+  dims: [gauge_d, gauge_depth]
+  thread: "1/8 Zoll BSP"
+  notes: {de: "Ø41, 0-2,5 bar. Zifferblatt nach vorn."}
+  order_terms: ["La Pavoni 453040"]
+  tools: [wrench_14]
+  sources: [Q15, F]
+  explode: {axis: [0, 0, 1], distance_mm: 70, stage: 4}
+  requires_removed: []
+- id: p070_glass_cover
+  pos: 70
+  name: {de: "Schauglas-Abdeckung (gesteckt)", en: "Sight glass cover", it: "Protezione livello"}
+  assembly: boiler.sight_glass
+  instances: [p070_glass_cover__1]
+  kind: structural
+  material: plastic_clear
+  wear_part: false
+  detail_tier: B
+  status: planned
+  spec: {type: cover, h: sg_cover_h, w: sg_cover_w}
+  dims: [sg_cover_h, sg_cover_w, sg_cover_d]
+  notes: {de: "Gesteckt, zwei Nasen in zwei Nuten (je Halter). Erst oben, dann unten abhebeln; bricht leicht (Q9, Q21)."}
+  order_terms: ["La Pavoni 371134"]
+  sources: [Q9, Q21, F]
+  explode: {axis: [-1, 0, 0], distance_mm: 55, stage: 3}
+  requires_removed: []
+- id: x001_gauge_dial
+  pos: null
+  name: {de: "Manometer-Zifferblatt", en: "Gauge dial", it: "Quadrante manometro"}
+  assembly: boiler.sight_glass
+  instances: [x001_gauge_dial__1]
+  kind: structural
+  material: gauge_face
+  wear_part: false
+  detail_tier: C
+  status: planned
+  notes: {de: "Darstellungsteil des Manometers (kein Ersatzteil)."}
+  explode: {axis: [0, 0, 1], distance_mm: 70, stage: 4}
+  requires_removed: [p069_gauge]
+- id: p046_steam_body
+  pos: 46
+  name: {de: "Dampfhahn-Körper (T-Stück)", en: "Steam valve body", it: "Corpo rubinetto"}
+  assembly: boiler.steam
+  instances: [p046_steam_body__1]
+  kind: structural
+  material: chrome
+  wear_part: false
+  detail_tier: A
+  status: planned
+  spec: {type: steam_body, d: steam_tube_d}
+  dims: [steam_tube_d, steam_total_w, steam_z_above_shoulder, steam_back]
+  notes: {de: "Waagerechtes Rohr hinter dem Kesselhals, Stutzen nach unten in den Konus, mit Innenmutter im Kessel gehalten (Q15, Q17, F). Sitz Metall auf Metall."}
+  sources: [Q15, Q17, F]
+  open_questions: ["Gewinde des Stutzens nicht belegt (vermutlich M12).", "Dichtung Stutzen/Kessel außen nicht belegt."]
+  explode: {axis: [0, 0.5, 0.866], distance_mm: 0, stage: 3}
+  requires_removed: [boiler.steam]
+- id: p047_wand_oring
+  pos: 47
+  name: {de: "O-Ring Lanzenzapfen (OR 106)", en: "Steam wand O-ring", it: "OR autocappuccino"}
+  assembly: boiler.steam
+  instances: [p047_wand_oring__1, p047_wand_oring__2]
+  kind: seal
+  material: rubber_black
+  wear_part: true
+  detail_tier: A
+  status: planned
+  spec: {type: o_ring, id: wand_oring_id, cs: wand_oring_cs}
+  dims: [wand_oring_id, wand_oring_cs]
+  notes: {de: "Zwei Stück in Nuten auf dem Zapfen des T-Stücks; die Lanze dreht darauf. Paarweise tauschen (Q15, Q17)."}
+  order_terms: ["O-Ring OR 106 6,75 x 1,78 Viton", "La Pavoni Dampflanze O-Ring"]
+  tools: [pick]
+  sources: [Q15, Q17, Q24]
+  explode: {axis: [1, 0, 0], distance_mm: 30, stage: 5}
+  requires_removed: [boiler.steam.wand]
+  carrier: p046_steam_body
+- id: p048_steam_shaft
+  pos: 48
+  name: {de: "Dampfhahn-Spindel", en: "Steam valve shaft", it: "Perno rubinetto"}
+  assembly: boiler.steam.spindle
+  instances: [p048_steam_shaft__1]
+  kind: structural
+  material: chrome
+  wear_part: false
+  detail_tier: A
+  status: planned
+  spec: {type: shaft, d: steam_shaft_d}
+  dims: [steam_shaft_d]
+  notes: {de: "Schließt mit der flachen Stirnseite Metall auf Metall auf dem Sitz; keine Dichtung an der Spitze (Q15)."}
+  sources: [Q15, Q20]
+  explode: {axis: [-1, 0, 0], distance_mm: 0, stage: 4}
+  requires_removed: [boiler.steam.spindle]
+- id: p049_steam_washer
+  pos: 49
+  name: {de: "Messingscheibe Dampfhahn", en: "Steam valve brass washer", it: "Rondella ottone"}
+  assembly: boiler.steam.spindle
+  instances: [p049_steam_washer__1, p049_steam_washer__2]
+  kind: fastener
+  material: brass
+  wear_part: false
+  detail_tier: A
+  status: planned
+  spec: {type: washer, od: steam_packing_od, id: steam_packing_id, t: steam_washer_t}
+  dims: [steam_packing_od, steam_packing_id, steam_washer_t]
+  notes: {de: "Je eine vor und hinter der Gummipackung (Q15; Q2 zeigt nur eine)."}
+  sources: [Q2, Q15]
+  explode: {axis: [-1, 0, 0], distance_mm: 40, stage: 5}
+  instance_explode: {p049_steam_washer__1: {axis: [-1, 0, 0], distance_mm: 40, stage: 5}, p049_steam_washer__2: {axis: [-1, 0, 0], distance_mm: 30, stage: 5}}
+  requires_removed: [p051_steam_nut]
+- id: p050_steam_packing
+  pos: 50
+  name: {de: "Gummipackung Dampfhahn", en: "Steam valve packing", it: "Guarnizione rubinetto"}
+  assembly: boiler.steam.spindle
+  instances: [p050_steam_packing__1]
+  kind: seal
+  material: rubber_black
+  wear_part: true
+  detail_tier: A
+  status: planned
+  spec: {type: packing, od: steam_packing_od, id: steam_packing_id, h: steam_packing_h}
+  dims: [steam_packing_od, steam_packing_id, steam_packing_h]
+  notes: {de: "Dichtet die Spindel zum Knauf hin; die Mutter drückt sie zusammen und stellt die Gängigkeit ein (Q15, Q20). Ceccarelli beschreibt sie als Schließdichtung (Q10) - Widerspruch, siehe SOURCES."}
+  order_terms: ["La Pavoni 361023", "Dichtung Dampfhahn 12x7x5"]
+  tools: [pick]
+  sources: [Q10, Q15, Q16]
+  explode: {axis: [-1, 0, 0], distance_mm: 35, stage: 5}
+  requires_removed: [p049_steam_washer__1]
+- id: p051_steam_nut
+  pos: 51
+  name: {de: "Dampfhahn-Mutter (Stopfbuchse)", en: "Steam valve gland nut", it: "Dado rubinetto"}
+  assembly: boiler.steam.spindle
+  instances: [p051_steam_nut__1]
+  kind: fastener
+  material: chrome
+  wear_part: false
+  detail_tier: A
+  status: planned
+  spec: {type: gland_nut}
+  notes: {de: "Schlüssel 14 mm (Q10); Dr. Pavoni nennt „10MM“. Nur leicht anziehen."}
+  tools: [wrench_14]
+  sources: [Q10, Q17]
+  explode: {axis: [-1, 0, 0], distance_mm: 50, stage: 5}
+  requires_removed: [p052_steam_knob]
+- id: p052_steam_knob
+  pos: 52
+  name: {de: "Dampfknauf", en: "Steam knob", it: "Manopola vapore"}
+  assembly: boiler.steam.spindle
+  instances: [p052_steam_knob__1]
+  kind: structural
+  material: bakelite
+  wear_part: false
+  detail_tier: B
+  status: planned
+  spec: {type: star_knob, d: steam_knob_d}
+  dims: [steam_knob_d]
+  order_terms: ["La Pavoni 475010"]
+  sources: [Q15, F]
+  explode: {axis: [-1, 0, 0], distance_mm: 60, stage: 5}
+  requires_removed: [p053_knob_pin]
+- id: p053_knob_pin
+  pos: 53
+  name: {de: "Spannstift Knauf", en: "Knob pin", it: "Spina manopola"}
+  assembly: boiler.steam.spindle
+  instances: [p053_knob_pin__1]
+  kind: fastener
+  material: steel
+  wear_part: false
+  detail_tier: A
+  status: planned
+  spec: {type: pin, d: knob_pin_d, len: knob_pin_len}
+  dims: [knob_pin_d, knob_pin_len]
+  notes: {de: "Mit 3-mm-Durchschlag austreiben, Knauf auf Holz abstützen (Q10)."}
+  tools: [punch_3]
+  sources: [Q10, Q15]
+  explode: {axis: [0, 0, -1], distance_mm: 30, stage: 4}
+  requires_removed: [boiler.steam.spindle]
+- id: p054_steam_wand
+  pos: 54
+  name: {de: "Dampflanze", en: "Steam wand", it: "Tubo vapore"}
+  assembly: boiler.steam.wand
+  instances: [p054_steam_wand__1]
+  kind: structural
+  material: chrome
+  wear_part: false
+  detail_tier: B
+  status: planned
+  spec: {type: wand, d: wand_d}
+  dims: [wand_d, wand_drop]
+  sources: [Q15, F]
+  explode: {axis: [1, 0, 0], distance_mm: 0, stage: 4}
+  requires_removed: [boiler.steam.wand]
+- id: p055_wand_tip
+  pos: 55
+  name: {de: "Dampfdüse", en: "Steam tip", it: "Ugello"}
+  assembly: boiler.steam.wand
+  instances: [p055_wand_tip__1]
+  kind: structural
+  material: chrome
+  wear_part: false
+  detail_tier: A
+  status: planned
+  spec: {type: tip, thread: tip_thread_d}
+  dims: [tip_thread_d]
+  thread: M6
+  notes: {de: "3 Löcher Ø1,2 (Q3, Q15)."}
+  sources: [Q3, Q15]
+  explode: {axis: [0, 0, -1], distance_mm: 25, stage: 4}
+  requires_removed: []
+- id: x002_steam_inner_nut
+  pos: null
+  name: {de: "Innenmutter Dampfhahn", en: "Steam valve inner nut", it: "Dado interno rubinetto"}
+  assembly: boiler.steam
+  instances: [x002_steam_inner_nut__1]
+  kind: fastener
+  material: brass
+  wear_part: false
+  detail_tier: A
+  status: planned
+  spec: {type: hex_nut, af: inner_nut_af}
+  dims: [inner_nut_af]
+  notes: {de: "Im Kessel, hält das T-Stück (Q18, Q22). Nur über die Bodenöffnung erreichbar."}
+  sources: [Q15, Q18, Q22]
+  explode: {axis: [0, 0, -1], distance_mm: 120, stage: 4}
+  requires_removed: [heating]
+- id: x003_steam_inner_washer
+  pos: null
+  name: {de: "Innenscheibe Dampfhahn", en: "Steam valve inner washer", it: "Rondella interna rubinetto"}
+  assembly: boiler.steam
+  instances: [x003_steam_inner_washer__1]
+  kind: fastener
+  material: brass
+  wear_part: false
+  detail_tier: A
+  status: planned
+  spec: {type: washer, od: inner_washer_od, id: inner_washer_id, t: inner_washer_t}
+  dims: [inner_washer_od, inner_washer_id, inner_washer_t]
+  sources: [Q15]
+  explode: {axis: [0, 0, -1], distance_mm: 120, stage: 4}
+  requires_removed: [x002_steam_inner_nut]
+- id: p056_cappuccino_support
+  pos: 56
+  name: {de: "Halter Cappuccino-Automatik", en: "Cappuccino automatic support", it: "Supporto autocappuccino"}
+  assembly: boiler.steam
+  instances: [p056_cappuccino_support__1]
+  kind: accessory
+  material: chrome
+  wear_part: false
+  detail_tier: B
+  status: planned
+  optional: true
+  notes: {de: "Zubehör, an dieser Maschine nicht vorhanden (Fotos)."}
+  sources: [Q2, F]
+  explode: {axis: [1, 0, 0], distance_mm: 40, stage: 4}
+  requires_removed: []
+- id: p057_cappuccino_auto
+  pos: 57
+  name: {de: "Cappuccino-Automatik", en: "Cappuccino automatic", it: "Autocappuccino"}
+  assembly: boiler.steam
+  instances: [p057_cappuccino_auto__1]
+  kind: accessory
+  material: chrome
+  wear_part: false
+  detail_tier: B
+  status: planned
+  optional: true
+  notes: {de: "Zubehör, an dieser Maschine nicht vorhanden (Fotos)."}
+  sources: [Q2, F]
+  explode: {axis: [1, 0, 0], distance_mm: 40, stage: 4}
+  requires_removed: []
+- id: p058_cappuccino_tube
+  pos: 58
+  name: {de: "Silikonschlauch", en: "Silicone tube", it: "Tubetto silicone"}
+  assembly: boiler.steam
+  instances: [p058_cappuccino_tube__1]
+  kind: accessory
+  material: silicone
+  wear_part: false
+  detail_tier: B
+  status: planned
+  optional: true
+  notes: {de: "Zubehör, an dieser Maschine nicht vorhanden (Fotos)."}
+  sources: [Q2, F]
+  explode: {axis: [1, 0, 0], distance_mm: 40, stage: 4}
+  requires_removed: []
+- id: p018_sv_fitting
+  pos: 18
+  name: {de: "Sicherheitsventil-Fitting mit Sitz", en: "Safety valve fitting with seat", it: "Raccordo valvola"}
+  assembly: boiler.safety_valve
+  instances: [p018_sv_fitting__1]
+  kind: structural
+  material: chrome
+  wear_part: false
+  detail_tier: A
+  status: planned
+  spec: {type: sv_fitting, thread: sv_thread_d, af: sv_hex_af}
+  dims: [sv_thread_d, sv_hex_af]
+  thread: "M12 (nur Millennium)"
+  notes: {de: "Durch die Kesselbohrung, innen mit Mutter und Scheibe gekontert. Sitz = angefaste Bohrung oben im Fitting (Q18). Pos. 18 umfasst Fitting und Ventilkappe."}
+  order_terms: ["La Pavoni 396751", "Sicherheitsventil Millennium M12"]
+  tools: [wrench_17]
+  sources: [Q4, Q18, Q27]
+  explode: {axis: [0.71, 0.258, 0.655], distance_mm: 70, stage: 4}
+  requires_removed: [p021_sv_collar, x004_sv_inner_nut]
+- id: p018_sv_cap
+  pos: 18
+  name: {de: "Ventilkappe (Hutmutter 16 mm)", en: "Safety valve cap", it: "Corpo valvola"}
+  assembly: boiler.safety_valve.cap
+  instances: [p018_sv_cap__1]
+  kind: structural
+  material: chrome
+  wear_part: false
+  detail_tier: A
+  status: planned
+  spec: {type: sv_cap, af: sv_hex_af}
+  dims: [sv_hex_af]
+  thread: M12
+  notes: {de: "Enthält Feder und Ventil. Beim Lösen Fitting mit dünnem 16-mm-Schlüssel gegenhalten (Q18, Q27)."}
+  sources: [Q18, Q27]
+  explode: {axis: [0.71, 0.258, 0.655], distance_mm: 0, stage: 4}
+  requires_removed: [boiler.safety_valve.cap]
+- id: p019_sv_valve
+  pos: 19
+  name: {de: "Ventil mit Anti-Vakuum", en: "Valve with anti-vacuum", it: "Valvola antivuoto"}
+  assembly: boiler.safety_valve.cap
+  instances: [p019_sv_valve__1]
+  kind: seal
+  material: ptfe
+  wear_part: true
+  detail_tier: A
+  status: planned
+  spec: {type: poppet}
+  notes: {de: "PTFE-„Pilz“, sitzt nach unten auf dem Fittingsitz; darin ein kleines Anti-Vakuum-Ventil mit Mini-O-Ring (Maß unbekannt), das beim Aufheizen Luft ablässt (Q20)."}
+  order_terms: ["La Pavoni 396754R"]
+  sources: [Q20, Q27]
+  open_questions: ["Größe des Mini-O-Rings im Anti-Vakuum-Ventil nicht belegt."]
+  explode: {axis: [-0.71, -0.258, -0.655], distance_mm: 30, stage: 5}
+  requires_removed: [boiler.safety_valve.cap]
+- id: p020_sv_spring
+  pos: 20
+  name: {de: "Ventilfeder", en: "Safety valve spring", it: "Molla valvola"}
+  assembly: boiler.safety_valve.cap
+  instances: [p020_sv_spring__1]
+  kind: fastener
+  material: steel
+  wear_part: false
+  detail_tier: A
+  status: planned
+  spec: {type: spring, d: sv_spring_d, len: sv_spring_len}
+  dims: [sv_spring_d, sv_spring_len, sv_spring_coils, sv_open_pressure]
+  notes: {de: "8 Windungen (Millennium). Die Feder der Vor-Millennium-Ventile passt nicht (Q4)."}
+  order_terms: ["La Pavoni 311407"]
+  sources: [Q4, Q27]
+  explode: {axis: [-0.71, -0.258, -0.655], distance_mm: 45, stage: 5}
+  requires_removed: [p019_sv_valve]
+- id: p021_sv_collar
+  pos: 21
+  name: {de: "Kondensatschale (Dampfablass-Kragen)", en: "Steam release collar", it: "Scodellino condensa"}
+  assembly: boiler.safety_valve
+  instances: [p021_sv_collar__1]
+  kind: structural
+  material: chrome
+  wear_part: false
+  detail_tier: B
+  status: planned
+  spec: {type: sv_cup, d: sv_cup_d}
+  dims: [sv_cup_d]
+  notes: {de: "Lenkt austretenden Dampf nach unten; wird von der Kappe gehalten (Q15, Q18)."}
+  order_terms: ["La Pavoni 3432334"]
+  sources: [Q15, Q18]
+  explode: {axis: [0.71, 0.258, 0.655], distance_mm: 35, stage: 4}
+  requires_removed: [boiler.safety_valve.cap]
+- id: x004_sv_inner_nut
+  pos: null
+  name: {de: "Innenmutter Sicherheitsventil", en: "Safety valve inner nut", it: "Dado interno valvola"}
+  assembly: boiler.safety_valve
+  instances: [x004_sv_inner_nut__1]
+  kind: fastener
+  material: brass
+  wear_part: false
+  detail_tier: A
+  status: planned
+  spec: {type: hex_nut, af: inner_nut_af}
+  dims: [inner_nut_af]
+  notes: {de: "Im Kessel. Fällt beim Losdrehen des Fittings in den Kessel (Q18, Q20)."}
+  sources: [Q18, Q20]
+  explode: {axis: [-0.71, -0.258, -0.655], distance_mm: 60, stage: 4}
+  requires_removed: [heating]
+- id: x005_sv_inner_washer
+  pos: null
+  name: {de: "Innenscheibe Sicherheitsventil", en: "Safety valve inner washer", it: "Rondella interna valvola"}
+  assembly: boiler.safety_valve
+  instances: [x005_sv_inner_washer__1]
+  kind: fastener
+  material: brass
+  wear_part: false
+  detail_tier: A
+  status: planned
+  spec: {type: washer, od: inner_washer_od, id: inner_washer_id, t: inner_washer_t}
+  dims: [inner_washer_od, inner_washer_id, inner_washer_t]
+  sources: [Q15, Q18]
+  explode: {axis: [-0.71, -0.258, -0.655], distance_mm: 60, stage: 4}
+  requires_removed: [x004_sv_inner_nut]
+
+# ====================================================================== mount
+- id: p004_base_gasket_upper
+  pos: 4
+  name: {de: "Dichtung Kessel/Basis oben", en: "Upper boiler-base gasket", it: "Guarnizione caldaia superiore"}
+  assembly: mount
+  instances: [p004_base_gasket_upper__1]
+  kind: seal
+  material: fiber
+  wear_part: true
+  detail_tier: A
+  status: planned
+  spec: {type: flat_gasket, od: base_gasket_upper_od, id: base_gasket_upper_id, t: base_gasket_upper_t}
+  dims: [base_gasket_upper_od, base_gasket_upper_id, base_gasket_upper_t]
+  notes: {de: "Faserscheibe zwischen Kesselfuß und Basis (Q11)."}
+  order_terms: ["La Pavoni 362081", "Dichtung Kessel Basis Professional 104x80x2"]
+  sources: [Q11, Q15, Q21]
+  explode: {axis: [0, 0, 1], distance_mm: 40, stage: 3}
+  requires_removed: [boiler]
+- id: p006_base_gasket_lower
+  pos: 6
+  name: {de: "Dichtung Kessel/Basis unten", en: "Lower boiler-base gasket", it: "Guarnizione caldaia inferiore"}
+  assembly: mount
+  instances: [p006_base_gasket_lower__1]
+  kind: seal
+  material: fiber
+  wear_part: true
+  detail_tier: A
+  status: planned
+  spec: {type: flat_gasket, od: base_gasket_lower_od, id: base_gasket_lower_id, t: base_gasket_lower_t}
+  dims: [base_gasket_lower_od, base_gasket_lower_id, base_gasket_lower_t]
+  notes: {de: "Faserscheibe zwischen Basis-Unterseite und Ring (Q11)."}
+  order_terms: ["La Pavoni 362019", "Dichtung 93x80x1,5"]
+  sources: [Q11, Q15, Q16]
+  explode: {axis: [0, 0, -1], distance_mm: 70, stage: 3}
+  requires_removed: [p007_base_ring]
+- id: p007_base_ring
+  pos: 7
+  name: {de: "Ring Kessel/Basis (Messing)", en: "Boiler-base ring", it: "Ghiera fissaggio"}
+  assembly: mount
+  instances: [p007_base_ring__1]
+  kind: fastener
+  material: brass
+  wear_part: false
+  detail_tier: A
+  status: planned
+  spec: {type: ring, od: base_ring_od, h: base_ring_h}
+  dims: [base_ring_od, base_ring_h, thread_pitch_bottom]
+  thread: "innen ca. M80x1,5 (gefolgert)"
+  notes: {de: "Auf das Gewinde am Kesselboden geschraubt, klemmt die Basis; das Heizelement ist mit 3 Schrauben daran befestigt. v3.0 evtl. Bakelit (Widerspruch, SOURCES). Lösen gegen den Uhrzeigersinn über die Nasen (Q11, Q21)."}
+  order_terms: ["La Pavoni Basisring Messing"]
+  tools: [base_ring_wrench, rubber_mallet]
+  sources: [Q11, Q15, Q21, Q23]
+  explode: {axis: [0, 0, -1], distance_mm: 45, stage: 3}
+  requires_removed: [heating, base.bottom]
+
+# ====================================================================== base
+- id: p005_base
+  pos: 5
+  name: {de: "Basis", en: "Base", it: "Base"}
+  assembly: base
+  instances: [p005_base__1]
+  kind: structural
+  material: chrome
+  wear_part: false
+  detail_tier: B
+  status: planned
+  spec: {type: base, len: base_len, w: base_w, h: base_h}
+  dims: [base_len, base_w, base_h]
+  notes: {de: "Verchromte Schale mit Tropfmulde vorn, Kragen um den Kesselfuß, Schalterausschnitt links. v3.1: Basis und Unterboden geändert (Q1)."}
+  sources: [Q1, F]
+  explode: {axis: [0, 0, 1], distance_mm: 0, stage: 1}
+  requires_removed: []
+- id: p029_emblem
+  pos: 29
+  name: {de: "Emblem", en: "Emblem", it: "Targhetta"}
+  assembly: base
+  instances: [p029_emblem__1]
+  kind: structural
+  material: emblem
+  wear_part: false
+  detail_tier: B
+  status: planned
+  spec: {type: emblem, d: emblem_d}
+  dims: [emblem_d]
+  sources: [F]
+  explode: {axis: [0, -1, 0], distance_mm: 20, stage: 3}
+  requires_removed: []
+- id: p036_bottom_plate
+  pos: 36
+  name: {de: "Bodenplatte (Kunststoff)", en: "Bottom plate", it: "Fondo plastica"}
+  assembly: base.bottom
+  instances: [p036_bottom_plate__1]
+  kind: structural
+  material: plastic_black
+  wear_part: false
+  detail_tier: B
+  status: planned
+  spec: {type: bottom_plate, t: bottom_plate_t}
+  dims: [bottom_plate_t, bottom_plate_hole_d]
+  notes: {de: "Mit zwei großen runden Öffnungen und mehreren kleinen Bohrungen (Foto D1)."}
+  sources: [F]
+  explode: {axis: [0, 0, -1], distance_mm: 0, stage: 2}
+  requires_removed: [base.bottom]
+- id: p037_rubber_foot
+  pos: 37
+  name: {de: "Gummifuß", en: "Rubber foot", it: "Piedino gomma"}
+  assembly: base.bottom
+  instances: [p037_rubber_foot__1, p037_rubber_foot__2, p037_rubber_foot__3, p037_rubber_foot__4]
+  kind: fastener
+  material: rubber_black
+  wear_part: false
+  detail_tier: B
+  status: planned
+  spec: {type: foot, d: foot_d, h: foot_h}
+  dims: [foot_d, foot_h]
+  sources: [F]
+  open_questions: ["Anzahl und Lage geschätzt."]
+  explode: {axis: [0, 0, -1], distance_mm: 15, stage: 3}
+  requires_removed: [base.bottom]
+- id: p038_plate_plug
+  pos: 38
+  name: {de: "Stopfen Bodenplatte", en: "Bottom plate plug", it: "Tappo fondo"}
+  assembly: base.bottom
+  instances: [p038_plate_plug__1]
+  kind: fastener
+  material: rubber_black
+  wear_part: false
+  detail_tier: B
+  status: planned
+  spec: {type: plug}
+  notes: {de: "Zugang zum Reset-Knopf des Sicherheitsthermostats (Q18)."}
+  sources: [Q18]
+  explode: {axis: [0, 0, -1], distance_mm: 20, stage: 3}
+  requires_removed: []
+- id: p039_base_screw
+  pos: 39
+  name: {de: "Basisschraube", en: "Base screw", it: "Vite base"}
+  assembly: base.bottom
+  instances: [p039_base_screw__1, p039_base_screw__2, p039_base_screw__3, p039_base_screw__4]
+  kind: fastener
+  material: steel
+  wear_part: false
+  detail_tier: B
+  status: planned
+  spec: {type: screw}
+  thread: "M5x12 Senkkopf (neue Basis) bzw. Torx T20 (alt)"
+  notes: {de: "Anzahl und Lage geschätzt."}
+  sources: [Q15]
+  open_questions: ["Anzahl und Lage der Schrauben nicht belegt."]
+  explode: {axis: [0, 0, -1], distance_mm: 25, stage: 2}
+  requires_removed: []
+- id: p040_drip_tray
+  pos: 40
+  name: {de: "Tropfschale", en: "Drip tray", it: "Vaschetta"}
+  assembly: base.drip_tray
+  instances: [p040_drip_tray__1]
+  kind: structural
+  material: plastic_black
+  wear_part: false
+  detail_tier: B
+  status: planned
+  spec: {type: drip_tray, len: drip_len, w: drip_w}
+  dims: [drip_len, drip_w, drip_tray_h]
+  sources: [F]
+  explode: {axis: [0, 0, 1], distance_mm: 0, stage: 2}
+  requires_removed: [base.drip_tray]
+- id: p041_drip_grid
+  pos: 41
+  name: {de: "Gittereinsatz (Kunststoff)", en: "Drip grid", it: "Griglia"}
+  assembly: base.drip_tray
+  instances: [p041_drip_grid__1]
+  kind: structural
+  material: plastic_black
+  wear_part: false
+  detail_tier: B
+  status: planned
+  spec: {type: drip_grid}
+  dims: [drip_slots]
+  notes: {de: "Schwarz, etwa zehn Querschlitze unterschiedlicher Länge, Griffmulden links und rechts (Foto B1)."}
+  sources: [F]
+  explode: {axis: [0, 0, 1], distance_mm: 35, stage: 3}
+  requires_removed: []
+- id: p042_metal_grid
+  pos: 42
+  name: {de: "Metallgitter", en: "Metal grid", it: "Griglia metallo"}
+  assembly: base.drip_tray
+  instances: [p042_metal_grid__1]
+  kind: structural
+  material: chrome
+  wear_part: false
+  detail_tier: B
+  status: planned
+  optional: true
+  notes: {de: "An dieser Maschine nicht verbaut (Fotos)."}
+  sources: [Q2, F]
+  explode: {axis: [0, 0, 1], distance_mm: 40, stage: 3}
+  requires_removed: []
+
+# ====================================================================== heating
+- id: p009_heating_element
+  pos: 9
+  name: {de: "Heizelement", en: "Heating element", it: "Resistenza"}
+  assembly: heating
+  instances: [p009_heating_element__1]
+  kind: structural
+  material: stainless
+  wear_part: false
+  detail_tier: A
+  status: planned
+  spec: {type: heating_element, flange: element_flange_d, h: element_h}
+  dims: [element_flange_d, element_h, element_immersed, element_coil_d, heater_power]
+  notes: {de: "Edelstahl, 1000 W, 230 V. Flansch mit drei Ohren, M4-Bolzen für das Sicherheitsthermostat, Anschluss für das Pressostat-Rohr (Q15, Q16)."}
+  order_terms: ["La Pavoni 331335"]
+  tools: [silicone_grease]
+  sources: [Q8, Q15, Q16]
+  explode: {axis: [0, 0, -1], distance_mm: 0, stage: 2}
+  requires_removed: [heating]
+- id: p008_element_oring
+  pos: 8
+  name: {de: "Heizelement-Dichtung (O-Ring OR 176)", en: "Heating element O-ring", it: "Guarnizione resistenza"}
+  assembly: heating
+  instances: [p008_element_oring__1]
+  kind: seal
+  material: rubber_black
+  wear_part: true
+  detail_tier: A
+  status: planned
+  spec: {type: o_ring, id: element_oring_id, cs: element_oring_cs}
+  dims: [element_oring_id, element_oring_cs]
+  notes: {de: "Liegt im eigenen Sitz am Elementflansch und dichtet gegen das Halsende des Kessels (Q8). Alte Bauart: Flachdichtung 82x68x2."}
+  order_terms: ["La Pavoni 465225", "O-Ring OR 176 73,03 x 3,53 EPDM"]
+  tools: [pick]
+  sources: [Q5, Q8, Q15, Q16, Q24]
+  explode: {axis: [0, 0, 1], distance_mm: 20, stage: 4}
+  requires_removed: [heating]
+  carrier: p009_heating_element
+- id: p010_element_bolt
+  pos: 10
+  name: {de: "Schraube Heizelement", en: "Heating element bolt", it: "Vite resistenza"}
+  assembly: heating
+  instances: [p010_element_bolt__1, p010_element_bolt__2, p010_element_bolt__3]
+  kind: fastener
+  material: steel
+  wear_part: false
+  detail_tier: A
+  status: planned
+  spec: {type: hex_bolt, d: element_bolt_d, len: element_bolt_len}
+  dims: [element_bolt_d, element_bolt_len]
+  thread: M5x12
+  notes: {de: "Drei Schrauben durch die Ohren in den Ring. Element und Ring vorher markieren; über Kreuz anziehen, bis die Ohren am Ring anliegen (Q17)."}
+  sources: [Q2, Q17, Q21]
+  explode: {axis: [0, 0, -1], distance_mm: 30, stage: 2}
+  requires_removed: [base.bottom]
+
+# ====================================================================== electrical
+- id: p011_pstat_tube
+  pos: 11
+  name: {de: "Pressostat-Rohr (Kupfer)", en: "Pressurestat tube", it: "Tubo pressostato"}
+  assembly: electrical
+  instances: [p011_pstat_tube__1]
+  kind: structural
+  material: copper
+  wear_part: false
+  detail_tier: C
+  status: planned
+  spec: {type: tube, d: pstat_tube_d}
+  dims: [pstat_tube_d]
+  notes: {de: "Vom Heizelementflansch zum Pressostat; am Pressostat lösen, nicht am Element (Q18)."}
+  sources: [Q18]
   explode: {axis: [0, 0, -1], distance_mm: 30, stage: 3}
-  requires_removed: [group.piston]
+  requires_removed: [base.bottom]
+- id: p012_pressurestat
+  pos: 12
+  name: {de: "Pressostat", en: "Pressurestat", it: "Pressostato"}
+  assembly: electrical
+  instances: [p012_pressurestat__1]
+  kind: electrical
+  material: plastic_white
+  wear_part: false
+  detail_tier: C
+  status: planned
+  spec: {type: pressurestat}
+  dims: [pressurestat_w, pressurestat_d, working_pressure]
+  thread: "1/4 Zoll BSP"
+  notes: {de: "0,5-1,2 bar, ab Werk 0,8 bar (Q15)."}
+  order_terms: ["La Pavoni 451308"]
+  sources: [Q15, Q21]
+  explode: {axis: [0, 0, -1], distance_mm: 40, stage: 3}
+  requires_removed: [base.bottom, p011_pstat_tube]
+- id: p013_thermostat
+  pos: 13
+  name: {de: "Sicherheitsthermostat 127 °C", en: "Safety thermostat", it: "Termostato di sicurezza"}
+  assembly: electrical
+  instances: [p013_thermostat__1]
+  kind: electrical
+  material: plastic_white
+  wear_part: false
+  detail_tier: C
+  status: planned
+  spec: {type: thermostat}
+  dims: [thermostat_d]
+  notes: {de: "Manueller Reset, am M4-Bolzen in der Mitte des Elementflansches (Q21)."}
+  order_terms: ["La Pavoni 436040"]
+  sources: [Q21]
+  explode: {axis: [0, 0, -1], distance_mm: 30, stage: 4}
+  requires_removed: [p015_tooth_washer]
+- id: p014_thermostat_cover
+  pos: 14
+  name: {de: "Thermostat-Schutzkappe", en: "Thermostat cover", it: "Protezione termostato"}
+  assembly: electrical
+  instances: [p014_thermostat_cover__1]
+  kind: structural
+  material: plastic_black
+  wear_part: false
+  detail_tier: C
+  status: planned
+  spec: {type: cover}
+  sources: [Q2, Q15]
+  explode: {axis: [0, 0, -1], distance_mm: 30, stage: 3}
+  requires_removed: [base.bottom]
+- id: p015_tooth_washer
+  pos: 15
+  name: {de: "Zahnscheibe M4", en: "Tooth washer M4", it: "Rondella dentellata"}
+  assembly: electrical
+  instances: [p015_tooth_washer__1]
+  kind: fastener
+  material: steel
+  wear_part: false
+  detail_tier: C
+  status: planned
+  spec: {type: washer}
+  sources: [Q2]
+  explode: {axis: [0, 0, -1], distance_mm: 25, stage: 4}
+  requires_removed: [p016_nut_m4]
+- id: p016_nut_m4
+  pos: 16
+  name: {de: "Mutter M4 (Messing)", en: "Nut M4 brass", it: "Dado M4 ottone"}
+  assembly: electrical
+  instances: [p016_nut_m4__1]
+  kind: fastener
+  material: brass
+  wear_part: false
+  detail_tier: C
+  status: planned
+  spec: {type: hex_nut}
+  thread: M4
+  sources: [Q2]
+  explode: {axis: [0, 0, -1], distance_mm: 20, stage: 4}
+  requires_removed: [p014_thermostat_cover]
+- id: p026_switch
+  pos: 26
+  name: {de: "Schalter (grün, beleuchtet)", en: "Switch", it: "Interruttore"}
+  assembly: electrical
+  instances: [p026_switch__1]
+  kind: electrical
+  material: plastic_black
+  wear_part: false
+  detail_tier: C
+  status: planned
+  spec: {type: switch, w: switch_w, h: switch_h}
+  dims: [switch_w, switch_h, switch_cutout_w, switch_cutout_h]
+  notes: {de: "Zweipolig, 0-I, 16(4) A, Ausschnitt 22 x 30 (Q15)."}
+  sources: [Q15, F]
+  explode: {axis: [-1, 0, 0], distance_mm: 30, stage: 3}
+  requires_removed: [base.bottom]
+- id: p027_cable_grommet
+  pos: 27
+  name: {de: "Kabeltülle", en: "Cable grommet", it: "Passacavo"}
+  assembly: electrical
+  instances: [p027_cable_grommet__1]
+  kind: fastener
+  material: rubber_black
+  wear_part: false
+  detail_tier: C
+  status: planned
+  spec: {type: grommet}
+  sources: [Q2, F]
+  explode: {axis: [0, 1, 0], distance_mm: 20, stage: 3}
+  requires_removed: [base.bottom]
+- id: p028_power_cable
+  pos: 28
+  name: {de: "Netzkabel mit Schuko-Winkelstecker", en: "Power cable with plug", it: "Cavo con spina"}
+  assembly: electrical
+  instances: [p028_power_cable__1]
+  kind: electrical
+  material: cable
+  wear_part: false
+  detail_tier: C
+  status: planned
+  spec: {type: cable, d: cable_d}
+  dims: [cable_d]
+  notes: {de: "Tritt hinten rechts aus der Basis aus (Foto B2)."}
+  sources: [F]
+  explode: {axis: [0, 1, 0], distance_mm: 40, stage: 3}
+  requires_removed: [base.bottom, p027_cable_grommet]
+- id: p032_terminal_bracket
+  pos: 32
+  name: {de: "Halter Anschlussdose", en: "Terminal block bracket", it: "Supporto morsettiera"}
+  assembly: electrical
+  instances: [p032_terminal_bracket__1]
+  kind: fastener
+  material: steel
+  wear_part: false
+  detail_tier: C
+  status: planned
+  spec: {type: bracket}
+  sources: [Q2]
+  explode: {axis: [0, 0, -1], distance_mm: 30, stage: 4}
+  requires_removed: [p034_terminal_block, p031_sheet_screw]
+- id: p033_cable_clamp
+  pos: 33
+  name: {de: "Kabelhalter", en: "Cable clamp", it: "Fermacavo"}
+  assembly: electrical
+  instances: [p033_cable_clamp__1]
+  kind: fastener
+  material: plastic_black
+  wear_part: false
+  detail_tier: C
+  status: planned
+  spec: {type: clamp}
+  sources: [Q2]
+  explode: {axis: [0, 0, -1], distance_mm: 25, stage: 4}
+  requires_removed: [base.bottom]
+- id: p034_terminal_block
+  pos: 34
+  name: {de: "Klemmblock", en: "Terminal block", it: "Morsettiera"}
+  assembly: electrical
+  instances: [p034_terminal_block__1]
+  kind: electrical
+  material: plastic_white
+  wear_part: false
+  detail_tier: C
+  status: planned
+  spec: {type: terminal_block}
+  sources: [Q2]
+  explode: {axis: [0, 0, -1], distance_mm: 35, stage: 3}
+  requires_removed: [base.bottom, p035_nut_m3]
+- id: p030_tooth_washer
+  pos: 30
+  name: {de: "Zahnscheibe (Erdung)", en: "Tooth washer", it: "Rondella dentellata"}
+  assembly: electrical
+  instances: [p030_tooth_washer__1]
+  kind: fastener
+  material: steel
+  wear_part: false
+  detail_tier: C
+  status: planned
+  spec: {type: washer}
+  sources: [Q2]
+  explode: {axis: [0, 0, -1], distance_mm: 20, stage: 4}
+  requires_removed: [base.bottom]
+- id: p031_sheet_screw
+  pos: 31
+  name: {de: "Blechschraube M3", en: "Self-tapping screw M3", it: "Vite autofilettante"}
+  assembly: electrical
+  instances: [p031_sheet_screw__1]
+  kind: fastener
+  material: steel
+  wear_part: false
+  detail_tier: C
+  status: planned
+  spec: {type: screw}
+  sources: [Q2]
+  explode: {axis: [0, 0, -1], distance_mm: 20, stage: 4}
+  requires_removed: [base.bottom]
+- id: p035_nut_m3
+  pos: 35
+  name: {de: "Mutter M3", en: "Nut M3", it: "Dado M3"}
+  assembly: electrical
+  instances: [p035_nut_m3__1]
+  kind: fastener
+  material: steel
+  wear_part: false
+  detail_tier: C
+  status: planned
+  spec: {type: hex_nut}
+  thread: M3
+  sources: [Q2]
+  explode: {axis: [0, 0, -1], distance_mm: 20, stage: 4}
+  requires_removed: [base.bottom]
+
+# ====================================================================== portafilter
+- id: p095_portafilter
+  pos: 95
+  name: {de: "Siebträger", en: "Portafilter", it: "Portafiltro"}
+  assembly: portafilter
+  instances: [p095_portafilter__1]
+  kind: structural
+  material: chrome
+  wear_part: false
+  detail_tier: B
+  status: planned
+  spec: {type: portafilter, od: pf_head_od, len: pf_len}
+  dims: [pf_head_od, pf_len, pf_ear_t]
+  notes: {de: "Zwei Bajonett-Ohren, 4 mm (Q13). Seit 2001 für 60-mm-Siebe (Q21)."}
+  order_terms: ["La Pavoni 395307", "La Pavoni 2110051451"]
+  sources: [Q13, Q21, F]
+  explode: {axis: [0, -0.8, -0.6], distance_mm: 0, stage: 2}
+  requires_removed: [portafilter]
+- id: p096_spout
+  pos: 96
+  name: {de: "Doppelauslauf", en: "Double spout", it: "Beccuccio"}
+  assembly: portafilter
+  instances: [p096_spout__1]
+  kind: structural
+  material: chrome
+  wear_part: false
+  detail_tier: B
+  status: planned
+  spec: {type: spout}
+  thread: "3/8 Zoll BSP"
+  sources: [Q4, F]
+  explode: {axis: [0, 0, -1], distance_mm: 30, stage: 3}
+  requires_removed: [portafilter]
+- id: p097_handle_stud
+  pos: 97
+  name: {de: "Gewindestück Griff", en: "Handle stud", it: "Prigioniero"}
+  assembly: portafilter
+  instances: [p097_handle_stud__1]
+  kind: fastener
+  material: steel
+  wear_part: false
+  detail_tier: B
+  status: planned
+  spec: {type: stud}
+  dims: [pf_stud_len]
+  thread: "M12 (Steigung widersprüchlich: 1,75 oder 1,0)"
+  sources: [Q13, Q21]
+  explode: {axis: [0, -0.8, -0.6], distance_mm: 30, stage: 4}
+  requires_removed: [p088_portafilter_grip]
+- id: p088_portafilter_grip
+  pos: 88
+  name: {de: "Siebträgergriff", en: "Portafilter grip", it: "Impugnatura portafiltro"}
+  assembly: portafilter
+  instances: [p088_portafilter_grip__1]
+  kind: structural
+  material: bakelite
+  wear_part: false
+  detail_tier: B
+  status: planned
+  spec: {type: grip}
+  dims: [grip_len, grip_d]
+  sources: [Q21, F]
+  explode: {axis: [0, -0.8, -0.6], distance_mm: 40, stage: 3}
+  requires_removed: [portafilter]
+- id: p098_basket_double
+  pos: 98
+  name: {de: "Zweier-Sieb", en: "Double basket", it: "Filtro 2 tazze"}
+  assembly: portafilter
+  instances: [p098_basket_double__1]
+  kind: structural
+  material: stainless
+  wear_part: false
+  detail_tier: B
+  status: planned
+  spec: {type: basket, rim: basket_rim_d, h: basket_h}
+  dims: [basket_rim_d, basket_id, basket_h]
+  order_terms: ["La Pavoni 327053"]
+  sources: [Q13, Q14, Q21]
+  explode: {axis: [0, 0, 1], distance_mm: 40, stage: 3}
+  requires_removed: [portafilter]
+- id: p099_basket_single
+  pos: 99
+  name: {de: "Einer-Sieb", en: "Single basket", it: "Filtro 1 tazza"}
+  assembly: portafilter
+  instances: [p099_basket_single__1]
+  kind: structural
+  material: stainless
+  wear_part: false
+  detail_tier: B
+  status: planned
+  optional: true
+  notes: {de: "Nicht eingesetzt (Zubehör)."}
+  order_terms: ["La Pavoni 327054"]
+  sources: [Q13]
+  explode: {axis: [0, 0, 1], distance_mm: 40, stage: 3}
+  requires_removed: []
+- id: p101_portafilter_spring
+  pos: 101
+  name: {de: "Siebträger-Feder", en: "Portafilter spring", it: "Molla portafiltro"}
+  assembly: portafilter
+  instances: [p101_portafilter_spring__1]
+  kind: fastener
+  material: stainless
+  wear_part: false
+  detail_tier: A
+  status: planned
+  spec: {type: wire_spring, wire: pf_spring_wire}
+  dims: [pf_spring_wire]
+  notes: {de: "Draht in der Innennut, hält das Sieb. Ab 2008 wieder serienmäßig (Q21); bei v3.0 evtl. ohne Nut."}
+  order_terms: ["La Pavoni 311437"]
+  sources: [Q12, Q21]
+  explode: {axis: [0, 0, 1], distance_mm: 30, stage: 5}
+  requires_removed: [p098_basket_double]
+  carrier: p095_portafilter
+
+# ====================================================================== accessories
+- id: p043_tamper
+  pos: 43
+  name: {de: "Tamper", en: "Tamper", it: "Pressino"}
+  assembly: accessories
+  instances: [p043_tamper__1]
+  kind: accessory
+  material: plastic_black
+  wear_part: false
+  detail_tier: B
+  status: planned
+  optional: true
+  notes: {de: "Zubehör, nicht modelliert."}
+  explode: {axis: [0, 0, 1], distance_mm: 0, stage: 1}
+  requires_removed: []
+- id: p044_measuring_spoon
+  pos: 44
+  name: {de: "Messlöffel", en: "Measuring spoon", it: "Misurino"}
+  assembly: accessories
+  instances: [p044_measuring_spoon__1]
+  kind: accessory
+  material: plastic_black
+  wear_part: false
+  detail_tier: B
+  status: planned
+  optional: true
+  notes: {de: "Zubehör, nicht modelliert."}
+  explode: {axis: [0, 0, 1], distance_mm: 0, stage: 1}
+  requires_removed: []

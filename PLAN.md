@@ -557,10 +557,10 @@ Jede Phase endet mit grünem `make all` und einem Commit. Fortschritt durch Abha
   Erst danach beginnt die Modellier-Arbeit.
 
 **Phase 2 — Recherche und Stückliste**
-- [ ] `parts.yaml` vollständig (alle Positionen, Stückzahlen, Material, Stufe, Baugruppe,
+- [x] `parts.yaml` vollständig (alle Positionen, Stückzahlen, Material, Stufe, Baugruppe,
   erster Entwurf von `explode` und `requires_removed`).
-- [ ] `dimensions.yaml` mit allen Schlüsselmaßen samt Quelle und Konfidenz; `datums.py` festgelegt.
-- [ ] `reference/SOURCES.md` und `reference/measurements.md` (Abschnitt 14).
+- [x] `dimensions.yaml` mit allen Schlüsselmaßen samt Quelle und Konfidenz; `datums.py` festgelegt.
+- [x] `reference/SOURCES.md` und `reference/measurements.md` (Abschnitt 14).
 - Abnahme: Schemas gültig; jedes Teil hat alle Pflichtfelder; offene Fragen sind als solche notiert.
 
 **Phase 3 — Blockout**
@@ -694,3 +694,39 @@ Hier steht, was bei der Umsetzung anders gelöst wurde als oben beschrieben, und
   Hauptbaugruppen fehlen, danach harte Fehler.
 - Versionen: Vite 8, React 19, TypeScript 7, three 0.187, R3F 9, drei 10 (Vorgaben des aktuellen
   Vite-Templates). build123d 0.13.0 wie verifiziert.
+
+**Phase 2 (2026-11-11)**
+
+- **Stückliste:** 100 Positionen, 123 Instanzen in `data/parts.yaml`; davon 8 Positionen `optional`
+  (an dieser Maschine nicht verbaut oder Zubehör: Cappuccino-Automatik 56–58, Metallgitter 42, Einer-Sieb 99,
+  Stopfen 67 nur Europiccola, Tamper 43, Messlöffel 44). Fünf `x`-Teile ohne Positionsnummer: Innenmuttern und
+  -scheiben von Dampfhahn und Sicherheitsventil (Q15, Q18) sowie das Manometer-Zifferblatt (Darstellung).
+  Pos. 18 ist zweigeteilt (`p018_sv_fitting`, `p018_sv_cap`), Pos. 88 doppelt belegt (Hebelgriff,
+  Siebträgergriff).
+- **Antworten auf die offenen Fragen aus Abschnitt 7:**
+  - Pos. 10: drei Schrauben M5×12 halten das Heizelement über seine Ohren am Ring Pos. 7 (Q2, Q21, Q23).
+  - Stückzahlen: 80 ×2, 86 ×2, 90 ×2, 91 ×4, 60/61/100 ×2, 64 ×3 (dritte unter der Manometermutter
+    gefolgert), 65/66 ×2, 49 ×2 (Q15; Q2 zeigt eine), 47 ×2, 10 ×3, Gummifüße und Bodenschrauben je ×4 (geschätzt).
+  - v3.0/v3.1 (Q1, Q14, Q21): Kolben 79 Kunststoff → Messing; Basis 5, Unterboden 36 und Schraube 39 geändert;
+    Siebträger-Dichtung 82 Ausführung II ab 3/2008; Siebträger-Feder 101 wieder ab 2008; Ring 7 bei v3.0
+    möglicherweise Bakelit. Modelliert wird `machine.version: v3.1`.
+- **Wichtigste Korrekturen gegenüber Abschnitt 8.1** (Details in `reference/SOURCES.md`):
+  Dichtung Gruppe/Kessel ist ein O-Ring OR 3112 (28,24 × 2,62) in einer Nut hinten am Flansch;
+  „OR 176“ (73,03 × 3,53) ist der Heizelement-O-Ring; „03112“ ist nicht der Deckel (der hat OR 4112,
+  28,17 × 3,53). Dichtung Kessel/Basis gibt es zweimal: oben 104 × 80 × 2, unten 93 × 80 × 1,5 (Faser).
+  Der Dampfhahn schließt Metall auf Metall; die Gummischeibe 12 × 7 × 5 ist die Spindelpackung.
+- **Datenmodell:** `instance_requires` (Voraussetzung je Instanz, z. B. braucht jeder Hebelbolzen nur
+  *eine* abgenommene Sicherungsscheibe), `optional`, `pos` an Baugruppen, Whitelist-`scope: path` mit den
+  Gründen `hook_path` (Steigrohr wird durch Kippen der Gruppe herausgefädelt) und `bayonet_turn`.
+  Die Ausbau-Logik (Abschluss über `requires_removed`) rechnet mit den deklarierten Instanzen, die
+  Kollisionsprüfung nur mit den gebauten.
+- **Baugruppenbaum** verschachtelt: `boiler` (Kessel mit allem, was daran hängt) → `boiler.group` →
+  `boiler.group.piston`, `boiler.group.lever.arm` usw. Damit lässt sich der Kessel samt Gruppe von der Basis
+  abheben (Anleitung 10), und die Explosionsansicht trennt erst Kessel/Basis/Heizung, dann die Anbauteile.
+- **Skelett (`cad/pavoni/datums.py`):** Die Gruppe ist an ihrer Foto-Unterkante (1,6 D) verankert; alles
+  darüber folgt aus Katalogmaßen (Sieb 14, 2,5 mm Spiel, Kolben, Stange 111, Muttern). Ergebnis Turmoberkante
+  272,5 mm gegen 280 mm aus dem Foto (−2,7 %). Achse des Sicherheitsventils = Normale des Schulterkonus,
+  Dampfstutzen 30° gegen die Senkrechte nach vorn unten.
+- **Hinweis zur Kalibrierung:** Katalogmaße (Gruppe außen 60, Siebträgerkopf 60, Schauglas-Abdeckung 162,
+  Schalter-Ausschnitt 30 × 22) sprechen eher für D ≈ 105–110 mm als für 100 mm. Das wird in Phase 3 per
+  Overlay geprüft; die Messung A1 in `reference/measurements.md` entscheidet es endgültig.

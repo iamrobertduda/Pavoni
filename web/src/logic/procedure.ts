@@ -5,13 +5,13 @@ import type { RemovalState } from './explode';
 
 export type Direction = 'disassemble' | 'assemble';
 
-/** Expand a step's remove refs into units (instances or assembly ids). */
+/** Expand a step's remove refs into units (declared instance ids or assembly ids). */
 export function stepUnits(idx: ModelIndex, refs: string[] = []): string[] {
   const out: string[] = [];
   for (const r of refs) {
     const k = idx.kind(r);
-    if (k === 'asm') out.push(r);
-    else out.push(...idx.expand(r));
+    if (k === 'asm' || k === 'inst') out.push(r);
+    else if (k === 'part') out.push(...idx.parts[r].instances);
   }
   return out;
 }

@@ -1,26 +1,80 @@
 id: piston_seals
 order: 1
 title: {de: "Kolbendichtungen tauschen"}
-summary: {de: "Durchstich-Version (Phase 1): zwei Schritte. Wird in Phase 6 zur vollständigen Anleitung."}
+summary: {de: "Hebel ab, Gruppe ab, Kolben nach unten austreiben, beide Lippendichtungen tauschen. Enthält Siebträger-Dichtung und Duschsieb (Anleitung 2)."}
 difficulty: 2
 duration_min: 45
-tools: [rubber_mallet, pick, silicone_grease]
+tools: [wrench_14, wrench_10, circlip_pliers, pick, rubber_mallet, silicone_grease]
+parts_needed: [p080_piston_seal, p082_group_gasket, p085_group_oring]
 preconditions: [unplugged, cold, depressurized, boiler_empty]
-sources: [Q7]
+sources: [Q7, Q17, Q19, Q20]
 steps:
   - id: s1
+    title: {de: "Siebträger abnehmen"}
+    text: {de: "Siebträger nach links drehen und nach unten herausnehmen."}
+    remove: [portafilter]
+    motion: {type: pull}
+    camera: group_side
+  - id: s2
+    title: {de: "Hutmutter und Kontermutter lösen"}
+    text: {de: "Kontermutter mit einem 14-mm-Schlüssel gegenhalten, Hutmutter abschrauben, dann die Kontermutter. Den Hebel dabei dranlassen: er hält die Kolbenstange gegen Mitdrehen."}
+    remove: [p093_cap_nut, p092_lock_nut]
+    motion: {type: unscrew}
+    camera: group_top
+    tools: [wrench_14]
+    reassembly: {de: "Kolben auf das Sieb drücken (Siebträger eingesetzt), Kontermutter herunterdrehen bis sie gerade anliegt, ca. 2,5 mm Spiel lassen, dann Hutmutter dagegen kontern (Q19, Q20)."}
+  - id: s3
+    title: {de: "Sicherungsscheiben abnehmen"}
+    text: {de: "An jedem der beiden Hebelbolzen eine Sicherungsscheibe auf derselben Seite abhebeln (Kunststoffwerkzeug, Chrom schonen). Eine Seite genügt."}
+    remove: [p091_eclip__1, p091_eclip__3]
+    motion: {type: pull}
+    camera: group_top
+    tools: [pick]
+  - id: s4
+    title: {de: "Hebelbolzen herausziehen"}
+    text: {de: "Beide Bolzen zur offenen Seite herausschieben. Der vordere geht durch die Kolbenstange, der hintere durch die Rolle."}
+    remove: [p090_lever_pin]
+    motion: {type: pull}
+    camera: group_top
+    reassembly: {de: "Hebel so einsetzen, dass das vordere Loch tiefer sitzt als das hintere - falsch herum stößt die Gabel an die Gruppe (Q17, Q19). Hinteren Bolzen durch die Rolle stecken."}
+  - id: s5
+    title: {de: "Hebel und Rolle abnehmen"}
+    text: {de: "Hebel nach oben abheben; die Rolle fällt aus dem Schlitz im Gruppenturm."}
+    remove: [boiler.group.lever.arm, p089_roller]
+    motion: {type: lift}
+    camera: group_top
+  - id: s6
+    title: {de: "Schrauben Gruppe/Kessel lösen"}
+    text: {de: "Die zwei Schrauben links und rechts am Flansch mit 10 mm lösen. Sie reißen leicht ab: gleichmäßig und ohne Gewalt."}
+    remove: [p086_group_bolt]
+    motion: {type: unscrew}
+    camera: group_side
+    tools: [wrench_10]
+    warn: {de: "Die M6-Schrauben scheren leicht ab (Q12)."}
+    reassembly: {de: "Gleichmäßig, aber nicht fest anziehen."}
+  - id: s7
+    title: {de: "Gruppe abnehmen"}
+    text: {de: "Gruppe nach vorn und dabei nach unten abnehmen: das Steigrohr hängt an der Gruppe und reicht in den Kessel. Danach den O-Ring hinten am Flansch prüfen."}
+    remove: [boiler.group]
+    motion: {type: pull}
+    camera: group_side
+    warn: {de: "Steigrohr nicht verbiegen; es bricht leicht (Q14)."}
+  - id: s8
     title: {de: "Kolben nach unten austreiben"}
-    text: {de: "Kolbenstange mit Gummihammer oder Holz-Zwischenlage nach unten austreiben. Kolben und Duschsieb kommen unten heraus."}
-    remove: [group.piston]
+    text: {de: "Gruppe auf ein Tuch legen, Kolbenstange mit Gummihammer oder über ein Holzstück nach unten austreiben. Der Kolben schiebt Siebträger-Dichtung und Duschsieb vor sich her heraus."}
+    remove: [p082_group_gasket, p081_shower_screen, boiler.group.piston]
     motion: {type: tap_out}
     camera: group_side
+    section: group
     tools: [rubber_mallet]
-  - id: s2
-    title: {de: "Untere Kolbendichtung abnehmen"}
-    text: {de: "Dichtung mit dem Haken aus der Nut heben. Vorher Einbaurichtung merken: offene Seite (Nut) zeigt nach unten."}
+    reassembly: {de: "Kolben gefettet von unten in die Hülse schieben, dann Duschsieb einsetzen und Siebträger-Dichtung mit der gerundeten Seite nach oben eindrücken (Q12, Q19)."}
+  - id: s9
+    title: {de: "Kolbendichtungen abnehmen"}
+    text: {de: "Beide Lippendichtungen mit dem Haken aus den Nuten heben. Vorher Einbaurichtung merken: obere Dichtung Nut nach OBEN, untere Nut nach UNTEN."}
     remove: [p080_piston_seal]
     motion: {type: stretch_off}
     highlight: [p080_piston_seal]
     camera: group_side
-    tools: [pick]
-    reassembly: {de: "Neue Dichtung mit lebensmittelechtem Fett einsetzen, offene Seite nach unten."}
+    section: group
+    tools: [pick, silicone_grease]
+    reassembly: {de: "Neue Dichtungen mit lebensmittelechtem Fett aufziehen: obere mit der offenen Seite nach oben, untere nach unten (Lippe zeigt zur Druckseite, Q7, Q17, Q19). Kolben fest auf die Stange geschraubt?"}

@@ -15,7 +15,7 @@ export interface ModelIndex {
   /** instances a ref stands for (built only) */
   expand(ref: string): string[];
   requires(ref: string): string[];
-  /** transitive closure of refs plus their requirements (instances and assembly ids) */
+  /** transitive closure of refs plus their requirements (declared instance ids and assembly ids) */
   closure(refs: string[]): Set<string>;
   /** removal order for refs (dependencies first) */
   removalOrder(target: string): string[];
@@ -61,10 +61,14 @@ export function buildModelIndex(d: Pick<AppData, 'parts' | 'assemblies' | 'insta
     switch (kind(ref)) {
       case 'asm':
         return assemblies[ref].requires_removed ?? [];
-      case 'part':
-        return parts[ref].requires_removed;
-      case 'inst':
-        return parts[ref.split('__')[0]].requires_removed;
+      case 'part': {
+        const p = parts[ref];
+        return [...new Set([...p.requires_removed, ...Object.values(p.instance_requires ?? {}).flat()])];
+      }
+      case 'inst': {
+        const p = parts[ref.split('__')[0]];
+        return p.instance_requires?.[ref] ?? p.requires_removed;
+      }
       default:
         return [];
     }
@@ -76,10 +80,10 @@ export function buildModelIndex(d: Pick<AppData, 'parts' | 'assemblies' | 'insta
       const r = stack.pop()!;
       const k = kind(r);
       if (k === 'part') {
-        const inst = expand(r);
-        const fresh = inst.filter((i) => !out.has(i));
+        // declared instances, independent of what is modelled yet
+        const fresh = parts[r].instances.filter((i) => !out.has(i));
         fresh.forEach((i) => out.add(i));
-        if (fresh.length || !inst.length) stack.push(...requires(r));
+        if (fresh.length) stack.push(...requires(r));
       } else if (k === 'inst' || k === 'asm') {
         if (!out.has(r)) {
           out.add(r);
