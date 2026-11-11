@@ -46,24 +46,27 @@ Laut Versionshistorie (Quelle Q1) gibt es zwei in Frage kommende Generationen:
 | v3.0 | 2001–2007 | neue Gruppe mit Kunststoff-/Teflon-Hülse |
 | v3.1 | ab 2007 | wie v3.0, aber Messingkolben, geänderte Basis und Unterboden |
 
-Welche es ist, lässt sich aus den Fotos nicht sicher sagen → Parameter `machine.version` in
-`dimensions.yaml`, Standard `v3.1`, bis der Besitzer das Typenschild unter der Basis liefert
-(Abschnitt 14).
+**Typenschild** (Foto D1, Unterseite): „LA PAVONI · Mod. PROFESSIONAL · Capacità l 1,6 · V 230 ~ ·
+W 1000 · Made in Italy“. Ein Baujahr steht nicht darauf. Die Version bleibt damit offen → Parameter
+`machine.version` in `dimensions.yaml`, Standard `v3.1`. Klären lässt sie sich beim ersten Zerlegen
+(Kolben aus Messing = v3.1, aus Kunststoff = v3.0) oder über einen Aufkleber/Datumsstempel im Inneren
+der Basis (Abschnitt 14).
 
 ### 2.1 Vorhandene Fotos des Besitzers
 
-Neun Fotos, zwei Aufnahmesätze. Sie liegen **nicht** im Repo (öffentlich, Entscheidung des
-Besitzers steht aus); alles Ablesbare steht deshalb hier und in Abschnitt 8.2 als Text und Zahl.
+Zehn Fotos unter `reference/photos/` (Metadaten entfernt, Bilddaten unverändert; Zuordnung auch in
+der dortigen `README.md`). Alles Ablesbare steht zusätzlich hier und in Abschnitt 8.2 als Text und Zahl.
 
-| Foto | Blickrichtung | Wert für das Modell |
+| Datei | Blickrichtung | Wert für das Modell |
 |---|---|---|
-| A1 | schräg von links-vorn, ohne Siebträger und Tropfgitter | Gesamtform, Manometer-Skala |
-| A2 | schräg von rechts-hinten | Dampflanze, Sicherheitsventil |
-| B1 | Nahaufnahme Basis-Stirnseite | Emblem, Tropfgitter, Basis-Profil |
-| B2 | **gerade von hinten** | Kessel-Proportionen, Dampfhahn-Baugruppe, Schauglas, Kabelaustritt |
-| B3 | **gerade von links** (Bedienersicht), mit Siebträger | Achsabstände, Höhen, Gruppe, Hebel, Schalter |
-| C1–C3 | schräg von links-vorn, Maschine komplett | Gesamteindruck, Siebträger, Tropfgitter |
-| C4 | schräg von links, aus größerer Entfernung | Silhouette mit wenig Perspektive |
+| `A1_front-left_bare.jpg` | schräg von links-vorn, ohne Siebträger und Tropfgitter | Gesamtform, Manometer-Skala |
+| `A2_rear-right.jpg` | schräg von rechts-hinten | Dampflanze, Sicherheitsventil |
+| `B1_base-front_closeup.jpg` | Nahaufnahme Basis-Stirnseite | Emblem, Tropfgitter, Basis-Profil |
+| `B2_rear.jpg` | **gerade von hinten** | Kessel-Proportionen, Dampfhahn-Baugruppe, Schauglas, Kabelaustritt |
+| `B3_left.jpg` | **gerade von links** (Bedienersicht), mit Siebträger | Achsabstände, Höhen, Gruppe, Hebel, Schalter |
+| `C1_front-left.jpg`, `C2_front-left_wide.jpg`, `C3_front-left.jpg` | schräg von links-vorn, Maschine komplett | Gesamteindruck, Siebträger, Tropfgitter |
+| `C4_left_far.jpg` | schräg von links, aus größerer Entfernung | Silhouette mit wenig Perspektive |
+| `D1_type-label_underside.jpg` | Unterseite | Typenschild; schwarze Kunststoff-Bodenplatte (Pos. 36) mit zwei großen runden Öffnungen und mehreren kleinen Bohrungen |
 
 B2 und B3 sind die Hauptreferenzen für Proportionen (Abschnitt 8.2).
 
@@ -363,9 +366,9 @@ Alle Werte sind Start-Einträge für `dimensions.yaml`. Keiner ist am Gerät gem
 |---|---|---|---|
 | Hüllmaß H × B × T | 320 × 200 × 290 mm (eine Quelle: H 366). Das ist die Hülle **mit** Knäufen, nicht die Basis (siehe 8.2) | spec | Q3 |
 | Gewicht | 5,5–6,2 kg | spec | Q3 |
-| Kesselinhalt | 1,6 l | spec | Q1, Q3 |
+| Kesselinhalt | 1,6 l | spec | Typenschild, Q1, Q3 |
 | Betriebsdruck | 0,7–0,8 bar | spec | Q3 |
-| Heizleistung | 950–1000 W | spec | Q3 |
+| Heizleistung, Spannung | 1000 W, 230 V | spec | Typenschild |
 | Sieb-Durchmesser | 51 mm (teils als 52 angegeben) | spec | Q3 |
 | Duschsieb | Ø 54 mm (Art. 327115) | catalog | Q5 |
 | Kolbendichtung (2×) | Ø 44 × 36 × 5,5 mm (Art. 361005); andere Listung: 44 × 33 × 5,5 | catalog, **widersprüchlich** | Q5, Q6 |
@@ -531,9 +534,9 @@ Teil wählen, Explode, Schnitt, eine Anleitung komplett durchklicken, Deep-Link 
 
 `scripts/render_views.mjs` erzeugt feste Ansichten nach `artifacts/renders/`: vorn, links, rechts,
 hinten, oben, die Blickwinkel der Besitzer-Fotos (Abschnitt 2.1; „gerade von links“ und „gerade von
-hinten“ sind die wichtigsten), voll explodiert, Dichtungs-Karte, Schnitt durch die Gruppe. Liegen die
-Fotos nicht vor, dienen die Proportionen aus Abschnitt 8.2 als Soll: Das Render-Skript gibt die
-entsprechenden Verhältnisse aus dem Modell aus, und ein Test vergleicht sie mit der Tabelle. Der Build-Agent sieht sich die Bilder nach jeder Modellier-Iteration an und
+hinten“ sind die wichtigsten), voll explodiert, Dichtungs-Karte, Schnitt durch die Gruppe. Zusätzlich
+zum Blick auf die Bilder dienen die Proportionen aus Abschnitt 8.2 als Soll: Ein Test liest die
+entsprechenden Verhältnisse aus dem Modell und vergleicht sie mit der Tabelle. Der Build-Agent sieht sich die Bilder nach jeder Modellier-Iteration an und
 vergleicht mit den Referenzen. `scripts/overlay.mjs` legt ein Rendering halbtransparent über ein
 Referenzfoto, um Proportionen zu prüfen. Keine pixelgenauen Bildvergleiche als Test (unter
 Software-Rendering instabil).
@@ -562,7 +565,7 @@ Jede Phase endet mit grünem `make all` und einem Commit. Fortschritt durch Abha
 
 **Phase 3 — Blockout**
 - [ ] Alle Außenformen (Stufe B) an ihren Datums; Anordnung nach Abschnitt 2.2, Proportionen nach
-  Abschnitt 8.2, wo Fotos vorliegen zusätzlich per Overlay abgeglichen.
+  Abschnitt 8.2, zusätzlich per Overlay gegen `B2_rear.jpg` und `B3_left.jpg` abgeglichen.
 - Abnahme: Renderings aus den Foto-Blickwinkeln sind klar als diese Maschine erkennbar; jede Größe
   aus Tabelle 8.2 liegt im Modell innerhalb ± 10 %; Hüllmaß passt. Guter Zeitpunkt für Rückmeldung des Besitzers, aber nicht darauf warten.
 
@@ -608,7 +611,7 @@ weiterbauen. Entwicklung und Commits auf dem vorgegebenen Feature-Branch.
 | GLB in Metern/Y-up | Viewer leitet Skalierung aus der Bounding Box ab, Kamera-Near-Plane klein |
 | drei-`Environment`-Presets laden von einem CDN | HDRI lokal unter `web/public/env/` |
 | Chrom zeigt Facetten | feine Tessellierung großer Flächen, Kanten gerundet |
-| Repo ist öffentlich | keine fremden Zeichnungen/Fotos committen, nur verlinken; eigene Fotos nur mit Zustimmung des Besitzers |
+| Repo ist öffentlich | keine fremden Zeichnungen/Fotos committen, nur verlinken. Die Besitzer-Fotos liegen mit dessen Zustimmung und ohne Metadaten im Repo; neue Fotos vor dem Commit ebenfalls von Metadaten befreien |
 | Netzspannung und Druckkessel | Warnhinweise in den betroffenen Anleitungen |
 
 ## 14. Was der Besitzer beisteuern kann
@@ -617,18 +620,18 @@ Nichts davon ist Voraussetzung für den Baustart, alles verbessert die Genauigke
 
 1. **Kessel-Außendurchmesser** mit dem Messschieber. Dieses eine Maß kalibriert alle
    Foto-Proportionen aus Abschnitt 8.2 auf einmal.
-2. **Typenschild/Aufkleber** unter der Basis (Modell, Baujahr, Watt) → klärt v3.0/v3.1.
-3. **Noch fehlende Fotos:** Unterseite (wenn möglich mit abgenommener Bodenplatte → klärt die
-   Heizelement-Befestigung), gerade von vorn, gerade von rechts, von oben, Nahaufnahmen von
-   Sicherheitsventil, Hebelgabel, Dampfhahn und Siebträger von unten. Seiten- und Rückansicht sowie
-   Schrägansichten sind vorhanden (Abschnitt 2.1).
+2. **Baujahr/Version:** Das Typenschild nennt kein Baujahr. Hinweise geben ein Aufkleber oder
+   Datumsstempel im Inneren der Basis bzw. am Heizelement, sonst der Kolben beim ersten Zerlegen
+   (Messing = v3.1, Kunststoff = v3.0).
+3. **Noch fehlende Fotos:** Unterseite mit abgenommener Bodenplatte (klärt die
+   Heizelement-Befestigung und die Elektrik), gerade von vorn, gerade von rechts, von oben,
+   Nahaufnahmen von Sicherheitsventil, Hebelgabel, Dampfhahn und Siebträger von unten. Seiten- und
+   Rückansicht, Schrägansichten und Typenschild sind vorhanden (Abschnitt 2.1).
 4. **Weitere Messschieber-Maße**, in dieser Priorität: Basis Länge × Breite × Höhe · Abstand
    Kesselachse zu Gruppenachse · Außendurchmesser Gruppenkopf · Kesselhöhe · Hebellänge ·
    Schauglas-Länge und -Durchmesser · Siebträger-Durchmesser.
 5. **Beim ersten Zerlegen:** jede ausgebaute Dichtung messen (innen, außen, Dicke) und die
    Kolbenmaße (Durchmesser, Nutbreite, Nuttiefe). Das sind die wertvollsten Maße überhaupt.
-6. **Entscheidung zu den Fotos:** ins (öffentliche) Repo unter `reference/photos/` legen oder in der
-   Build-Session anhängen.
 
 Die genaue Liste mit Skizze, wo gemessen wird, entsteht in Phase 2 als `reference/measurements.md`.
 
