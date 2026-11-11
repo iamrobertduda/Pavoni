@@ -10,7 +10,7 @@ Werkzeug: Messschieber (0,1 mm), Lineal, Smartphone für Fotos. Maße in mm.
 
 | # | Was | Wie messen | Schlüssel in dimensions.yaml | Ersetzt |
 |---|---|---|---|---|
-| A1 | **Kessel-Außendurchmesser** | Messschieber quer über den Kessel zwischen Naht und Schauglas, an zwei um 90° versetzten Stellen, Mittelwert | `boiler_od` | Herleitung aus Fotos und Katalogteilen 104 mm (erste Schätzung 100). **Skaliert alle Foto-Proportionen auf einmal.** |
+| A1 | **Kessel-Außendurchmesser** | Messschieber quer über den Kessel zwischen Naht und Schauglas, an zwei um 90° versetzten Stellen, Mittelwert | `boiler_od` | Herleitung aus Fotos und Katalogteilen 104 mm (erste Schätzung 100). **Skaliert alle Foto-Proportionen auf einmal.** Geprüfter Bereich 98–118 mm; liegt der Messwert außerhalb, zusätzlich A2–A5 messen. |
 | A2 | Basis Länge × Breite × Höhe | Länge: hinten (Rundung) bis Vorderkante; Breite an der breitesten Stelle; Höhe Tisch bis Oberkante neben der Tropfschale | `base_len`, `base_w`, `base_h` | Fotos (2,5 × 1,6 × 0,5 D) |
 | A3 | Abstand Kesselachse zu Gruppenachse | Lineal waagerecht: Kesselmitte (halber Durchmesser von der Vorderkante) bis Mitte Gruppenzylinder | `group_offset` | Foto 1,09 D |
 | A4 | Außen-Ø Gruppe oben und Glocke unten | Messschieber am oberen Zylinder (über dem Hals) und an der breitesten Stelle der Glocke | `group_upper_od`, `group_bell_od` | Katalog 60 vs. Foto 54; Glocke Foto 0,64 D |

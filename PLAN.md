@@ -522,7 +522,8 @@ kompiliert, ist nicht fertig.
    prüft die Zerlege-Reihenfolge automatisch. Mesh-basierte Kollisionsprüfung genügt (z. B.
    trimesh mit FCL), Laufzeit im Auge behalten.
 5. **Hüllmaß:** Bounding-Box aller Teile außer Hebel und Siebträgergriff gegen die Katalogwerte
-   200 × 290 × 320 mm (weiche Prüfung, ± 7 %).
+   200 × 290 × 320–366 mm (die Höhenangaben der Händler streuen). Weiche Prüfung: bis 7 % außerhalb in
+   Ordnung, bis 15 % Warnung, darüber Fehler.
 6. **Budgets:** Dateigröße, Dreiecke, Draw Calls.
 
 ### 11.2 Web
@@ -843,3 +844,44 @@ Hier steht, was bei der Umsetzung anders gelöst wurde als oben beschrieben, und
   getestet, nur Chromium (Playwright). Kein Offline-Service-Worker. Oberfläche nur Deutsch (Daten haben
   `en`/`it` teilweise).
 
+**Review und Korrekturen (2026-11-11)**
+
+Gegenprüfung der Umsetzung: frischer Klon, `make setup && make all` grün; Renderings, Schnitte und Overlays
+gegen die Fotos angesehen; Daten und Anleitungen stichprobenartig gegen die Quellen gelesen.
+
+- **Kalibrierung war nicht robust (wichtigster Befund).** Das Modell baute nur für `boiler_od` 104–106 mm
+  fehlerfrei: bei 100 mm brach der Bau ab, ab 108 mm meldete `make validate` Fehler. Ursache: Die Höhenkette
+  der Gruppe war an beiden Enden an Foto-Verhältnissen festgemacht (Unterkante 1,6 D, Hutmutter 2,99 D). Der
+  Rest gegen die Katalogkette (Stange 111, Kolben, Sieb) landete in der Tiefe der Siebträger-Aufnahme, die
+  dadurch je nach Durchmesser zwischen −0,3 und 23 mm lag. Jetzt ist die Kette nur an der Gruppenunterkante
+  verankert, die Aufnahmetiefe ist ein eigenes Maß (`group_mouth_depth`, 8 mm, geschätzt), und die Foto-Höhe
+  der Hutmutter ist nur noch Vergleichswert in `data/proportions.yaml`. Wo ein Gussteil Katalogteile
+  umschließen muss, gilt eine Untergrenze (`group_bell_od`, `pf_body_od` als `expr`; Zylinder-Oberkante,
+  Auslauflänge, Pressostat-Rohr im Code).
+  Ergebnis: Bau und Validierung fehlerfrei für **98–118 mm**. `cad/tests/test_calibration.py` baut das Modell
+  für 98, 100, 110 und 118 mm und prüft Solids, Durchdringung, Ausbaupfade und Anleitungen. Unter 98 mm passen
+  Katalogteile und Foto-Proportionen physikalisch nicht zusammen (obere Kessel/Basis-Dichtung Ø104 unter dem
+  Kesselfuß, Heizelement in der Basis); `make validate` warnt dann und nennt die nachzumessenden Maße.
+- **Prüfregeln hätten einen Messwert abgelehnt.** Hüllmaß: Höhe jetzt als Bereich 320–366 mm, bis 7 % in
+  Ordnung, bis 15 % Warnung, darüber Fehler (Abschnitt 11.1). Proportionen: Zeilen, deren Modellwert ein
+  Katalogmaß ist (Deckelknauf, Gruppen-Oberteil, Schauglas-Abdeckung, Manometer), sind `advisory` und
+  ergeben eine Warnung statt eines Fehlers.
+- **Foto-Overlay war seit Phase 5 kaputt.** Die Hochformat-Anpassung der Kamera griff auch bei den auf die
+  Fotos eingepassten Ansichten, das Modell erschien im Overlay etwa halb so groß. Behoben
+  (`web/src/logic/camera.ts`, mit Test). Die Overlays decken sich jetzt gut mit B2 und B3. Sichtbare
+  Restabweichung: Die Tropfschale ist im Foto in Längsrichtung rund 10 % länger als im Modell.
+- **Wirkungsloser Test.** vitest „detached assemblies move their parts as a unit“ nutzte die alte
+  Baugruppen-ID `group.piston` und prüfte dadurch nichts. Korrigiert und verschärft.
+- **Siebfeder** schnitt 0,15 mm in den Nutgrund (bei 104 mm nur „nicht berechenbar“, ab 108 mm Fehler). Sie
+  liegt jetzt mit Spiel in der Nut.
+- **Viewer.** Die Szene wird zwischen den Seitenpanels zentriert (vorher lag z. B. die abgenommene Gruppe
+  halb unter dem Anleitungs-Panel). Anleitungsschritte zielen auf die Mitte des Ausbauwegs. Ein gewählter
+  Schnitt (Auswahlfeld oder Deep-Link `section=`) bringt seine Ansicht mit. Schalterwippe grün.
+- **Geprüft und für gut befunden:** Einbaurichtung im Schnitt (obere Kolbendichtung offen nach oben, untere
+  nach unten; Stangendichtung offen nach unten, darunter Messingscheibe und Sicherungsring), Whitelist der
+  Überdeckungen (eng und begründet), Kollisionsprüfung (schlägt nachweislich an), Dichtungsmaße mit Quelle
+  und Warnhinweis im Viewer, Anleitungen 1, 4, 9 und 10 gegen Q7–Q11.
+- **Offen: der Maßstab.** Schauglas-Abdeckung 162 mm, Gruppen-Oberteil 60 mm und die Katalog-Tiefe 290 mm
+  passen besser zu D ≈ 108–110 mm, die Gruppenkette mit der 111-mm-Stange eher zu 100–104 mm. Das klärt nur
+  die Messung A1 in `reference/measurements.md`.
+- Nicht geändert: Länge der Tropfschale, Lizenz, Deployment.

@@ -18,6 +18,12 @@ Fortschritt: Checkboxen in `PLAN.md` Abschnitt 12 und `status` je Teil in `data/
   Foto-Maße als `ratio_of: boiler_od`. Geschätzte Maße nie als Tatsache ausgeben, schon gar nicht bei Dichtungen.
 - Ein reales Teil = ein Solid. Hohlteile hohl. Dichtungen in Nennmaß, Nut im Gegenstück modellieren.
 - Gewinde nur kosmetisch; Gewindebezeichnung als `thread` in `parts.yaml`.
+- Maßketten aus Foto-Verhältnissen und Katalogmaßen nur an **einem** Ende verankern (z. B. Gruppe an ihrer
+  Unterkante); das andere Ende ist Vergleichswert in `data/proportions.yaml`. Wo ein Gussteil Katalogteile
+  umschließt, Untergrenze als `expr` mit `max`/`min` in `dimensions.yaml`. `cad/tests/test_calibration.py` baut
+  das Modell für 98-118 mm Kesseldurchmesser: Der Besitzer trägt genau dieses Maß als Erstes ein.
+- Ansichten mit `photo:` in `views.yaml` sind auf ein Foto eingepasst und werden nie ans Seitenverhältnis
+  angepasst (`web/src/logic/camera.ts`), sonst stimmt `make overlay` nicht mehr.
 - Rundungen ins Drehprofil legen (`lib.revolve_rz` mit Radius je Ecke), keine nachträglichen OCCT-Fillets.
 - Koordinaten: mm, Z oben, Ursprung Kesselachse ∩ Tisch, −Y vorn (Gruppe), +X rechts. GLB: m, Y oben.
 - `requires_removed` darf Baugruppen-IDs enthalten (= als Einheit abgenommen, z. B. `group`).

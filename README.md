@@ -22,7 +22,7 @@ Kurzregeln für Beiträge: [`CLAUDE.md`](CLAUDE.md). Quellen: [`reference/SOURCE
 |---|---|
 | Teil auswählen | Klick ins Modell oder in den Baum (links). Rechts: Name, Position, Maße mit Konfidenz, Bestellbegriffe, Gewinde |
 | Explosionsansicht | Regler „Explosion“ in der Werkzeugleiste – Baugruppen fahren stufenweise entlang ihrer Ausbaurichtung |
-| Schnitt | Auswahl „Kein Schnitt“ öffnen – zwölf Voreinstellungen (Gruppe, Kolbendichtungen, Stangendichtung, Schauglas, Dampfhahn, Sicherheitsventil, Kesselboden …) mit gefüllten Schnittflächen; Regler daneben verschiebt die Ebene |
+| Schnitt | Auswahl „Kein Schnitt“ öffnen – zwölf Voreinstellungen (Gruppe, Kolbendichtungen, Stangendichtung, Schauglas, Dampfhahn, Sicherheitsventil, Kesselboden …) mit gefüllten Schnittflächen; die Kamera fährt zur passenden Ansicht, der Regler daneben verschiebt die Ebene |
 | Dichtungs-Karte | Knopf „Dichtungen“ – alle Dichtungen farbig, Liste mit Nennmaß, schwächster Konfidenz und Bestellbegriff |
 | Zerlegen | Beim gewählten Teil „Ausbauen zeigen“ – die App berechnet, was vorher ab muss, und baut es der Reihe nach aus |
 | Anleitungen | Elf Reparatur-Anleitungen (Liste rechts), vorwärts als Zerlegen, rückwärts als Zusammenbauen, mit Werkzeug, Ersatzteilen, Warnungen und Einbauhinweisen |
@@ -98,7 +98,8 @@ aus den Fotos.
   Foto-Overlay, `modeled` = plausibel, aber im Detail ohne Beleg.
 - 227 Maße: 111 aus Händlerkatalogen, 61 aus Fotoproportionen, 52 geschätzt, 3 aus Herstellerangaben,
   **0 gemessen**. Der Kesseldurchmesser (104 mm) ist aus Fotos und Katalogteilen hergeleitet und skaliert
-  alle Foto-Maße.
+  alle Foto-Maße. Das Modell baut und validiert für Kesseldurchmesser von 98 bis 118 mm (automatischer Test);
+  außerhalb davon nennt `make validate` die Maße, die zusätzlich gemessen werden müssen.
 - Dichtungsmaße stammen aus Händlerkatalogen (Nennmaße), nicht aus Messungen an dieser Maschine.
 - Was eine Messung am meisten verbessert, steht geordnet in
   [`reference/measurements.md`](reference/measurements.md). Messwert in `data/dimensions.yaml` eintragen
