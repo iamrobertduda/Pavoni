@@ -19,10 +19,11 @@ for (const [name, v] of views) {
   // photos are 3:4 portrait; render at the same aspect
   const w = 600;
   const h = 800;
-  const { page } = await openApp(browser, url, `ui=0&anim=0&bg=transparent&view=${name}`, { width: w, height: h });
+  // 2x so that small deviations between model and photo are visible
+  const { page } = await openApp(browser, url, `ui=0&anim=0&bg=transparent&view=${name}`, { width: w, height: h, scale: 2 });
   const png = await page.screenshot({ omitBackground: true });
   await page.close();
-  const comp = await browser.newPage({ viewport: { width: w, height: h } });
+  const comp = await browser.newPage({ viewport: { width: w, height: h }, deviceScaleFactor: 2 });
   await comp.setContent(`<html><body style="margin:0;position:relative;width:${w}px;height:${h}px;overflow:hidden">
     <img src="${url}ref/${v.photo}" style="position:absolute;inset:0;width:${w}px;height:${h}px;object-fit:cover">
     <img src="data:image/png;base64,${png.toString('base64')}" style="position:absolute;inset:0;width:${w}px;height:${h}px;opacity:${alpha}">
