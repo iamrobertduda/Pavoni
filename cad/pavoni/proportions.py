@@ -42,8 +42,32 @@ class Missing(Exception):
     pass
 
 
-def make_env(manifest: dict, D: float) -> dict:
+def make_env(manifest: dict, D: float, meshes: dict | None = None) -> dict:
     inst = manifest["instances"]
+    datums = manifest.get("datums", {})
+
+    def datum(name):
+        v = datums[name]
+        return float(v)
+
+    def slice_extent(iid, normal_axis, value, measure_axis):
+        """Extent of the mesh section (plane normal_axis = value) along measure_axis."""
+        import numpy as np
+        import trimesh
+
+        if meshes is None or f"{iid}__v" not in meshes:
+            raise Missing(iid)
+        ax = "xyz".index(normal_axis)
+        n = [0.0, 0.0, 0.0]
+        n[ax] = 1.0
+        o = [0.0, 0.0, 0.0]
+        o[ax] = value
+        tm = trimesh.Trimesh(meshes[f"{iid}__v"], meshes[f"{iid}__f"], process=False)
+        sec = trimesh.intersections.mesh_plane(tm, n, o)
+        if len(sec) == 0:
+            raise Missing(f"{iid} @ {normal_axis}={value}")
+        pts = np.asarray(sec).reshape(-1, 3)[:, "xyz".index(measure_axis)]
+        return float(pts.max() - pts.min())
 
     def bbox(*ids):
         boxes = []
@@ -65,11 +89,14 @@ def make_env(manifest: dict, D: float) -> dict:
         ids = [i for i in inst if not any(i.startswith(e) for e in exclude)]
         return bbox(*ids)
 
-    return {"bbox": bbox, "part_bbox": part_bbox, "all_bbox": all_bbox, "D": D, "abs": abs, "max": max, "min": min}
+    import math
+
+    return {"bbox": bbox, "part_bbox": part_bbox, "all_bbox": all_bbox, "datum": datum, "slice_extent": slice_extent,
+            "D": D, "abs": abs, "max": max, "min": min, "hypot": math.hypot}
 
 
-def evaluate(entries: list[dict], manifest: dict, D: float) -> list[dict]:
-    env = make_env(manifest, D)
+def evaluate(entries: list[dict], manifest: dict, D: float, meshes: dict | None = None) -> list[dict]:
+    env = make_env(manifest, D, meshes)
     out = []
     for e in entries:
         tgt = e["target"] * (D / 100.0 if e.get("scale_with_d", True) else 1.0)

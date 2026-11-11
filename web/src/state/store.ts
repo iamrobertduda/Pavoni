@@ -28,6 +28,8 @@ export interface PavoniState {
   viewRequest: { name: string; nonce: number } | null;
   ui: boolean;
   treeOpen: boolean;
+  lowQuality: boolean;
+  modelReady: boolean;
   set: (p: Partial<PavoniState>) => void;
   select: (id: string | null) => void;
   toggleHidden: (pid: string) => void;
@@ -56,6 +58,8 @@ export const useStore = create<PavoniState>((set, get) => ({
   viewRequest: null,
   ui: true,
   treeOpen: true,
+  lowQuality: false,
+  modelReady: false,
   set: (p) => set(p),
   select: (id) => set({ selected: id }),
   toggleHidden: (pid) => {

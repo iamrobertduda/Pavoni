@@ -21,6 +21,8 @@ from build123d import (
 )
 
 __all__ = [
+    "safe_union",
+    "safe_cut",
     "profile_wire",
     "revolve_rz",
     "extrude_xy",
@@ -157,3 +159,41 @@ def union_all(shapes: Iterable) -> Solid:
     for s in it:
         acc = acc + s
     return solid_of(acc)
+
+
+def safe_union(a, b):
+    """a + b with fallbacks for OCCT fuse failures: fuzzy tolerance, then a tiny nudge."""
+    from build123d import Location as _L
+
+    for attempt in range(3):
+        try:
+            if attempt == 0:
+                r = a + b
+            elif attempt == 1:
+                r = a.fuse(b, tol=0.005)
+            else:
+                r = a + b.moved(_L((0.0137, -0.0093, 0.0071)))
+            solids = r.solids()
+            if len(solids) == 1 and solids[0].is_valid:
+                return solids[0]
+        except Exception:  # noqa: BLE001
+            pass
+    raise ValueError("Vereinigung fehlgeschlagen (auch mit Toleranz)")
+
+
+def safe_cut(a, b):
+    """a - b with the same fallbacks as safe_union."""
+    from build123d import Location as _L
+
+    for attempt in range(3):
+        try:
+            if attempt == 0:
+                r = a - b
+            elif attempt == 1:
+                r = a.cut(b, tol=0.005)
+            else:
+                r = a - b.moved(_L((0.0137, -0.0093, 0.0071)))
+            return solid_of(r)
+        except Exception:  # noqa: BLE001
+            continue
+    raise ValueError("Differenz fehlgeschlagen (auch mit Toleranz)")

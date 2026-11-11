@@ -1,0 +1,25 @@
+# Punktkorrespondenzen für die Kamera-Anpassung der Referenzfotos (cad/pavoni/camfit.py).
+# px = Pixel im Originalfoto (Breite, Höhe), p = 3D-Punkt in CAD-mm als Ausdruck über datum()/dim().
+# Von Hand aus vergrößerten Ausschnitten abgelesen (Genauigkeit ca. ±10 px).
+B3_left.jpg:
+  size: [1932, 2576]
+  points:
+    - {name: "Hutmutter oben", px: [1068, 612], p: "(0, datum('group_xy')[1], datum('cap_nut_top_z'))"}
+    - {name: "Hinterer Bolzen (Kopf)", px: [962, 790], p: "(-14.5, datum('roller_y'), datum('roller_z'))"}
+    - {name: "Vorderer Bolzen (Kopf)", px: [1060, 845], p: "(-14.5, datum('group_xy')[1], datum('front_pin_z'))"}
+    - {name: "Auslauf unten", px: [1063, 1462], p: "(0, datum('group_xy')[1], dim('spout_bottom_z'))"}
+    - {name: "Kessel Schulter hinten", px: [287, 965], p: "(0, datum('R'), datum('boiler_shoulder_z'))"}
+    - {name: "Kessel Fuß hinten", px: [292, 1832], p: "(0, dim('boiler_foot_od') / 2, datum('boiler_foot_z'))"}
+    - {name: "Dampfknauf Mitte", px: [167, 837], p: "(-dim('steam_total_w') / 2 + 10, dim('steam_back'), datum('steam_z'))"}
+    - {name: "Schalter Mitte", px: [837, 2061], p: "(-dim('base_w') / 2, datum('base_rear_y') - dim('switch_pos_frac') * dim('base_len'), 22)"}
+B2_rear.jpg:
+  size: [1932, 2576]
+  points:
+    - {name: "Schulter links (Maschine rechts)", px: [690, 975], p: "(datum('R'), 0, datum('boiler_shoulder_z'))"}
+    - {name: "Schulter rechts (Maschine links)", px: [1215, 975], p: "(-datum('R'), 0, datum('boiler_shoulder_z'))"}
+    - {name: "Fuß links", px: [697, 1975], p: "(dim('boiler_foot_od') / 2, 0, datum('boiler_foot_z'))"}
+    - {name: "Fuß rechts", px: [1208, 1975], p: "(-dim('boiler_foot_od') / 2, 0, datum('boiler_foot_z'))"}
+    - {name: "Naht Mitte", px: [952, 1345], p: "(0, datum('R'), datum('boiler_seam_z'))"}
+    - {name: "Deckelknauf oben", px: [930, 470], p: "(0, 0, dim('cap_top_z'))"}
+    - {name: "Dampfrohr Ende (Lanzenseite)", px: [432, 790], p: "(dim('steam_total_w') / 2, dim('steam_back'), datum('steam_z'))"}
+    - {name: "Dampfknauf Mitte", px: [1378, 795], p: "(-dim('steam_total_w') / 2 + 10, dim('steam_back'), datum('steam_z'))"}

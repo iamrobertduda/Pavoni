@@ -42,8 +42,9 @@ export async function openApp(browser, base, query, { width = 1200, height = 900
   const errors = [];
   page.on('pageerror', (e) => errors.push(String(e)));
   page.on('console', (m) => m.type() === 'error' && errors.push(m.text()));
-  await page.goto(`${base}?${query}`);
+  page.setDefaultTimeout(180000);
+  await page.goto(`${base}?quality=low&${query}`);
   await page.waitForFunction(() => window.__pavoni?.ready === true, null, { timeout: 120000 });
-  await page.waitForTimeout(400);
+  await page.waitForTimeout(800);
   return { page, errors };
 }

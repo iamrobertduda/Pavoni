@@ -39,7 +39,7 @@ class Datums:
         self.neck_top_z = self.cone_top_z + D.boiler_neck_h
         # cone: radius r -> height z on the outer surface
         self.cone_slope = D.boiler_shoulder_h / (R - self.neck_r)  # dz/dr (negative direction)
-        self.cone_normal_tilt = math.atan2(R - self.neck_r, D.boiler_shoulder_h)  # from vertical
+        self.cone_normal_tilt = math.atan2(D.boiler_shoulder_h, R - self.neck_r)  # outward normal, angle from vertical
         # bottom: threaded neck through the base, element seals on its end face
         self.bottom_neck_end_z = D.boiler_foot_z - D.bottom_neck_h
         # ---------------------------------------------------------------- base / mount / heating
@@ -55,34 +55,42 @@ class Datums:
         self.group_bottom_z = D.group_bottom_z
         self.group_arm_z = D.group_arm_z
         self.group_flange_y = -(R + D.group_boss_h)  # flat contact face on the boiler front boss
-        self.screen_face_z = D.group_bottom_z + D.screen_face_above_bottom
-        self.screen_top_z = self.screen_face_z + D.screen_h
-        self.piston_z = self.screen_top_z + D.piston_screen_gap  # piston underside at rest (lever down)
+        # Chain from the photo-measured top of the cap nut downwards through catalog parts
+        # (rod 111, piston, 2.5 mm play, screen 14). The residual is the depth of the mouth
+        # below the screen face, where the portafilter ears engage.
+        self.cap_nut_top_z = D.group_nut_top_z
+        self.rod_top_z = self.cap_nut_top_z - (D.cap_nut_h - D.cap_nut_engage)
+        self.cap_nut_bottom_z = self.cap_nut_top_z - D.cap_nut_h
+        self.lock_nut_bottom_z = self.cap_nut_bottom_z - D.lock_nut_h
+        self.tower_top_z = self.lock_nut_bottom_z - D.piston_screen_gap  # lock nut = down-stop (Q19, Q20)
+        self.rod_bottom_z = self.rod_top_z - D.rod_len
+        self.piston_z = self.rod_bottom_z - D.rod_end_in_piston  # piston underside at rest (lever down)
+        self.screen_top_z = self.piston_z - D.piston_screen_gap
+        self.screen_face_z = self.screen_top_z - D.screen_h
+        self.mouth_depth = self.screen_face_z - D.group_bottom_z
         self.sleeve_bottom_z = self.screen_top_z
         self.sleeve_top_z = self.sleeve_bottom_z + D.sleeve_len
         self.ceiling_bottom_z = self.sleeve_top_z
         self.ceiling_top_z = self.sleeve_top_z + D.ceiling_t
-        self.rod_bottom_z = self.piston_z + D.rod_end_in_piston
-        self.rod_top_z = self.rod_bottom_z + D.rod_len
-        self.cap_nut_bottom_z = self.rod_top_z - D.cap_nut_engage
-        self.lock_nut_bottom_z = self.cap_nut_bottom_z - D.lock_nut_h
-        # the lock nut is the down-stop on the tower top (Q19/Q20: ~2.5 mm play at rest)
-        self.tower_top_z = self.lock_nut_bottom_z - D.piston_screen_gap
+        self.bell_top_z = D.group_bottom_z + D.group_bell_h
+        self.cyl_top_z = D.group_bottom_z + D.group_cyl_top
         self.roller_z = self.tower_top_z - D.roller_od / 2 - D.tower_cap_t
-        self.front_pin_z = self.roller_z - D.lever_pin_rise
-        self.front_pin_y = self.group_xy[1]
         self.roller_y = self.group_xy[1] + D.lever_pivot_back
         self.lever_rest_rad = math.radians(D.lever_rest_deg)
+        self.front_pin_z = self.roller_z - D.lever_pivot_back * math.tan(self.lever_rest_rad)
+        self.front_pin_y = self.group_xy[1]
         # ---------------------------------------------------------------- sight glass (left side)
-        self.sg_x = -D.sg_axis_r
-        self.sg_y = D.sg_axis_back
+        # sight glass sits radially on the left, turned slightly to the rear (PLAN 2.2)
+        self.sg_azimuth = math.asin(D.sg_axis_back / D.sg_axis_r)  # rotation about Z from -X towards +Y
+        self.sg_x = -D.sg_axis_r * math.cos(self.sg_azimuth)
+        self.sg_y = D.sg_axis_r * math.sin(self.sg_azimuth)
         self.sg_upper_z = D.sg_upper_z
         glass_engage = D.sg_boss_reach - D.glass_seal_h - D.glass_proud  # glass end short of the nipple axis
         self.sg_lower_z = self.sg_upper_z - (D.glass_len + 2 * glass_engage)
         # ---------------------------------------------------------------- steam valve (behind the neck)
         self.steam_z = self.boiler_shoulder_z + D.steam_z_above_shoulder
         self.steam_y = D.steam_back
-        t = math.radians(D.steam_stub_tilt)
+        t = self.cone_normal_tilt  # stub perpendicular to the shoulder cone (PLAN 2.2: schräg in den Konus)
         self.steam_stub_dir = (0.0, -math.sin(t), -math.cos(t))  # from the tube down into the cone
         # where the stub axis meets the cone surface
         s = self._cone_hit((0.0, self.steam_y, self.steam_z), self.steam_stub_dir)
@@ -96,7 +104,14 @@ class Datums:
         self.sv_axis = unit((math.cos(phi) * math.sin(b), math.sin(phi) * math.sin(b), math.cos(b)))
         r_sv = 0.5 * (R + self.neck_r)
         self.sv_base = (r_sv * math.cos(phi), r_sv * math.sin(phi), self.cone_z(r_sv))
-        # ---------------------------------------------------------------- frames (identity: axes in world frame)
+        # ---------------------------------------------------------------- frames
+        # explode axes in parts.yaml/assemblies.yaml are given in these frames (rotation only):
+        # sight glass: local -X = radially outwards; safety valve: local +Z = valve axis
+        from build123d import Plane, Vector
+
+        self.frames["boiler.sight_glass"] = Location((0, 0, 0), (0, 0, 1), -math.degrees(self.sg_azimuth))
+        sv_x = Vector(-self.sv_axis[1], self.sv_axis[0], 0).normalized()
+        self.frames["boiler.safety_valve"] = Location(Plane(origin=(0, 0, 0), x_dir=sv_x, z_dir=self.sv_axis))
         for a in ("boiler", "mount", "heating", "electrical", "base", "portafilter"):
             self.frames.setdefault(a, Location())
 

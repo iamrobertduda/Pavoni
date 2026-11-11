@@ -1,5 +1,5 @@
 // Deep links: ?part=<id>&proc=<id>&step=<n>&dir=assemble&view=<name>&explode=<0..1>&seals=1&section=<name>
-// Render flags: ui=0 (no panels), bg=transparent, anim=0 (no animations)
+// Render flags: ui=0 (no panels), bg=transparent, anim=0 (no animations), quality=low (software rendering)
 import { data } from './data';
 import { useStore } from './state/store';
 
@@ -9,6 +9,7 @@ export function readUrl() {
   const patch: Partial<typeof s> = {};
   if (q.get('ui') === '0') patch.ui = false;
   if (q.get('anim') === '0') patch.animate = false;
+  if (q.get('quality') === 'low') patch.lowQuality = true;
   if (window.matchMedia?.('(max-width: 760px)').matches) patch.treeOpen = false;
   const part = q.get('part');
   if (part) patch.selected = part;

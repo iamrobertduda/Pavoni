@@ -12,7 +12,7 @@ const data = JSON.parse(readFileSync(join(REPO, 'web', 'src', 'generated', 'data
 
 const jobs = [];
 for (const [name, v] of Object.entries(data.views)) if (v.render) jobs.push({ name, q: `view=${name}` });
-jobs.push({ name: 'exploded', q: 'view=iso&explode=1' });
+jobs.push({ name: 'exploded', q: 'view=exploded&explode=1' });
 jobs.push({ name: 'exploded_left', q: 'view=left&explode=1' });
 jobs.push({ name: 'sealmap', q: 'view=iso&seals=1' });
 for (const [name, s] of Object.entries(data.sections)) jobs.push({ name: `section_${name}`, q: `view=${s.view ?? 'left'}&section=${name}` });

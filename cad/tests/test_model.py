@@ -19,9 +19,9 @@ def test_solids_valid(manifest):
         assert v["valid"] and v["volume"] > 0, i
 
 
-def test_proportions_within_10_percent(data, manifest):
+def test_proportions_within_tolerance(data, manifest, ctx):
     D = Dims(data["dimensions"])
-    res = evaluate(data["proportions"], manifest, D.boiler_od)
+    res = evaluate(data["proportions"], manifest, D.boiler_od, ctx.meshes)
     fails = [f"{r['name']}: {r['value']} vs {r['target_mm']} ({r['dev']:+.1%})" for r in res if r["status"] == "fail"]
     assert not fails, "\n".join(fails)
 

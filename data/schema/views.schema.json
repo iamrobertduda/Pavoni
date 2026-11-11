@@ -31,7 +31,7 @@
         "additionalProperties": false,
         "properties": {
           "label": {"type": "string"},
-          "normal": {"$ref": "common.schema.json#/$defs/vec3"},
+          "normal": {"$ref": "common.schema.json#/$defs/vec3", "description": "zeigt zur weggeschnittenen Seite (zum Betrachter)"},
           "point": {"$ref": "common.schema.json#/$defs/vec3"},
           "view": {"type": "string"}
         }

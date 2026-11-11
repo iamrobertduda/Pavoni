@@ -5,15 +5,38 @@
   "type": "array",
   "items": {
     "type": "object",
-    "required": ["name", "target", "measure"],
+    "required": [
+      "name",
+      "target",
+      "measure"
+    ],
     "additionalProperties": false,
     "properties": {
-      "name": {"type": "string"},
-      "target": {"type": "number", "description": "Soll in mm bei D = 100 (Tabelle 8.2)"},
-      "scale_with_d": {"type": "boolean", "default": true},
-      "tolerance": {"type": "number", "default": 0.10},
-      "measure": {"type": "string", "description": "Ausdruck über bbox()/center() der Instanzen, siehe cad/pavoni/proportions.py"},
-      "source": {"type": "string"}
+      "name": {
+        "type": "string"
+      },
+      "target": {
+        "type": "number",
+        "description": "Soll in mm bei D = 100 (Tabelle 8.2)"
+      },
+      "scale_with_d": {
+        "type": "boolean",
+        "default": true
+      },
+      "tolerance": {
+        "type": "number",
+        "default": 0.1
+      },
+      "measure": {
+        "type": "string",
+        "description": "Ausdruck über bbox()/center() der Instanzen, siehe cad/pavoni/proportions.py"
+      },
+      "source": {
+        "type": "string"
+      },
+      "note": {
+        "type": "string"
+      }
     }
   }
 }

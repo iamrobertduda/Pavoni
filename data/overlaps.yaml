@@ -1,3 +1,18 @@
 # Begründete Whitelist gewollter Überdeckungen (PLAN.md 11.1 Nr. 3).
-# reason: seal_squeeze | cosmetic_thread | press_fit | simplified
-[]
+# reason: seal_squeeze | cosmetic_thread | press_fit | simplified | hook_path | bayonet_turn
+# scope: static (Ruhezustand, Standard) | path (nur Ausbaupfad ignorieren) | both
+# free_mm: Ausbauweg, auf dem das Paar im Pfad ignoriert wird (Dichtung verlässt ihren Sitz); Standard 1 mm
+- {a: p002_cap_oring, b: p003_boiler, reason: seal_squeeze, max_mm3: 130, free_mm: 4.5, note: "Deckel-O-Ring im Sitz des Einfüllhalses, ca. 17 % radial"}
+- {a: p008_element_oring, b: p003_boiler, reason: seal_squeeze, max_mm3: 400, note: "O-Ring in der Stirnnut des Elements, gegen das Halsende verpresst"}
+- {a: p085_group_oring, b: p003_boiler, reason: seal_squeeze, max_mm3: 150, note: "O-Ring OR 3112 in der Flanschnut, 25 % gegen die Kesselanlage verpresst"}
+- {a: p077_sleeve_oring, b: p072_group_body, reason: seal_squeeze, max_mm3: 180, free_mm: 30, note: "Hülsen-O-Ring gegen die Gruppenbohrung; gleitet beim Herausschrauben bis unter das Sieb"}
+- {a: p073_rod_seal, b: p072_group_body, reason: seal_squeeze, max_mm3: 200, free_mm: 8, note: "Stangendichtung (21 außen) in der Senkung Ø20"}
+- {a: p073_rod_seal, b: p078_piston_rod, reason: seal_squeeze, max_mm3: 150, scope: both, note: "Dichtlippe (11 innen) auf der Stange Ø12; die Stange gleitet durch"}
+- {a: p047_wand_oring, b: p054_steam_wand, reason: seal_squeeze, max_mm3: 20, free_mm: 25, note: "O-Ringe auf dem Zapfen, Lanze gleitet darüber"}
+- {a: p060_glass_seal, b: p059_upper_fitting, reason: seal_squeeze, max_mm3: 70, free_mm: 6, note: "Silikondichtung in der Senkung des Halters"}
+- {a: p060_glass_seal, b: p063_lower_fitting, reason: seal_squeeze, max_mm3: 70, free_mm: 6, note: "Silikondichtung in der Senkung des Halters"}
+- {a: p084_dip_tube, b: p003_boiler, reason: hook_path, max_mm3: 0, scope: path, note: "Steigrohr wird beim Abnehmen der Gruppe durch Kippen herausgefädelt (Q17: nach vorn und unten); keine reine Verschiebung"}
+- {a: p095_portafilter, b: p072_group_body, reason: bayonet_turn, max_mm3: 0, scope: path, note: "Siebträger erst drehen, dann abnehmen"}
+- {a: p098_basket_double, b: p072_group_body, reason: bayonet_turn, max_mm3: 0, scope: path, note: "Sieb dreht mit dem Siebträger aus dem Bajonett"}
+- {a: p101_portafilter_spring, b: p072_group_body, reason: bayonet_turn, max_mm3: 0, scope: path, note: "Feder sitzt im Siebträger und dreht mit"}
+- {a: p027_cable_grommet, b: p005_base, reason: press_fit, max_mm3: 40, note: "Kabeltülle greift mit ihrer Nut in die Blechkante"}

@@ -13,7 +13,7 @@ export function useSectionPlanes(): THREE.Plane[] {
     const sec = data.sections[section];
     const n = new THREE.Vector3(...cadDirToGl(sec.normal)).normalize();
     const p = new THREE.Vector3(...cadToGl(sec.point)).addScaledVector(n, offset / 1000);
-    // keep the half-space opposite to the normal (normal points at the viewer side that is cut away)
+    // the section normal points to the side that is cut away (towards the viewer); keep the other half
     return [new THREE.Plane().setFromNormalAndCoplanarPoint(n.clone().negate(), p)];
   }, [section, offset]);
 }

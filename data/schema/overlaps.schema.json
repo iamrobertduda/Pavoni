@@ -44,6 +44,11 @@
         ],
         "default": "static",
         "description": "static = Durchdringung im Ruhezustand erlaubt; path = Paar wird in der Ausbaupfad-Prüfung ignoriert (Bewegung ist keine reine Verschiebung)"
+      },
+      "free_mm": {
+        "type": "number",
+        "minimum": 0,
+        "description": "Ausbauweg, auf dem das Paar in der Pfadprüfung ignoriert wird (Dichtung verlässt ihren Sitz); Standard 1 mm"
       }
     }
   }

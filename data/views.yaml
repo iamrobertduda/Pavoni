@@ -1,12 +1,24 @@
 # Benannte Kameraansichten und Schnitte in CAD-Koordinaten (mm, Z oben, -Y vorn, +X rechts).
+# photo: Referenzfoto für scripts/overlay.mjs (Kamera grob auf das Foto eingestellt).
 views:
-  front: {label: "Vorn", position: [0, -900, 190], target: [0, -40, 160], fov: 22, render: true}
-  left: {label: "Links", position: [-900, -40, 190], target: [0, -40, 160], fov: 22, render: true}
-  right: {label: "Rechts", position: [900, -40, 190], target: [0, -40, 160], fov: 22, render: true}
-  rear: {label: "Hinten", position: [0, 860, 190], target: [0, -40, 160], fov: 22, render: true}
-  top: {label: "Oben", position: [0, -41, 1000], target: [0, -40, 100], fov: 22, render: true}
-  iso: {label: "Übersicht", position: [-520, -620, 420], target: [0, -40, 150], fov: 24, render: true}
-  group_top: {label: "Gruppe oben", position: [-230, -330, 380], target: [0, -109, 230], fov: 24}
-  group_side: {label: "Gruppe", position: [-420, -250, 200], target: [0, -109, 190], fov: 22}
+  front: {label: "Vorn", position: [0, -1050, 210], target: [0, -50, 165], fov: 24, render: true}
+  left: {label: "Links", position: [-1050, -50, 210], target: [0, -50, 165], fov: 24, render: true}
+  right: {label: "Rechts", position: [1050, -50, 210], target: [0, -50, 165], fov: 24, render: true}
+  rear: {label: "Hinten", position: [0, 1000, 210], target: [0, -50, 165], fov: 24, render: true}
+  top: {label: "Oben", position: [0, -51, 1150], target: [0, -50, 120], fov: 26, render: true}
+  exploded: {label: "Explosion", position: [-1250, -1500, 900], target: [0, -60, 200], fov: 26}
+  iso: {label: "Übersicht", position: [-640, -760, 520], target: [0, -55, 165], fov: 26, render: true}
+  group_top: {label: "Gruppe oben", position: [-260, -360, 420], target: [0, -113, 260], fov: 24}
+  group_side: {label: "Gruppe", position: [-460, -300, 230], target: [0, -113, 215], fov: 24}
+  sight_glass: {label: "Schauglas", position: [-480, -120, 230], target: [-68, 8, 165], fov: 26}
+  steam_valve: {label: "Dampfhahn", position: [-180, 520, 380], target: [0, 44, 280], fov: 26}
+  safety_valve: {label: "Sicherheitsventil", position: [380, 260, 420], target: [40, 15, 270], fov: 22}
+  base_bottom: {label: "Unterseite", position: [-260, -380, -420], target: [0, -40, 20], fov: 30}
+  photo_B3: {label: "Foto B3 (links)", position: [-411.3, -5.1, 299.2], target: [-37.5, -86.1, 178.6], fov: 67.0, photo: B3_left.jpg}
+  photo_B2: {label: "Foto B2 (hinten)", position: [-20.0, 386.4, 187.9], target: [-4.4, 16.8, 182.3], fov: 67.0, photo: B2_rear.jpg}
 sections:
-  group: {label: "Schnitt durch Gruppe", normal: [1, 0, 0], point: [0, 0, 0], view: left}
+  group: {label: "Schnitt durch Gruppe", normal: [-1, 0, 0], point: [0, 0, 0], view: group_side}
+  sight_glass: {label: "Schnitt durch Schauglas", normal: [-0.992, 0.123, 0], point: [-67.1, 8.3, 0], view: sight_glass}
+  steam_valve: {label: "Schnitt durch Dampfhahn", normal: [0, 1, 0], point: [0, 43.7, 0], view: steam_valve}
+  safety_valve: {label: "Schnitt durch Sicherheitsventil", normal: [-0.342, 0.94, 0], point: [36.4, 13.3, 0], view: safety_valve}
+  boiler: {label: "Schnitt durch Kessel", normal: [-1, 0, 0], point: [0, 0, 0], view: left}

@@ -32,6 +32,7 @@ def cap_nut(af: float, h_hex: float, dome_h: float, bore: float, bore_depth: flo
     dome = revolve_rz([(0, z0 + h_hex - 0.5), (rd, z0 + h_hex - 0.5), (rd, z0 + h_hex + 0.15 * dome_h, dome_h * 0.6),
                        (rd * 0.55, z0 + h_hex + dome_h, dome_h * 0.5), (0, z0 + h_hex + dome_h)])
     body = solid_of(hexp + dome)
+    bore_depth = min(bore_depth, h_hex + 0.4 * dome_h)
     return solid_of(body - cyl(bore / 2, bore_depth + 1, z0 - 1))
 
 

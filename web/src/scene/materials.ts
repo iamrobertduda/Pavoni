@@ -35,7 +35,7 @@ export const MATERIALS: Record<string, MatDef> = {
 export const SEAL_COLOR = new THREE.Color('#ff5a1f');
 export const SELECT_COLOR = new THREE.Color('#2f7cff');
 
-export function makeMaterial(key: string): THREE.MeshPhysicalMaterial {
+export function makeMaterial(key: string, lowQuality = false): THREE.MeshPhysicalMaterial {
   const d = MATERIALS[key] ?? MATERIALS.steel;
   const m = new THREE.MeshPhysicalMaterial({
     color: new THREE.Color(d.color),
@@ -43,12 +43,17 @@ export function makeMaterial(key: string): THREE.MeshPhysicalMaterial {
     roughness: d.roughness,
     envMapIntensity: 1.0,
   });
-  if (d.transmission) {
+  if (d.transmission && lowQuality) {
+    // no transmission pass under software rendering: plain transparency
+    m.transparent = true;
+    m.opacity = 0.28;
+    m.depthWrite = false;
+  } else if (d.transmission) {
     m.transmission = d.transmission;
     m.thickness = 1.5;
     m.ior = 1.5;
     m.transparent = true;
   }
-  m.userData.base = { color: m.color.clone(), transmission: m.transmission, transparent: m.transparent, opacity: 1 };
+  m.userData.base = { color: m.color.clone(), transmission: m.transmission, transparent: m.transparent, opacity: m.opacity };
   return m;
 }

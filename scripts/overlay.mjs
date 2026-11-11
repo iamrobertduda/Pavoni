@@ -23,13 +23,13 @@ for (const [name, v] of views) {
   const png = await page.screenshot({ omitBackground: true });
   await page.close();
   const comp = await browser.newPage({ viewport: { width: w, height: h } });
-  await comp.goto(`${url}ref/${v.photo}`);
   await comp.setContent(`<html><body style="margin:0;position:relative;width:${w}px;height:${h}px;overflow:hidden">
     <img src="${url}ref/${v.photo}" style="position:absolute;inset:0;width:${w}px;height:${h}px;object-fit:cover">
     <img src="data:image/png;base64,${png.toString('base64')}" style="position:absolute;inset:0;width:${w}px;height:${h}px;opacity:${alpha}">
     <div style="position:absolute;left:6px;top:6px;font:12px sans-serif;background:#fff9;padding:2px 5px">${name} über ${v.photo} (Deckkraft ${alpha})</div>
-  </body></html>`);
-  await comp.waitForTimeout(300);
+  </body></html>`, { waitUntil: 'domcontentloaded' });
+  await comp.waitForFunction(() => [...document.images].every((i) => i.complete && i.naturalWidth > 0), null, { timeout: 60000 });
+  await comp.waitForTimeout(200);
   await comp.screenshot({ path: join(out, `${name}.png`) });
   await comp.close();
   console.log(`  ${name}.png`);

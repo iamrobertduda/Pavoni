@@ -7,7 +7,7 @@
   name: {de: "Kessel mit Anbauteilen", en: "Boiler with fittings", it: "Caldaia con accessori"}
   detachable: true
   explode: {axis: [0, 0, 1], distance_mm: 170, stage: 1}
-  requires_removed: [heating]
+  requires_removed: [heating, portafilter]
   notes: {de: "Kessel samt Gruppe, Schauglas, Dampfhahn und Sicherheitsventil. Wird nach Ausbau des Heizelements gegen den Uhrzeigersinn (von oben) aus dem Basisring geschraubt (Q11)."}
 - id: boiler.cap
   pos: null
@@ -29,6 +29,13 @@
   explode: {axis: [0, 0, -1], distance_mm: 150, stage: 3}
   requires_removed: [boiler.group, p093_cap_nut, p092_lock_nut, p090_lever_pin__1, p081_shower_screen, p082_group_gasket]
   notes: {de: "Wird mit Gummihammer oder Holz-Zwischenlage nach unten ausgetrieben und schiebt dabei Duschsieb und Siebträger-Dichtung vor sich her (Q7)."}
+- id: boiler.group.sleeve
+  pos: null
+  name: {de: "Kolbenhülse mit O-Ring", en: "Piston sleeve with O-ring", it: "Camicia con guarnizione"}
+  detachable: true
+  explode: {axis: [0, 0, -1], distance_mm: 100, stage: 3}
+  requires_removed: [boiler.group.piston, p081_shower_screen, p082_group_gasket]
+  notes: {de: "Nur ausbauen, wenn es an der Hülse undicht ist: mit Stange in den unteren Nuten herausschrauben, bricht leicht (Q14, Q20)."}
 - id: boiler.group.lever
   pos: null
   name: {de: "Hebel", en: "Lever", it: "Leva"}
@@ -46,12 +53,13 @@
   name: {de: "Schauglas und Manometer", en: "Sight glass and gauge", it: "Livello e manometro"}
   detachable: true
   explode: {axis: [-1, 0, 0], distance_mm: 80, stage: 2}
-  requires_removed: [p066_inner_nut, p065_inner_washer]
+  requires_removed: [p066_inner_nut, p065_inner_washer, p069_gauge]
+  notes: {de: "Manometer vorher abschrauben (stößt sonst an den Dampfknauf). Achsen im Rahmen des Schauglases: -X = radial vom Kessel weg."}
 - id: boiler.steam
   pos: 45
   name: {de: "Dampfhahn", en: "Steam valve", it: "Rubinetto vapore"}
   detachable: true
-  explode: {axis: [0, 0.5, 0.866], distance_mm: 80, stage: 2}
+  explode: {axis: [0, 0.655, 0.756], distance_mm: 80, stage: 2}
   requires_removed: [x002_steam_inner_nut, x003_steam_inner_washer]
 - id: boiler.steam.spindle
   pos: null
@@ -71,13 +79,14 @@
   pos: 17
   name: {de: "Sicherheitsventil (mit Anti-Vakuum)", en: "Safety valve (anti-vacuum)", it: "Valvola di sicurezza antivuoto"}
   detachable: false
-  explode: {axis: [0.71, 0.258, 0.655], distance_mm: 50, stage: 2}
+  explode: {axis: [0, 0, 1], distance_mm: 50, stage: 2}
   requires_removed: []
+  notes: {de: "Achsen im Rahmen des Ventils: +Z = Ventilachse (Normale des Schulterkonus)."}
 - id: boiler.safety_valve.cap
   pos: null
   name: {de: "Ventilkappe mit Feder und Ventil", en: "Valve cap with spring and poppet", it: "Corpo valvola con molla"}
   detachable: true
-  explode: {axis: [0.71, 0.258, 0.655], distance_mm: 45, stage: 3}
+  explode: {axis: [0, 0, 1], distance_mm: 45, stage: 3}
   requires_removed: []
   notes: {de: "Fitting-Sechskant unter der Schale mit dünnem 16-mm-Schlüssel gegenhalten, sonst dreht sich die Innenmutter mit (Q18, Q27)."}
 - id: mount
@@ -122,9 +131,9 @@
   pos: 94
   name: {de: "Siebträger", en: "Portafilter", it: "Portafiltro"}
   detachable: true
-  explode: {axis: [0, -0.8, -0.6], distance_mm: 90, stage: 1}
+  explode: {axis: [0, -0.85, -0.53], distance_mm: 110, stage: 1}
   requires_removed: []
-  notes: {de: "Bajonett: erst nach links drehen, dann nach unten abnehmen."}
+  notes: {de: "Bajonett: erst nach links drehen, dann nach unten und vorn abnehmen."}
 - id: accessories
   pos: null
   name: {de: "Zubehör (nicht modelliert)", en: "Accessories", it: "Accessori"}

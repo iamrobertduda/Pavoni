@@ -69,7 +69,7 @@ class Report:
                 print(f"         ! {m}")
             if len(c["warnings"]) > 25:
                 print(f"         ! ... {len(c['warnings']) - 25} weitere Warnungen")
-            for m in c["info"][:12]:
+            for m in c["info"][: (60 if name.startswith("9") else 12)]:
                 print(f"           {m}")
 
 
@@ -184,11 +184,13 @@ class Ctx:
             if scope and not (a == scope or a.startswith(scope + ".")):
                 continue
             present.append(i)
+        moving_parts = {self.inst[i]["part"] for i in moving}
+        carried = {i for i in present if self.parts[self.inst[i]["part"]].get("carrier") in moving_parts}
         if self.kind(unit) == "inst":
             car = self.parts[unit.split("__")[0]].get("carrier")
             if car:
-                cs = set(self.part_instances.get(car, []))
-                present = [i for i in present if i not in cs]
+                carried |= set(self.part_instances.get(car, []))
+        present = [i for i in present if i not in carried]  # carriers and parts riding on the moving part
         return moving, present
 
     def explode_of(self, unit: str):
@@ -251,7 +253,8 @@ class Ctx:
                     bj = self.bbox(j)
                     if np.any(bi[1] < bj[0]) or np.any(bi[0] > bj[1]):
                         continue
-                    if t <= WHITELIST_FREE_TRAVEL and frozenset((i, j)) in self.overlaps:
+                    wl = self.overlaps.get(frozenset((i, j)))
+                    if wl and (wl.get("scope") in ("path", "both") or t <= wl.get("free_mm", WHITELIST_FREE_TRAVEL)):
                         continue
                     res = fcl.CollisionResult()
                     if fcl.collide(obj, static[j], req, res):
@@ -404,6 +407,8 @@ def check_interference(ctx: Ctx, rep: Report):
             thick = 2 * vol / max(area, 1e-9)
             key = frozenset((a, b))
             wl = ctx.overlaps.get(key)
+            if wl and wl.get("scope") == "path":
+                wl = None
             if wl:
                 seen_whitelist.add(key)
                 if vol > wl["max_mm3"]:
@@ -413,9 +418,12 @@ def check_interference(ctx: Ctx, rep: Report):
                 continue
             if thick > INTERFERENCE_THICKNESS and vol > 0.5:
                 rep.add(name, "error", f"{a} x {b}: Überdeckung {vol:.1f} mm³ (mittlere Dicke {thick:.2f} mm)")
-    for key, wl in ctx.overlaps.items():
-        if key not in seen_whitelist and all(k in ctx.inst for k in key):
-            rep.add(name, "warn", f"Whitelist-Eintrag ohne Überdeckung: {' x '.join(sorted(key))} ({wl['reason']})")
+    used = {id(ctx.overlaps[k]) for k in seen_whitelist}
+    for o in ctx.data["overlaps"]:
+        if o.get("scope") == "path" or id(o) in used:
+            continue
+        if any(all(k in ctx.inst for k in key) for key, w in ctx.overlaps.items() if w is o):
+            rep.add(name, "warn", f"Whitelist-Eintrag ohne Überdeckung: {o['a']} x {o['b']} ({o['reason']})")
     rep.ok(name, f"{n_pairs} Paare mit überlappender Bounding-Box geprüft")
 
 
@@ -530,7 +538,7 @@ def check_procedures(ctx: Ctx, rep: Report, coverage_strict: bool):
 def check_proportions(ctx: Ctx, rep: Report, D: Dims):
     name = "9 Proportionen (PLAN 8.2)"
     rep.ok(name)
-    res = evaluate(ctx.data["proportions"], ctx.manifest, D.boiler_od)
+    res = evaluate(ctx.data["proportions"], ctx.manifest, D.boiler_od, ctx.meshes)
     for r in res:
         if r["status"] == "skip":
             rep.add(name, "warn", f"{r['name']}: übersprungen ({r['reason']})")

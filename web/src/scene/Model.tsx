@@ -39,14 +39,16 @@ export function Model() {
       m.userData.instanceId = m.name;
       m.userData.partId = pid;
       m.userData.base = m.position.clone();
-      m.material = makeMaterial(part.material);
-      m.castShadow = true;
-      m.receiveShadow = true;
+      m.material = makeMaterial(part.material, useStore.getState().lowQuality);
+      m.castShadow = !useStore.getState().lowQuality;
+      m.receiveShadow = !useStore.getState().lowQuality;
       registry.set(m.name, m);
     }
     registry.ready = true;
+    useStore.getState().set({ modelReady: true });
     return () => {
       registry.ready = false;
+      useStore.getState().set({ modelReady: false });
     };
   }, [meshes]);
 
@@ -110,7 +112,7 @@ export function Model() {
       const part = partsById[pid];
       const d = disp[iid];
       const mat = m.material as THREE.MeshPhysicalMaterial;
-      const base = mat.userData.base as { color: THREE.Color; transmission: number; transparent: boolean };
+      const base = mat.userData.base as { color: THREE.Color; transmission: number; transparent: boolean; opacity: number };
       let visible = (d?.visible ?? true) && !s.hidden.has(pid);
       if (s.isolate && s.selected && !selInst.has(iid)) visible = false;
       m.visible = visible;
@@ -132,11 +134,11 @@ export function Model() {
         mat.transmission = 0;
       } else {
         mat.transparent = base.transparent;
-        mat.opacity = 1;
-        mat.depthWrite = true;
+        mat.opacity = base.opacity;
+        mat.depthWrite = !base.transparent;
         mat.transmission = base.transmission;
       }
-      m.renderOrder = ghost ? 2 : 0;
+      m.renderOrder = ghost || base.transparent ? 2 : 0;
       mat.needsUpdate = true;
     }
   });

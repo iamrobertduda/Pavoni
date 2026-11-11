@@ -90,7 +90,7 @@ def main() -> int:
     assemblies = {}
     for aid, a in asm.items():
         parent = aid.rpartition(".")[0] or None
-        loc = m.T.frame(parent or aid) if parent else m.T.frame(aid)
+        loc = m.T.frame(aid)  # an assembly's own axis is given in its own frame
         assemblies[aid] = {
             "parent": parent,
             "detachable": a["detachable"],
@@ -128,6 +128,7 @@ def main() -> int:
         "instances": instances,
         "assemblies": assemblies,
         "dims": m.D.all_entries(),
+        "datums": m.T.report(),
         "timings": {"build_s": round(t_build, 1), "gltf_s": round(t_gltf, 1), "step_s": round(t_step, 1), "modules": m.timings},
     }
     MANIFEST.write_text(json.dumps(manifest, indent=1, ensure_ascii=False))

@@ -564,7 +564,7 @@ Jede Phase endet mit grünem `make all` und einem Commit. Fortschritt durch Abha
 - Abnahme: Schemas gültig; jedes Teil hat alle Pflichtfelder; offene Fragen sind als solche notiert.
 
 **Phase 3 — Blockout**
-- [ ] Alle Außenformen (Stufe B) an ihren Datums; Anordnung nach Abschnitt 2.2, Proportionen nach
+- [x] Alle Außenformen (Stufe B) an ihren Datums; Anordnung nach Abschnitt 2.2, Proportionen nach
   Abschnitt 8.2, zusätzlich per Overlay gegen `B2_rear.jpg` und `B3_left.jpg` abgeglichen.
 - Abnahme: Renderings aus den Foto-Blickwinkeln sind klar als diese Maschine erkennbar; jede Größe
   aus Tabelle 8.2 liegt im Modell innerhalb ± 10 %; Hüllmaß passt. Guter Zeitpunkt für Rückmeldung des Besitzers, aber nicht darauf warten.
@@ -730,3 +730,35 @@ Hier steht, was bei der Umsetzung anders gelöst wurde als oben beschrieben, und
 - **Hinweis zur Kalibrierung:** Katalogmaße (Gruppe außen 60, Siebträgerkopf 60, Schauglas-Abdeckung 162,
   Schalter-Ausschnitt 30 × 22) sprechen eher für D ≈ 105–110 mm als für 100 mm. Das wird in Phase 3 per
   Overlay geprüft; die Messung A1 in `reference/measurements.md` entscheidet es endgültig.
+
+**Phase 3 (2026-11-11)**
+
+- **Alle 115 Instanzen gebaut** (Status `blockout`); viele Stufe-A-Innenteile (Kolben, Dichtungen,
+  Stangendichtungs-Stapel, Schauglas-Garnitur, Dampfhahn-Packung, Sicherheitsventil) sind bereits als echte
+  Solids vorhanden, weil sie mit den Gehäusen zusammenhängen. Sie werden in Phase 4 je Baugruppe im Schnitt
+  geprüft und erst dann `modeled`/`verified`.
+- **Maßstab D = 104 mm statt 100 mm.** Einzelne Foto-Verhältnisse streuen je nach Bezugsteil zwischen
+  D ≈ 92 und 119 mm, weil die Fotos aus 35–40 cm Abstand und von oben aufgenommen sind. Entschieden nach
+  Katalog-Zusammenhängen: obere Kessel/Basis-Dichtung Ø104 (≈ Fußring), Kesselinhalt 1,6 l (bei D = 100 nur
+  ca. 1,45 l Gesamtvolumen), Hutmutter SW 14 im Foto B3, und die Gruppenkette aus Katalogmaßen (Stange 111,
+  Kolben 23, Sieb 14, Spiel 2,5) ergibt die Turmoberkante auf 0,3 % genau wie im Foto. Die Messung A1 in
+  `reference/measurements.md` ersetzt diesen Wert.
+- **Tabelle 8.2 ist in sich nur mit Zylinderhöhe 1,8 D konsistent** (0,5 + 1,8 + 0,26 + 0,6 ≈ 3,14 D); das
+  Modell nutzt 1,8 D.
+- **Kamera-Anpassung statt Schätzung:** `cad/pavoni/camfit.py` löst die Fotokameras aus Punktkorrespondenzen
+  (`data/photo_points.yaml`, Handy-Bildwinkel 67° fest). Ergebnis: B3 ca. 40 cm, B2 ca. 37 cm Abstand.
+  Daraus folgt, dass Teile hinten am Kessel in B2 rund 13 % zu groß erscheinen. Korrigiert: Dampfhahn-Breite
+  1,91 → 1,75 D, Lanze 1,35 → 0,78 D. Overlays: `make overlay` → `artifacts/overlays/`.
+- **Korrekturen am Skelett:** Konus-Normale (Kathete vertauscht, 49° → 41°), Schauglas radial statt parallel
+  verschoben, Dampfstutzen senkrecht zum Konus.
+- **Konstruktionsbefund Schauglas:** Die 17-mm-„Mutter“ (Pos. 61) ist eine Hohlschraube mit Außengewinde,
+  sonst passt die Dichtung Ø15 nicht in den Halter (Q17: „threaded portion faces out“).
+- **Prüfstand nach Phase 3:** `make validate` 0 Fehler: 115 Solids gültig, 296 Teilepaare auf Durchdringung
+  geprüft (11 begründete Whitelist-Einträge, v. a. Dichtungsverpressung), 108 Ausbaupfade kollisionsfrei,
+  Hüllmaß B +1,9 % / T −5,3 % / H +2,1 %, alle 33 Zeilen aus Tabelle 8.2 innerhalb ±10 %, GLB 2,9 MB,
+  506 000 Dreiecke, 108 Draw Calls.
+- **Viewer:** Schnittansicht mit gefüllten Schnittflächen (Stencil, Phase-5-Vorgriff), Qualitätsmodus
+  `quality=low` für Software-Rendering (Glas ohne Transmission, keine Schatten).
+- **Neu im Datenmodell:** Teile, deren `carrier` gerade bewegt wird, wandern mit (z. B. die zweite
+  Sicherungsscheibe auf dem Bolzen); Unterbaugruppe `boiler.group.sleeve`; Rahmen je Baugruppe für gedrehte
+  Achsen (Schauglas, Sicherheitsventil).

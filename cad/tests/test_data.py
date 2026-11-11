@@ -34,11 +34,12 @@ def test_photo_ratios_scale_with_boiler(data):
 
     D1 = Dims(copy.deepcopy(data["dimensions"]))
     raw = copy.deepcopy(data["dimensions"])
-    raw["dims"]["boiler_od"]["value"] = 110.0
+    f = 1.1
+    raw["dims"]["boiler_od"]["value"] = D1.boiler_od * f
     D2 = Dims(raw)
     for k, e in raw["dims"].items():
         if e.get("ratio_of") == "boiler_od":
-            assert abs(D2.get(k) / D1.get(k) - 1.1) < 1e-9, k
+            assert abs(D2.get(k) / D1.get(k) - f) < 1e-9, k
 
 
 def test_procedure_ids_match_files(data):
