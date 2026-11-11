@@ -46,31 +46,72 @@ Laut Versionshistorie (Quelle Q1) gibt es zwei in Frage kommende Generationen:
 | v3.0 | 2001–2007 | neue Gruppe mit Kunststoff-/Teflon-Hülse |
 | v3.1 | ab 2007 | wie v3.0, aber Messingkolben, geänderte Basis und Unterboden |
 
-Welche es ist, lässt sich aus den zwei vorhandenen Fotos nicht sicher sagen → Parameter
-`machine.version` in `dimensions.yaml`, Standard `v3.1`, bis der Besitzer das Typenschild unter der
-Basis liefert (Abschnitt 14).
+Welche es ist, lässt sich aus den Fotos nicht sicher sagen → Parameter `machine.version` in
+`dimensions.yaml`, Standard `v3.1`, bis der Besitzer das Typenschild unter der Basis liefert
+(Abschnitt 14).
 
-**Aus den zwei Fotos des Besitzers ablesbar** (Schrägansicht links-vorn, Schrägansicht rechts-hinten):
+### 2.1 Vorhandene Fotos des Besitzers
 
-- Basis: verchromt, abgerundet-rechteckiger Grundriss, schwarze Unterkante (Gummi/Kunststoff), vorn
-  eingelassene Tropfschalen-Mulde. Tropfschalen-Einsatz und Gitter fehlen auf den Fotos → trotzdem
-  modellieren. Rundes La-Pavoni-Emblem an der Stirnseite, ein grüner beleuchteter Wippschalter an der
-  Basis-Seite, Netzkabel mit Schuko-Winkelstecker hinten.
-- Kessel: polierter Zylinder, unten ausgestellter Fußring, oben konische Schulter, schwarzer
-  gelappter Kesseldeckel-Knauf.
-- Schauglas-Säule seitlich am Kessel mit transparenter Kunststoff-Abdeckung, obenauf das Manometer
-  (Skala 0–2,5 bar, grüner Bereich).
-- Schwarzer Dampfventil-Knauf, verchromtes Dampfrohr mit Lanze, verchromter Zylinder an der
-  Kesselschulter (vermutlich das Sicherheitsventil).
-- Gruppe: glockenförmiger Gruppenkopf an kurzem Arm, Hebelgabel mit zwei Bolzen, Kolbenstange mit
-  Kontermutter und Hutmutter, verchromter Hebel mit schwarzem Griff.
-- Siebträger ist nicht eingesetzt → nach Standard (51 mm, schwarzer Griff, Doppelauslauf) modellieren.
-- Kalk-/Rostspuren am Kesselfuß (Übergang zur Basis), am unteren Schauglas-Anschluss und in der
-  Tropfmulde. Das deutet auf frühere Undichtigkeiten in diesem Bereich hin → Schauglas-, Kessel/Basis-
-  und Gruppendichtungen haben bei den Anleitungen Priorität.
+Neun Fotos, zwei Aufnahmesätze. Sie liegen **nicht** im Repo (öffentlich, Entscheidung des
+Besitzers steht aus); alles Ablesbare steht deshalb hier und in Abschnitt 8.2 als Text und Zahl.
 
-Die genaue Lage von Schauglas, Dampfventil und Sicherheitsventil am Kesselumfang (Winkel) ist anhand
-von Referenzbildern festzulegen (Phase 2), nicht aus dieser Beschreibung.
+| Foto | Blickrichtung | Wert für das Modell |
+|---|---|---|
+| A1 | schräg von links-vorn, ohne Siebträger und Tropfgitter | Gesamtform, Manometer-Skala |
+| A2 | schräg von rechts-hinten | Dampflanze, Sicherheitsventil |
+| B1 | Nahaufnahme Basis-Stirnseite | Emblem, Tropfgitter, Basis-Profil |
+| B2 | **gerade von hinten** | Kessel-Proportionen, Dampfhahn-Baugruppe, Schauglas, Kabelaustritt |
+| B3 | **gerade von links** (Bedienersicht), mit Siebträger | Achsabstände, Höhen, Gruppe, Hebel, Schalter |
+| C1–C3 | schräg von links-vorn, Maschine komplett | Gesamteindruck, Siebträger, Tropfgitter |
+| C4 | schräg von links, aus größerer Entfernung | Silhouette mit wenig Perspektive |
+
+B2 und B3 sind die Hauptreferenzen für Proportionen (Abschnitt 8.2).
+
+### 2.2 Anordnung der Baugruppen
+
+Richtungen aus Sicht des Bedieners, der vor der Gruppe steht („vorn“ = Gruppe, Tropfschale, Emblem):
+
+- **Gruppe:** vorn am Kessel, an kurzem waagerechtem Arm mit Flansch. Armachse knapp unter der
+  Schulterkante des Kessels.
+- **Schauglas mit Manometer:** links am Kessel, etwa 90° zur Gruppe, minimal nach hinten versetzt.
+  Das Manometer sitzt auf dem oberen Schauglas-Anschluss, Zifferblatt zeigt nach vorn.
+- **Dampfhahn-Baugruppe:** ein waagerechtes Rohr quer hinter dem Kesselhals, über dem Schulterkonus.
+  Von links nach rechts: schwarzer Sternknauf, Spindel, Sechskant-Mutter, Ventilkörper, mittig ein
+  Stutzen schräg nach unten in den Konus, Bund, Schwenkstück mit geschlossenem Rohrende; daran hängt
+  die Dampflanze rechts außen nach unten.
+- **Sicherheitsventil:** rechts auf dem Schulterkonus, senkrecht zur Konusfläche nach außen geneigt,
+  mit Sechskant am Fuß. Genauen Umfangswinkel an Referenzbildern prüfen.
+- **Schalter:** linke Längsseite der Basis, etwa in der Mitte; grüner beleuchteter Wippschalter
+  (0/I) in schwarzem Rahmen.
+- **Netzkabel:** tritt hinten rechts aus der Basis aus; Schuko-Winkelstecker.
+- **Emblem:** rund, schwarz/gold, mittig an der Stirnseite der Basis.
+
+### 2.3 Formdetails
+
+- **Kessel:** polierter Zylinder mit umlaufender Naht/Ringnut bei etwa 64 % der Zylinderhöhe (von
+  unten). Unten ein ausgestellter Fußring, der in einem erhöhten runden Kragen der Basis sitzt. Oben
+  eine konische Schulter, darauf der Einfüllhals mit schwarzem gelapptem Deckelknauf auf konischem
+  schwarzem Sockel.
+- **Basis:** verchromt, Grundriss ein stark abgerundetes Rechteck (hinten annähernd halbrund um den
+  Kessel), Seitenwände leicht nach außen geneigt, umlaufender Absatz unter der Oberkante, schwarze
+  Bodenplatte bzw. Gummikante unten. Hinten unten mittig eine kleine Aussparung.
+- **Tropfschale:** schwarzer Kunststoff-Einsatz (Pos. 40) mit schwarzem Kunststoff-Gitter (Pos. 41),
+  abgerundet-rechteckig, etwa zehn Querschlitze unterschiedlicher Länge, Griffmulden links und
+  rechts. Das Metallgitter Pos. 42 ist bei dieser Maschine nicht verbaut.
+- **Gruppe:** zylindrischer Oberteil, darunter glockenförmig erweitert; oben ein angegossener
+  Ständer mit Gabel für den Hebel. Auf der Kolbenstange oben Kontermutter und Hutmutter.
+- **Hebel:** zwei Bolzen mit Sicherungsringen: Drehpunkt am Ständer (zur Kesselseite versetzt) und
+  Bolzen an der Kolbenstange (auf der Gruppenachse). Gabel aus Flachmaterial, verchromte Rundstange,
+  schwarzer Griff. Ruhelage: etwa 24° unter der Waagerechten nach vorn.
+- **Siebträger:** verchromt, schwarzer Griff, Doppelauslauf.
+- **Schauglas:** Glasrohr zwischen verchromten Anschlüssen oben und unten, davor eine transparente
+  U-förmige Kunststoff-Abdeckung über die ganze Höhe.
+
+### 2.4 Zustand
+
+Kalk-/Rostspuren am Kesselfuß (Übergang zur Basis), am unteren und oberen Schauglas-Anschluss und in
+der Tropfmulde. Das deutet auf Undichtigkeiten in diesem Bereich hin → Schauglas-, Kessel/Basis- und
+Gruppendichtungen haben bei den Anleitungen Priorität.
 
 ## 3. Technische Entscheidungen
 
@@ -212,8 +253,12 @@ selbst `_1`-Suffixe vergibt (Abschnitt 13).
 piston_seal_od: {value: 44.0, unit: mm, confidence: catalog, source: "Q5 Art. 361005"}
 piston_seal_id: {value: 36.0, unit: mm, confidence: catalog, source: "Q5 Art. 361005",
                  note: "Andere Quelle nennt 33 mm. Vor Bestellung am Kolben messen."}
-boiler_od:      {value: 100.0, unit: mm, confidence: guess, source: "Schätzung aus Foto"}
+boiler_od:      {value: 100.0, unit: mm, confidence: photo, source: "Abschnitt 8.2"}
+group_offset:   {ratio_of: boiler_od, ratio: 1.09, confidence: photo, source: "Foto B3"}
 ```
+
+Aus Fotos abgeleitete Maße werden als **Verhältnis zum Kesseldurchmesser** gespeichert (`ratio_of`).
+Misst der Besitzer den Kessel einmal mit dem Messschieber, skaliert alles Foto-Abgeleitete mit.
 
 `confidence` ist geordnet: `measured` > `catalog` > `spec` > `photo` > `guess`.
 Kein Maß steht als Zahl im CAD-Code; alles kommt aus dieser Datei. Der Viewer zeigt die Konfidenz
@@ -297,7 +342,7 @@ Stand 2007), Bezeichnungen nach Quelle Q2. Die Zeichnung selbst nicht ins Repo l
 | Heizung | 8 Heizelement-Dichtung · 9 Heizelement · 10 Schraube M5×12 |
 | Elektrik | 11 Pressostat-Rohr (Kupfer) · 12 Pressostat · 13 Sicherheitsthermostat · 14 Thermostat-Schutz · 15 Zahnscheibe · 16 Mutter M4 Messing · 26 Schalter · 27 Kabeltülle · 28 Kabel mit Stecker · 30 Zahnscheibe · 31 Blechschraube M3 · 32 Halter Anschlussdose · 33 Kabelhalter · 34 Klemmblock · 35 Mutter M3 |
 | Sicherheitsventil | 17 komplett · 18 Gehäuse und Sitz · 19 Ventil mit Anti-Vakuum · 20 Feder · 21 Dampfablass-Kragen (22–25 = alte Bauart, hier nicht relevant) |
-| Basis | 5 Basis · 29 Emblem · 36 Bodenplatte Kunststoff · 37 Gummifuß · 38 Stopfen Bodenplatte · 39 Basisschraube · 40 Tropfschale · 41 Gittereinsatz Kunststoff · 42 Gitter |
+| Basis | 5 Basis · 29 Emblem · 36 Bodenplatte Kunststoff · 37 Gummifuß · 38 Stopfen Bodenplatte · 39 Basisschraube · 40 Tropfschale · 41 Gittereinsatz Kunststoff (42 Metallgitter: an dieser Maschine nicht verbaut) |
 | Dampf | 45 Dampfhahn komplett · 46 Hahnkörper · 47 O-Ring · 48 Spindel · 49 Messingscheibe · 50 Gummischeibe · 51 Mutter · 52 Knauf · 53 Stift · 54 Dampfrohr komplett · 55 Düse (56–58 Cappuccino-Automatik: Zubehör, optional) |
 | Schauglas/Manometer | 59 Halter oben · 60 Schauglas-Dichtung · 61 Mutter oben/unten · 62 Schauglas · 63 Halter unten · 64 Scheibe · 65 Messingscheibe · 66 Mutter Schauglas/Kessel · 67 Stopfen oben · 68 Manometer-Mutter · 69 Manometer · 70 Schauglas-Abdeckung (gesteckt) · 100 Scheibe |
 | Gruppe | 71 komplett · 72 Gruppenkörper · 73 Kolbenstangen-Dichtung · 74 Scheibe · 75 Sicherungsring · 76 Kolbenhülse innen · 77 Hülsen-Dichtung · 78 Kolbenstange · 79 Kolben (Messing) · 80 Kolbendichtung (2×) · 81 Duschsieb · 82 Siebträger-Dichtung · 83 Kunststoff-Verbinder Steigrohr/Gruppe · 84 Wasserrohr Kessel→Gruppe · 85 Dichtung Gruppe/Kessel · 86 Schraube Gruppe/Kessel (2×) |
@@ -312,9 +357,11 @@ Heizelement?), sowie welche Positionen bei v3.0/v3.1 abweichen.
 
 Alle Werte sind Start-Einträge für `dimensions.yaml`. Keiner ist am Gerät gemessen.
 
+### 8.1 Katalog- und Händlerangaben
+
 | Größe | Wert | Konfidenz | Quelle |
 |---|---|---|---|
-| Hüllmaß H × B × T | 320 × 200 × 290 mm (eine Quelle: H 366) | spec | Q3 |
+| Hüllmaß H × B × T | 320 × 200 × 290 mm (eine Quelle: H 366). Das ist die Hülle **mit** Knäufen, nicht die Basis (siehe 8.2) | spec | Q3 |
 | Gewicht | 5,5–6,2 kg | spec | Q3 |
 | Kesselinhalt | 1,6 l | spec | Q1, Q3 |
 | Betriebsdruck | 0,7–0,8 bar | spec | Q3 |
@@ -331,6 +378,58 @@ Alle Werte sind Start-Einträge für `dimensions.yaml`. Keiner ist am Gerät gem
 | Sicherungsring Kolbenstange | „J-20“, Ø 21,5 mm | catalog | Q6 |
 
 O-Ring-Normmaße aus einer Normtabelle übernehmen, nicht raten.
+
+### 8.2 Proportionen aus den Fotos
+
+Abgelesen aus Foto B3 (gerade von links) und B2 (gerade von hinten), angegeben als Vielfaches des
+Kessel-Außendurchmessers **D**. Handyfotos aus kurzer Distanz: Genauigkeit etwa ± 10 %, Konfidenz
+`photo`. Die Zahlen ersetzen keine Messung, reichen aber für Blockout und Proportionen.
+
+**Maßstab.** Mit D = 100 mm ergibt die Hülle aus den Fotos 191 mm Breite (Dampfknauf bis
+Lanzen-Rohrende), 298 mm Tiefe (Dampfknauf bis Basis-Vorderkante) und 314 mm Höhe (Tisch bis
+Deckelknauf). Das passt zu den Katalogwerten 200 × 290 × 320; rechnerisch D ≈ 97–105 mm. Zusätzlich
+misst das Manometer in beiden Ansichten 0,43 D, was zu einem 40-mm-Manometer mit Zierring passt.
+Arbeitswert daher **D = 100 mm**. Daraus folgt auch: Die Katalogmaße beschreiben die Hülle ohne
+Hebel und Siebträgergriff, die Basis selbst ist deutlich kleiner.
+
+| Größe | × D | mm bei D = 100 |
+|---|---|---|
+| Kessel-Außendurchmesser | 1,00 | 100 |
+| Kesselzylinder, Fußunterkante bis Schulterkante | 1,8–1,9 | 180–190 |
+| Naht/Ringnut, Höhe über Fußunterkante | 64 % der Zylinderhöhe | ca. 118 |
+| Schulterkonus, Höhe | 0,26 | 26 |
+| Deckelknauf, Durchmesser | 0,60 | 60 |
+| Oberkante Deckelknauf über Konus-Oberkante (Hals, Sockel, Knauf) | 0,6 | 60 |
+| Kesselfuß-Unterkante über Tisch (Basis-Plateau) | 0,5 | 50 |
+| Gesamthöhe Tisch bis Deckelknauf | 3,14 | 314 |
+| Basis Länge × Breite | 2,5 × 1,6 | 250 × 160 |
+| Basis Höhe (Chrom-Schürze samt Bodenplatte) | 0,5 | 50 |
+| Abstand Kesselachse zu Gruppenachse | 1,09 | 109 |
+| Gruppenarm, Achshöhe über Tisch | 2,0 | 200 |
+| Gruppe Oberteil, Durchmesser | 0,54 | 54 |
+| Gruppe Glocke, größter Durchmesser | 0,64 | 64 |
+| Unterkante Gruppe (Siebträger-Ebene) über Tisch | 1,6 | 160 |
+| Siebträger-Körper, Durchmesser | 0,55 | 55 |
+| Auslauf-Unterkante über Tisch | 1,2 | 120 |
+| Oberkante Hebelständer über Tisch | 2,8 | 280 |
+| Hebel-Drehpunkt hinter der Gruppenachse | 0,20 | 20 |
+| Hebelstange, Durchmesser | 0,09–0,10 | ca. 10 |
+| Hebelstange sichtbar, Gabel bis Griffanfang | 1,07 | 107 |
+| Schauglas-Achse, Abstand zur Kesselachse | 0,65 | 65 |
+| Schauglas-Abdeckung, Höhe | 1,5 | 150 |
+| Schauglas-Abdeckung, Breite × Tiefe | 0,30 × 0,23 | 30 × 23 |
+| Manometer, Durchmesser | 0,43 | 43 |
+| Dampfhahn-Rohrachse über Schulterkante | 0,35 | 35 |
+| Dampfhahn-Rohrachse hinter der Kesselachse | 0,40–0,45 | 40–45 |
+| Dampfhahn-Rohr, Durchmesser | 0,18–0,22 | ca. 20 |
+| Dampfhahn-Baugruppe, Gesamtbreite | 1,91 | 191 |
+| Dampfknauf, Durchmesser | 0,41–0,47 | 41–47 |
+| Schalter-Rahmen, Breite × Höhe | 0,29 × 0,23 | 29 × 23 |
+| Schalter-Mitte, Lage entlang der Basis | 47 % von hinten | — |
+
+Höhenmaße über dem Tisch sind wegen des schrägen Blicks von oben am unsichersten.
+
+### 8.3 Werkzeuge
 
 Werkzeuge laut Wartungsanleitungen (Q7–Q10): Schlüssel 14 mm (obere Gruppenmutter und Kontermutter,
 Dampfhahn), 10 mm (Schrauben Gruppe/Kessel), 17 mm (Schauglas-Muttern), Sicherungsringzange,
@@ -419,7 +518,8 @@ kompiliert, ist nicht fertig.
    kollisionsfrei herausbewegen lässt, wenn genau die Teile aus `requires_removed` fehlen. Das
    prüft die Zerlege-Reihenfolge automatisch. Mesh-basierte Kollisionsprüfung genügt (z. B.
    trimesh mit FCL), Laufzeit im Auge behalten.
-5. **Hüllmaß:** Gesamt-Bounding-Box gegen die Katalogwerte (weiche Prüfung, ± 5 %).
+5. **Hüllmaß:** Bounding-Box aller Teile außer Hebel und Siebträgergriff gegen die Katalogwerte
+   200 × 290 × 320 mm (weiche Prüfung, ± 7 %).
 6. **Budgets:** Dateigröße, Dreiecke, Draw Calls.
 
 ### 11.2 Web
@@ -430,8 +530,10 @@ Teil wählen, Explode, Schnitt, eine Anleitung komplett durchklicken, Deep-Link 
 ### 11.3 Visuell (`make renders`)
 
 `scripts/render_views.mjs` erzeugt feste Ansichten nach `artifacts/renders/`: vorn, links, rechts,
-hinten, oben, die beiden Blickwinkel der Besitzer-Fotos, voll explodiert, Dichtungs-Karte, Schnitt
-durch die Gruppe. Der Build-Agent sieht sich die Bilder nach jeder Modellier-Iteration an und
+hinten, oben, die Blickwinkel der Besitzer-Fotos (Abschnitt 2.1; „gerade von links“ und „gerade von
+hinten“ sind die wichtigsten), voll explodiert, Dichtungs-Karte, Schnitt durch die Gruppe. Liegen die
+Fotos nicht vor, dienen die Proportionen aus Abschnitt 8.2 als Soll: Das Render-Skript gibt die
+entsprechenden Verhältnisse aus dem Modell aus, und ein Test vergleicht sie mit der Tabelle. Der Build-Agent sieht sich die Bilder nach jeder Modellier-Iteration an und
 vergleicht mit den Referenzen. `scripts/overlay.mjs` legt ein Rendering halbtransparent über ein
 Referenzfoto, um Proportionen zu prüfen. Keine pixelgenauen Bildvergleiche als Test (unter
 Software-Rendering instabil).
@@ -459,9 +561,10 @@ Jede Phase endet mit grünem `make all` und einem Commit. Fortschritt durch Abha
 - Abnahme: Schemas gültig; jedes Teil hat alle Pflichtfelder; offene Fragen sind als solche notiert.
 
 **Phase 3 — Blockout**
-- [ ] Alle Außenformen (Stufe B) an ihren Datums; Proportionen per Overlay gegen Fotos abgeglichen.
-- Abnahme: Renderings aus den Foto-Blickwinkeln sind klar als diese Maschine erkennbar; Hüllmaß
-  passt. Guter Zeitpunkt für Rückmeldung des Besitzers, aber nicht darauf warten.
+- [ ] Alle Außenformen (Stufe B) an ihren Datums; Anordnung nach Abschnitt 2.2, Proportionen nach
+  Abschnitt 8.2, wo Fotos vorliegen zusätzlich per Overlay abgeglichen.
+- Abnahme: Renderings aus den Foto-Blickwinkeln sind klar als diese Maschine erkennbar; jede Größe
+  aus Tabelle 8.2 liegt im Modell innerhalb ± 10 %; Hüllmaß passt. Guter Zeitpunkt für Rückmeldung des Besitzers, aber nicht darauf warten.
 
 **Phase 4 — Detail-Baugruppen (Stufe A)**, in dieser Reihenfolge:
 - [ ] 4.1 Gruppe und Kolben · [ ] 4.2 Hebel · [ ] 4.3 Schauglas und Manometer ·
@@ -512,15 +615,20 @@ weiterbauen. Entwicklung und Commits auf dem vorgegebenen Feature-Branch.
 
 Nichts davon ist Voraussetzung für den Baustart, alles verbessert die Genauigkeit.
 
-1. **Typenschild/Aufkleber** unter der Basis (Modell, Baujahr, Watt) → klärt v3.0/v3.1.
-2. **Fotos**, möglichst gerade und mit Lineal im Bild: vorn, links, rechts, hinten, oben, Unterseite
-   (wenn möglich mit abgenommener Bodenplatte), Nahaufnahmen von Gruppe, Schauglas, Dampfhahn,
-   Sicherheitsventil, Siebträger.
-3. **Messschieber-Maße**, in dieser Priorität: Kessel-Außendurchmesser und -höhe · Basis Länge ×
-   Breite × Höhe · Abstand Kesselachse zu Gruppenachse · Außendurchmesser Gruppenkopf ·
-   Hebellänge · Schauglas-Länge und -Durchmesser · Kesseldeckel-Durchmesser · Siebträger-Durchmesser.
-4. **Beim ersten Zerlegen:** jede ausgebaute Dichtung messen (innen, außen, Dicke) und die
+1. **Kessel-Außendurchmesser** mit dem Messschieber. Dieses eine Maß kalibriert alle
+   Foto-Proportionen aus Abschnitt 8.2 auf einmal.
+2. **Typenschild/Aufkleber** unter der Basis (Modell, Baujahr, Watt) → klärt v3.0/v3.1.
+3. **Noch fehlende Fotos:** Unterseite (wenn möglich mit abgenommener Bodenplatte → klärt die
+   Heizelement-Befestigung), gerade von vorn, gerade von rechts, von oben, Nahaufnahmen von
+   Sicherheitsventil, Hebelgabel, Dampfhahn und Siebträger von unten. Seiten- und Rückansicht sowie
+   Schrägansichten sind vorhanden (Abschnitt 2.1).
+4. **Weitere Messschieber-Maße**, in dieser Priorität: Basis Länge × Breite × Höhe · Abstand
+   Kesselachse zu Gruppenachse · Außendurchmesser Gruppenkopf · Kesselhöhe · Hebellänge ·
+   Schauglas-Länge und -Durchmesser · Siebträger-Durchmesser.
+5. **Beim ersten Zerlegen:** jede ausgebaute Dichtung messen (innen, außen, Dicke) und die
    Kolbenmaße (Durchmesser, Nutbreite, Nuttiefe). Das sind die wertvollsten Maße überhaupt.
+6. **Entscheidung zu den Fotos:** ins (öffentliche) Repo unter `reference/photos/` legen oder in der
+   Build-Session anhängen.
 
 Die genaue Liste mit Skizze, wo gemessen wird, entsteht in Phase 2 als `reference/measurements.md`.
 
