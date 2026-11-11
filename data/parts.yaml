@@ -1423,7 +1423,7 @@
   assembly: electrical
   instances: [p026_switch__1]
   kind: electrical
-  material: plastic_black
+  material: plastic_green
   wear_part: false
   detail_tier: C
   status: modeled

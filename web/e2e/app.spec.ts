@@ -8,13 +8,13 @@ declare global {
       setExplode: (x: number) => void;
       setView: (n: string) => void;
       gotoStep: (proc: string, n: number, dir?: string) => void;
-      state: () => { selected: string | null; explode: number; mode: string; procId: string | null; stepIdx: number; section: string | null };
+      state: () => { selected: string | null; explode: number; mode: string; procId: string | null; stepIdx: number; section: string | null; view: string | null };
       instancePosition: (iid: string) => number[] | null;
       instanceVisible: (iid: string) => boolean | null;
       instances: () => string[];
       capCount: () => number;
       frames: () => number;
-      data: { parts: { id: string; instances: string[]; status: string }[]; procedures: { id: string; steps: { id: string }[] }[]; sections: Record<string, unknown> };
+      data: { parts: { id: string; instances: string[]; status: string }[]; procedures: { id: string; steps: { id: string }[] }[]; sections: Record<string, { view?: string }> };
     };
   }
 }
@@ -65,11 +65,27 @@ test('explode slider moves parts', async ({ page }) => {
   expect(p1).not.toEqual(p0);
 });
 
-test('section preset can be chosen', async ({ page }) => {
+test('section preset can be chosen and brings its view', async ({ page }) => {
   await load(page);
-  const name = await page.evaluate(() => Object.keys(window.__pavoni.data.sections)[0]);
+  const { name, view } = await page.evaluate(() => {
+    const [n, s] = Object.entries(window.__pavoni.data.sections).find(([, s]) => s.view)!;
+    return { name: n, view: s.view! };
+  });
   await page.getByTestId('section').selectOption(name);
-  expect(await page.evaluate(() => window.__pavoni.state().section)).toBe(name);
+  const st = await page.evaluate(() => window.__pavoni.state());
+  expect(st.section).toBe(name);
+  expect(st.view).toBe(view);
+});
+
+test('deep link with a section opens the view that shows it', async ({ page }) => {
+  await load(page, '&part=p080_piston_seal&section=piston_seals');
+  const { st, view } = await page.evaluate(() => ({ st: window.__pavoni.state(), view: window.__pavoni.data.sections.piston_seals.view }));
+  expect(st.section).toBe('piston_seals');
+  expect(view).toBeTruthy();
+  expect(st.view).toBe(view);
+  // an explicit view wins
+  await load(page, '&section=piston_seals&view=front');
+  expect(await page.evaluate(() => window.__pavoni.state().view)).toBe('front');
 });
 
 test('every procedure can be clicked through forward and backward', async ({ page }) => {

@@ -4,11 +4,15 @@ import { Suspense, useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import { data } from '../data';
+import { viewPose } from '../logic/camera';
 import { cadToGl } from '../logic/coords';
 import { useStore } from '../state/store';
 import { Model } from './Model';
 import { registry } from './registry';
 import { SectionCaps } from './SectionCaps';
+
+const WIDE_LAYOUT_PX = 760; // same breakpoint as index.css
+const PANEL_MARGIN_PX = 10;
 
 /** Studio environment built from light formers: no HDRI download, no foreign image in the repo. */
 function Studio() {
@@ -39,21 +43,10 @@ function CameraRig() {
     const v = data.views[req.name];
     if (!v) return;
     // offset (CAD mm) follows parts that were moved to the "bench" in a procedure
-    const off = req.offset ? new THREE.Vector3(...cadToGl(req.offset)) : new THREE.Vector3();
-    const t1 = new THREE.Vector3(...cadToGl(v.target)).add(off);
-    // views are composed for 4:3 landscape; on narrow (portrait) screens move back so the
-    // same width stays in frame
-    const aspect = size.width / Math.max(1, size.height);
-    const k = aspect < 4 / 3 ? Math.min(3, 4 / 3 / aspect) : 1;
-    const p1 = t1.clone().add(new THREE.Vector3(...cadToGl(v.position)).add(off).sub(t1).multiplyScalar(k));
-    if (aspect < 1) {
-      // portrait: panels cover the lower part of the screen, so show the model higher up
-      const dist = p1.distanceTo(t1);
-      const shift = dist * Math.tan(THREE.MathUtils.degToRad((v.fov ?? 24) / 2)) * 0.25;
-      p1.y -= shift;
-      t1.y -= shift;
-    }
-    const fov1 = v.fov ?? 24;
+    const pose = viewPose(v, size.width / Math.max(1, size.height), req.offset);
+    const t1 = new THREE.Vector3(...pose.target);
+    const p1 = new THREE.Vector3(...pose.position);
+    const fov1 = pose.fov;
     if (!useStore.getState().animate) {
       camera.position.copy(p1);
       controls.target.copy(t1);
@@ -80,6 +73,31 @@ function CameraRig() {
     if (k >= 1) anim.current = null;
     else invalidate();
   });
+  return null;
+}
+
+/** The side panels lie over the canvas. Shift the projection so the scene is centred in the free
+ * area between them. Wide layout only: on phones the panels are bottom sheets (see viewPose). */
+function PanelOffset() {
+  const camera = useThree((s) => s.camera) as THREE.PerspectiveCamera;
+  const size = useThree((s) => s.size);
+  const invalidate = useThree((s) => s.invalidate);
+  const layout = useStore((s) => [s.ui, s.treeOpen, s.mode, s.selected !== null, s.sealMap].join());
+  useEffect(() => {
+    // measure after React has laid out the panels
+    const id = requestAnimationFrame(() => {
+      const wide = size.width > WIDE_LAYOUT_PX;
+      const taken = (sel: string) => {
+        const el = document.querySelector(sel);
+        return wide && el && el.childElementCount > 0 ? el.getBoundingClientRect().width + PANEL_MARGIN_PX : 0;
+      };
+      const dx = Math.round((taken('aside.right') - taken('aside.left')) / 2);
+      if (dx) camera.setViewOffset(size.width, size.height, dx, 0, size.width, size.height);
+      else camera.clearViewOffset();
+      invalidate();
+    });
+    return () => cancelAnimationFrame(id);
+  }, [layout, size.width, size.height, camera, invalidate]);
   return null;
 }
 
@@ -135,6 +153,7 @@ export function Viewer({ transparent = false }: { transparent?: boolean }) {
       </Suspense>
       <OrbitControls makeDefault target={cadToGl(init.target)} minDistance={0.05} maxDistance={3} enableDamping dampingFactor={0.12} />
       <CameraRig />
+      <PanelOffset />
       <DemandInvalidate />
       <ReadySignal />
     </Canvas>

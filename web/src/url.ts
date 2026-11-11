@@ -23,7 +23,10 @@ export function readUrl() {
     s.startProcedure(proc, Math.max(0, parseInt(q.get('step') ?? '1', 10) - 1), q.get('dir') === 'assemble' ? 'assemble' : 'disassemble');
   }
   const view = q.get('view');
-  return { view: view && data.views[view] ? view : 'iso', transparent: q.get('bg') === 'transparent' };
+  // without an explicit view a section opens with the view that shows it
+  const sectionView = patch.section ? data.sections[patch.section]?.view : undefined;
+  const fallback = sectionView && data.views[sectionView] ? sectionView : 'iso';
+  return { view: view && data.views[view] ? view : fallback, transparent: q.get('bg') === 'transparent' };
 }
 
 export function syncUrl() {

@@ -19,7 +19,17 @@ export function Toolbar() {
           onChange={(e) => set({ explode: parseFloat(e.target.value) })} data-testid="explode" />
       </label>
       <button className={sealMap ? 'on' : ''} onClick={() => set({ sealMap: !sealMap })} data-testid="sealmap">Dichtungen</button>
-      <select value={section ?? ''} onChange={(e) => set({ section: e.target.value || null, sectionOffset: 0 })} data-testid="section">
+      <select
+        value={section ?? ''}
+        onChange={(e) => {
+          const name = e.target.value || null;
+          set({ section: name, sectionOffset: 0 });
+          // a section preset comes with the view that shows it; a procedure step keeps its own camera
+          const view = name ? data.sections[name]?.view : undefined;
+          if (view && mode !== 'procedure') setView(view);
+        }}
+        data-testid="section"
+      >
         <option value="">Kein Schnitt</option>
         {Object.entries(data.sections).map(([k, s]) => <option key={k} value={k}>{s.label}</option>)}
       </select>

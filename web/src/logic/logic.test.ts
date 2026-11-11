@@ -4,6 +4,7 @@ import { buildModelIndex } from './graph';
 import { explodeOffsets, maxStage, removalDisplay, stageFactor } from './explode';
 import { checkProcedure, procedureState } from './procedure';
 import { cadDirToGl, cadToGl } from './coords';
+import { viewPose } from './camera';
 
 const idx = buildModelIndex(data);
 
@@ -11,6 +12,31 @@ describe('coords', () => {
   it('maps CAD mm Z-up to GL m Y-up', () => {
     expect(cadToGl([100, -200, 300])).toEqual([0.1, 0.3, 0.2]);
     expect(cadDirToGl([0, -1, 0])).toEqual([0, 0, 1]); // front faces the default camera
+  });
+});
+
+describe('camera', () => {
+  const dist = (p: { position: number[]; target: number[] }) => Math.hypot(...p.position.map((c, i) => c - p.target[i]));
+  it('moves back on narrow screens so the same width stays in frame', () => {
+    const v = data.views.iso;
+    expect(dist(viewPose(v, 0.75))).toBeGreaterThan(dist(viewPose(v, 4 / 3)) * 1.5);
+    expect(viewPose(v, 16 / 9)).toEqual(viewPose(v, 4 / 3));
+  });
+  it('never adapts views fitted to a reference photo (overlay must line up)', () => {
+    const fitted = Object.values(data.views).filter((v) => v.photo);
+    expect(fitted.length).toBeGreaterThan(0);
+    for (const v of fitted) {
+      const p = viewPose(v, 0.75); // the photos are 3:4 portrait
+      expect(p.position).toEqual(cadToGl(v.position));
+      expect(p.target).toEqual(cadToGl(v.target));
+    }
+  });
+  it('follows an offset in CAD mm', () => {
+    const v = data.views.iso;
+    const a = viewPose(v, 4 / 3);
+    const b = viewPose(v, 4 / 3, [0, -100, 0]); // 100 mm to the front = +0.1 m in GL z
+    expect(b.target[2] - a.target[2]).toBeCloseTo(0.1);
+    expect(b.position[2] - a.position[2]).toBeCloseTo(0.1);
   });
 });
 
@@ -57,10 +83,18 @@ describe('explode', () => {
     expect(stageFactor(0.5 / n, 2, n)).toBe(0);
   });
   it('detached assemblies move their parts as a unit', () => {
-    const st = { removed: new Set<string>(), moving: new Map([['group.piston', 1]]) };
+    const asm = 'boiler.group.piston';
+    expect(idx.kind(asm)).toBe('asm');
+    const st = { removed: new Set<string>(), moving: new Map([[asm, 1]]) };
     const d = removalDisplay(data, idx, st);
-    const inside = Object.keys(data.instances).filter((i) => data.instances[i].assembly.startsWith('group.piston'));
-    for (const i of inside) expect(d[i].offset).toEqual(d[inside[0]].offset);
+    const inside = Object.keys(data.instances).filter((i) => data.instances[i].assembly.startsWith(asm));
+    expect(inside.length).toBeGreaterThan(2); // rod, piston and two seals at least
+    const moved = d[inside[0]].offset;
+    expect(Math.hypot(...moved)).toBeCloseTo(data.assemblyGeo[asm].explode.distance_mm);
+    for (const i of inside) expect(d[i].offset).toEqual(moved);
+    // parts outside the assembly stay where they are
+    const outside = Object.keys(data.instances).find((i) => data.instances[i].assembly === 'base')!;
+    expect(d[outside].offset).toEqual([0, 0, 0]);
   });
 });
 

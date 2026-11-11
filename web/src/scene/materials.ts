@@ -26,6 +26,7 @@ export const MATERIALS: Record<string, MatDef> = {
   plastic_black: { color: '#1a1a1a', metalness: 0, roughness: 0.5, label: 'Kunststoff schwarz' },
   plastic_clear: { color: '#f0f6f8', metalness: 0, roughness: 0.08, transmission: 0.85, label: 'Kunststoff transparent' },
   plastic_white: { color: '#efefea', metalness: 0, roughness: 0.5, label: 'Kunststoff weiß' },
+  plastic_green: { color: '#12947a', metalness: 0, roughness: 0.3, label: 'Kunststoff grün (Schalterwippe)' },
   fiber: { color: '#8a7656', metalness: 0, roughness: 0.8, label: 'Faserdichtung' },
   gauge_face: { color: '#f7f7f2', metalness: 0, roughness: 0.4, label: 'Zifferblatt' },
   cable: { color: '#151515', metalness: 0, roughness: 0.6, label: 'Kabel' },

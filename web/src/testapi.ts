@@ -21,7 +21,8 @@ export function installTestApi() {
     exitMode: () => useStore.getState().exitMode(),
     state: () => {
       const s = useStore.getState();
-      return { selected: s.selected, explode: s.explode, mode: s.mode, procId: s.procId, stepIdx: s.stepIdx, sealMap: s.sealMap, section: s.section };
+      return { selected: s.selected, explode: s.explode, mode: s.mode, procId: s.procId, stepIdx: s.stepIdx, sealMap: s.sealMap, section: s.section,
+        view: s.viewRequest?.name ?? null };
     },
     /** world-space (GL, m) position of an instance mesh */
     instancePosition: (iid: string) => {

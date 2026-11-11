@@ -42,12 +42,15 @@ export function ProcedurePlayer() {
   const st = proc ? stepAt(proc, stepIdx, dir) : undefined;
   useEffect(() => {
     if (!proc || !st) return;
-    // follow the parts of this step if their assembly sits on the bench (detached earlier)
-    const disp = removalDisplay(data, model, procedureState(model, proc, stepIdx, 0, dir));
+    // Aim at the middle of the way the parts of this step travel: follows parts whose assembly
+    // sits on the bench (detached earlier) and keeps both the start and the end of the move in
+    // frame (aiming at the start alone left a detached group half outside the view).
+    const start = removalDisplay(data, model, procedureState(model, proc, stepIdx, 0, dir));
+    const end = removalDisplay(data, model, procedureState(model, proc, stepIdx, 1, dir));
     const units = stepUnits(model, st.remove ?? st.highlight ?? []);
     const insts = units.flatMap((u) => (model.kind(u) === 'asm' ? model.expand(u) : model.instPart[u] ? [u] : []));
     const off: [number, number, number] = [0, 0, 0];
-    for (const i of insts) for (let k = 0; k < 3; k++) off[k] += (disp[i]?.offset[k] ?? 0) / insts.length;
+    for (const i of insts) for (let k = 0; k < 3; k++) off[k] += ((start[i]?.offset[k] ?? 0) + (end[i]?.offset[k] ?? 0)) / 2 / insts.length;
     if (st.camera) setView(st.camera, off);
     set({ section: st.section ?? null, sectionOffset: 0 });
   }, [st, setView, set, proc, stepIdx, dir]);
