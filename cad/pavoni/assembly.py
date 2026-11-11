@@ -32,8 +32,9 @@ class BuildError(Exception):
     pass
 
 
-def build_model(modules: list[str] | None = None) -> Model:
-    data = load_all()
+def build_model(modules: list[str] | None = None, data: dict | None = None) -> Model:
+    """Build all parts. `data` overrides the files under data/ (e.g. another boiler diameter)."""
+    data = data or load_all()
     D = Dims(data["dimensions"])
     T = Datums(D)
     m = Model(data=data, D=D, T=T)

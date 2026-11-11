@@ -49,7 +49,10 @@ def build(ctx):
     fz = zf - below * 0.5
     zt_run = pz0 + ph / 2
     f_bot = zf - below * 0.5  # underside of the fitting on the element
-    tube = pipe([(fx, fy, f_bot - 0.05), (fx, fy, zt_run + 2.5), (fx, fy - 18.0, zt_run), (px, nip_y + 22.0, zt_run), (px, nip_y + 7.6, zt_run)],
+    # the knee sits at least 3 mm below the fitting: with a small boiler diameter the base is
+    # lower and the fitting comes down to the level of the tube run (a shorter drop splits the sweep)
+    z_knee = min(zt_run + 2.5, f_bot - 3.0)
+    tube = pipe([(fx, fy, f_bot - 0.05), (fx, fy, z_knee), (fx, fy - 18.0, zt_run), (px, nip_y + 22.0, zt_run), (px, nip_y + 7.6, zt_run)],
                 D.pstat_tube_d / 2, bend_r=6.0, r_inner=D.pstat_tube_d / 2 - 0.8)
     # switch in the left side wall
     sy = T.base_rear_y - D.switch_pos_frac * D.base_len

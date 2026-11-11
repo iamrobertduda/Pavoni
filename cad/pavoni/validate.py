@@ -9,7 +9,8 @@ Checks
   3 interference pairwise overlap below tolerance, except the reasoned whitelist
   4 paths        each part/assembly leaves along its explode axis without collision
                  when exactly its requires_removed closure is gone
-  5 envelope     bounding box (without lever and portafilter grip) vs 200 x 290 x 320 +-7 %
+  5 envelope     bounding box (without lever and portafilter grip) vs 200 x 290 x 320-366:
+                 within 7 % ok, within 15 % warning, beyond that error
   6 budgets      GLB size, triangles, draw calls
   7 data         references, DAG, tools, dims keys
   8 procedures   ids exist, requires satisfied, every step collision-free
@@ -30,8 +31,13 @@ from .glbinfo import glb_stats
 from .paths import MANIFEST, REPORT, WEB_MODEL
 from .proportions import evaluate
 
-ENVELOPE = {"x": 200.0, "y": 290.0, "z": 320.0}  # B x T x H, Q3
+# B x T x H from retailer data sheets (Q3). Their heights for the Professional differ
+# (320 ... 366 mm, PLAN 8.1), so the height is a range. Up to ENVELOPE_TOL outside is fine, up to
+# ENVELOPE_FAIL a warning (photo ratios or the boiler diameter are a little off - a measured
+# boiler diameter must not be rejected by a catalog figure), beyond that a modelling error.
+ENVELOPE = {"x": (200.0, 200.0), "y": (290.0, 290.0), "z": (320.0, 366.0)}
 ENVELOPE_TOL = 0.07
+ENVELOPE_FAIL = 0.15
 ENVELOPE_EXCLUDE = ("p087_", "p088_lever_grip", "p088_portafilter_grip", "p095_portafilter")
 # The model counts as complete (envelope and wear-part coverage become hard errors) once no
 # non-optional part is 'planned'.
@@ -40,6 +46,10 @@ SHRINK = 0.05  # mm, moving meshes are shrunk so touching faces are not collisio
 STEP = 0.5  # mm path sampling
 WHITELIST_FREE_TRAVEL = 1.0  # mm, whitelisted pairs may overlap at the start of a path
 INTERFERENCE_THICKNESS = 0.06  # mm, thinner overlap = tessellation artefact / contact
+# Boiler diameters for which the photo ratios and the catalog parts fit together (checked by
+# cad/tests/test_calibration.py). Below ~98 mm the catalog gasket (dia. 104) no longer fits under
+# the boiler foot and the element no longer fits into the base.
+BOILER_OD_RANGE = (98.0, 118.0)
 
 
 class Report:
@@ -334,6 +344,11 @@ def check_data(ctx: Ctx, rep: Report, D: Dims):
         except Exception as e:  # noqa: BLE001
             rep.add(name, "error", f"Maß {k}: {e}")
     rep.ok(name, f"{len(data['parts'])} Positionen, {len(all_inst)} Instanzen, {len(data['assemblies'])} Baugruppen, {len(list(D.keys()))} Maße")
+    lo, hi = BOILER_OD_RANGE
+    if not lo <= D.boiler_od <= hi:
+        rep.add(name, "warn", f"boiler_od {D.boiler_od:.1f} mm liegt außerhalb des geprüften Bereichs {lo:.0f}-{hi:.0f} mm: "
+                              "Foto-Proportionen und Katalogteile passen dann nicht mehr zusammen. Weitere Maße messen und eintragen "
+                              "(reference/measurements.md A2-A5: Basis, Achsabstand, Höhen).")
     planned = [p["id"] for p in data["parts"] if p["status"] == "planned" and not p.get("optional")]
     for p in data["parts"]:
         if p.get("optional") and p["status"] != "planned":
@@ -460,11 +475,15 @@ def check_envelope(ctx: Ctx, rep: Report, strict: bool):
     b = np.array([ctx.bbox(i) for i in ids])
     lo, hi = b[:, 0].min(0), b[:, 1].max(0)
     size = dict(zip("xyz", hi - lo))
-    for ax, ref in ENVELOPE.items():
-        dev = (size[ax] - ref) / ref
-        msg = f"{ax}: {size[ax]:.0f} mm, Katalog {ref:.0f} mm ({dev:+.1%})"
-        if abs(dev) > ENVELOPE_TOL:
+    for ax, (lo, hi) in ENVELOPE.items():
+        v = size[ax]
+        dev = (v - lo) / lo if v < lo else (v - hi) / hi if v > hi else 0.0
+        ref = f"{lo:.0f}" if lo == hi else f"{lo:.0f}-{hi:.0f}"
+        msg = f"{ax}: {v:.0f} mm, Katalog {ref} mm ({dev:+.1%})"
+        if abs(dev) > ENVELOPE_FAIL:
             rep.add(name, "error" if strict else "warn", msg + (" - Modell unvollständig" if not strict else ""))
+        elif abs(dev) > ENVELOPE_TOL:
+            rep.add(name, "warn", msg + " - Foto-Proportionen oder Kesseldurchmesser prüfen")
         else:
             rep.ok(name, msg)
 
@@ -544,8 +563,22 @@ def check_proportions(ctx: Ctx, rep: Report, D: Dims):
             rep.add(name, "warn", f"{r['name']}: übersprungen ({r['reason']})")
         elif r["status"] == "fail":
             rep.add(name, "error", f"{r['name']}: {r['value']} mm, Soll {r['target_mm']} mm ({r['dev']:+.1%})")
+        elif r["status"] == "advisory":
+            rep.add(name, "warn", f"{r['name']}: Katalogmaß {r['value']} mm gegen Foto-Verhältnis {r['target_mm']} mm ({r['dev']:+.1%}) - eines von beiden stimmt nicht, messen")
         else:
             rep.ok(name, f"{r['name']}: {r['value']} mm, Soll {r['target_mm']} mm ({r['dev']:+.1%})")
+
+
+def geometry_report(data: dict, instances: dict, assemblies: dict, meshes: dict) -> Report:
+    """Solids, interference, removal paths and procedures for a model held in memory
+    (see export.collect). Used to check variants, e.g. other boiler diameters."""
+    rep = Report()
+    ctx = Ctx(data, {"instances": instances, "assemblies": assemblies}, meshes)
+    check_solids(ctx, rep)
+    check_interference(ctx, rep)
+    check_paths(ctx, rep)
+    check_procedures(ctx, rep, coverage_strict=False)
+    return rep
 
 
 def main(argv=None) -> int:

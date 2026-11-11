@@ -50,11 +50,10 @@ def git_sha() -> str:
         return "unknown"
 
 
-def main() -> int:
-    t0 = time.time()
-    m = build_model()
-    t_build = time.time() - t0
-    BUILD.mkdir(parents=True, exist_ok=True)
+def collect(m):
+    """Instances (bbox, volume, validity, explode axis), assemblies and collision meshes of a
+    built model, in memory. Returns (instances, assemblies, meshes, groups); groups maps the
+    top-level assembly to its labelled solids for the GLB/STEP export."""
     parts = m.parts
     asm = {a["id"]: a for a in m.data["assemblies"]}
 
@@ -96,6 +95,15 @@ def main() -> int:
             "detachable": a["detachable"],
             "explode": {"axis": world_axis(loc, a["explode"]["axis"]), "distance_mm": a["explode"]["distance_mm"], "stage": a["explode"]["stage"]},
         }
+    return instances, assemblies, meshes, groups
+
+
+def main() -> int:
+    t0 = time.time()
+    m = build_model()
+    t_build = time.time() - t0
+    BUILD.mkdir(parents=True, exist_ok=True)
+    instances, assemblies, meshes, groups = collect(m)
 
     children = []
     for top, solids in groups.items():

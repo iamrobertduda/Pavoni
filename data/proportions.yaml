@@ -1,11 +1,14 @@
 # Soll-Proportionen aus PLAN.md 8.2 (target = mm bei D = 100, skaliert mit dem aktuellen D). Toleranz ±10 %.
 # measure: Ausdruck über bbox(<instanz>[, ...]), slice_extent(<instanz>, <normale>, <wert>, <achse>), datum(<name>), D.
 # Wo ein Katalogmaß der Foto-Proportion widerspricht, steht das in note; die Toleranz bleibt ±10 %.
+# advisory: true = der Modellwert ist ein Katalogmaß und skaliert nicht mit D. Eine Abweichung ist dann eine
+# Warnung (Katalog oder Foto-Verhältnis stimmt nicht), kein Fehler: ein gemessener Kesseldurchmesser darf den
+# Bau nicht scheitern lassen.
 - {name: "Kessel-Außendurchmesser", target: 100, measure: "slice_extent('p003_boiler__1', 'z', datum('boiler_foot_z') + 0.95 * D, 'x')", source: "8.2"}
 - {name: "Kesselzylinder Fuß bis Schulter", target: 185, measure: "datum('boiler_shoulder_z') - datum('boiler_foot_z')", source: "8.2 (1,8-1,9 D)"}
 - {name: "Naht über Fußunterkante", target: 118, measure: "datum('boiler_seam_z') - datum('boiler_foot_z')", source: "8.2 (64 % von 185)"}
 - {name: "Schulterkonus Höhe", target: 26, measure: "datum('cone_top_z') - datum('boiler_shoulder_z')", source: "8.2"}
-- {name: "Deckelknauf Durchmesser", target: 60, measure: "bbox('p001_boiler_cap__1').dx", source: "8.2"}
+- {name: "Deckelknauf Durchmesser", target: 60, measure: "bbox('p001_boiler_cap__1').dx", source: "8.2", advisory: true, note: "Katalog (Q21) 60 mm"}
 - {name: "Deckelknauf über Konus-Oberkante", target: 60, measure: "bbox('p001_boiler_cap__1').z1 - datum('cone_top_z')", source: "8.2"}
 - {name: "Kesselfuß über Tisch", target: 50, measure: "datum('boiler_foot_z')", source: "8.2"}
 - {name: "Gesamthöhe Tisch bis Deckelknauf", target: 314, measure: "bbox('p001_boiler_cap__1').z1", source: "8.2"}
@@ -14,18 +17,19 @@
 - {name: "Basis Höhe", target: 50, measure: "datum('base_top_z')", source: "8.2"}
 - {name: "Kesselachse zu Gruppenachse", target: 109, measure: "-bbox('p081_shower_screen__1').cy", source: "8.2"}
 - {name: "Gruppenarm Achshöhe", target: 200, measure: "bbox('p085_group_oring__1').cz", source: "8.2 (Foto B3 vermessen: 2,1 D)"}
-- {name: "Gruppe Oberteil Durchmesser", target: 54, measure: "slice_extent('p072_group_body__1', 'z', datum('bell_top_z') + 15.0, 'x')", source: "8.2", note: "Katalog (Q14) 60 mm; nötig für Hülse mit Ringraum"}
+- {name: "Gruppe Oberteil Durchmesser", target: 54, measure: "slice_extent('p072_group_body__1', 'z', datum('bell_top_z') + 15.0, 'x')", source: "8.2", advisory: true, note: "Katalog (Q14) 60 mm; nötig für Hülse mit Ringraum"}
 - {name: "Gruppe Glocke größter Durchmesser", target: 64, measure: "bbox('p072_group_body__1').dx", source: "8.2"}
 - {name: "Unterkante Gruppe über Tisch", target: 160, measure: "bbox('p072_group_body__1').z0", source: "8.2"}
 - {name: "Siebträger-Körper Durchmesser", target: 55, measure: "slice_extent('p095_portafilter__1', 'z', bbox('p098_basket_double__1').z0 + 8.0, 'x')", source: "8.2"}
 - {name: "Auslauf-Unterkante über Tisch", target: 120, measure: "bbox('p096_spout__1').z0", source: "8.2"}
+- {name: "Hutmutter-Oberkante über Tisch", target: 299, measure: "datum('cap_nut_top_z')", source: "Foto B3 vermessen (2,99 D)", note: "Modell: Katalogkette ab Gruppenunterkante (Aufnahme, Sieb, Kolben, Stange 111, Muttern)"}
 - {name: "Oberkante Hebelständer über Tisch", target: 280, measure: "datum('tower_top_z')", source: "8.2", note: "aus Katalogmaßen (Stange 111, Kolben, Muttern) abgeleitet"}
 - {name: "Hebel-Drehpunkt hinter der Gruppenachse", target: 20, measure: "bbox('p089_roller__1').cy - bbox('p081_shower_screen__1').cy", source: "8.2"}
 - {name: "Hebelstange Durchmesser", target: 9.5, measure: "slice_extent('p087_lever__1', 'y', bbox('p088_lever_grip__1').y1 + 40.0, 'x')", source: "8.2"}
 - {name: "Schauglas-Achse zu Kesselachse", target: 65, measure: "hypot(bbox('p062_sight_glass__1').cx, bbox('p062_sight_glass__1').cy)", source: "8.2"}
-- {name: "Schauglas-Abdeckung Höhe", target: 150, measure: "bbox('p070_glass_cover__1').dz", source: "8.2", note: "Katalog (Q21) 162 mm"}
+- {name: "Schauglas-Abdeckung Höhe", target: 150, measure: "bbox('p070_glass_cover__1').dz", source: "8.2", advisory: true, note: "Katalog (Q21) 162 mm"}
 - {name: "Schauglas-Abdeckung Breite", target: 30, measure: "slice_extent('p070_glass_cover__1', 'z', datum('sg_upper_z') - 30.0, 'y')", source: "8.2", note: "Katalog (Q21) 26 mm"}
-- {name: "Manometer Durchmesser", target: 43, measure: "slice_extent('p069_gauge__1', 'z', bbox('p069_gauge__1').z1 - 0.5 * bbox('x001_gauge_dial__1').dz, 'x')", source: "8.2", note: "Katalog 41 mm (Q15-Händler); Schnitt durch die Gehäusemitte, leicht schräg"}
+- {name: "Manometer Durchmesser", target: 43, measure: "slice_extent('p069_gauge__1', 'z', bbox('p069_gauge__1').z1 - 0.5 * bbox('x001_gauge_dial__1').dz, 'x')", source: "8.2", advisory: true, note: "Katalog 41 mm (Q15-Händler); Schnitt durch die Gehäusemitte, leicht schräg"}
 - {name: "Dampfhahn-Rohrachse über Schulterkante", target: 35, measure: "bbox('p047_wand_oring__1').cz - datum('boiler_shoulder_z')", source: "8.2"}
 - {name: "Dampfhahn-Rohrachse hinter der Kesselachse", target: 42.5, measure: "bbox('p047_wand_oring__1').cy", source: "8.2 (40-45)"}
 - {name: "Dampfhahn-Rohr Durchmesser", target: 20, measure: "slice_extent('p046_steam_body__1', 'x', -18.0, 'z')", source: "8.2"}

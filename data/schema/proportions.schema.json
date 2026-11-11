@@ -36,6 +36,11 @@
       },
       "note": {
         "type": "string"
+      },
+      "advisory": {
+        "type": "boolean",
+        "default": false,
+        "description": "Der Modellwert ist ein Katalogmaß, das nicht mit dem Kesseldurchmesser skaliert: Abweichung nur als Warnung"
       }
     }
   }

@@ -55,25 +55,29 @@ class Datums:
         self.group_bottom_z = D.group_bottom_z
         self.group_arm_z = D.group_arm_z
         self.group_flange_y = -(R + D.group_boss_h)  # flat contact face on the boiler front boss
-        # Chain from the photo-measured top of the cap nut downwards through catalog parts
-        # (rod 111, piston, 2.5 mm play, screen 14). The residual is the depth of the mouth
-        # below the screen face, where the portafilter ears engage.
-        self.cap_nut_top_z = D.group_nut_top_z
-        self.rod_top_z = self.cap_nut_top_z - (D.cap_nut_h - D.cap_nut_engage)
+        # Chain from the photo-measured underside of the group upwards through catalog parts
+        # (mouth depth, screen 14, 2.5 mm play, piston, rod 111, nuts). Anchored at ONE end
+        # only: the resulting top of the cap nut is compared with the photo (group_nut_top_z)
+        # as a proportion, it does not drive the geometry. Anchoring both ends pushed the
+        # residual into the mouth depth, which only worked for one boiler diameter.
+        self.mouth_depth = D.group_mouth_depth
+        self.screen_face_z = D.group_bottom_z + self.mouth_depth
+        self.screen_top_z = self.screen_face_z + D.screen_h
+        self.piston_z = self.screen_top_z + D.piston_screen_gap  # piston underside at rest (lever down)
+        self.rod_bottom_z = self.piston_z + D.rod_end_in_piston
+        self.rod_top_z = self.rod_bottom_z + D.rod_len
+        self.cap_nut_top_z = self.rod_top_z + (D.cap_nut_h - D.cap_nut_engage)
         self.cap_nut_bottom_z = self.cap_nut_top_z - D.cap_nut_h
         self.lock_nut_bottom_z = self.cap_nut_bottom_z - D.lock_nut_h
         self.tower_top_z = self.lock_nut_bottom_z - D.piston_screen_gap  # lock nut = down-stop (Q19, Q20)
-        self.rod_bottom_z = self.rod_top_z - D.rod_len
-        self.piston_z = self.rod_bottom_z - D.rod_end_in_piston  # piston underside at rest (lever down)
-        self.screen_top_z = self.piston_z - D.piston_screen_gap
-        self.screen_face_z = self.screen_top_z - D.screen_h
-        self.mouth_depth = self.screen_face_z - D.group_bottom_z
         self.sleeve_bottom_z = self.screen_top_z
         self.sleeve_top_z = self.sleeve_bottom_z + D.sleeve_len
         self.ceiling_bottom_z = self.sleeve_top_z
         self.ceiling_top_z = self.sleeve_top_z + D.ceiling_t
         self.bell_top_z = D.group_bottom_z + D.group_bell_h
-        self.cyl_top_z = D.group_bottom_z + D.group_cyl_top
+        # outer cylinder ends below the sleeve top, whatever the photo ratio says: the casting
+        # has to enclose the catalog parts inside it
+        self.cyl_top_z = min(D.group_bottom_z + D.group_cyl_top, self.sleeve_top_z - 1.5)
         self.roller_z = self.tower_top_z - D.roller_od / 2 - D.tower_cap_t
         self.roller_y = self.group_xy[1] + D.lever_pivot_back
         self.lever_rest_rad = math.radians(D.lever_rest_deg)

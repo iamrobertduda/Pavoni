@@ -107,6 +107,10 @@ def evaluate(entries: list[dict], manifest: dict, D: float, meshes: dict | None 
             out.append({**e, "status": "skip", "reason": f"Instanz fehlt: {m}"})
             continue
         dev = (val - tgt) / tgt if tgt else 0.0
+        # advisory: the model value is a catalog dimension that does not scale with the boiler
+        # diameter. A mismatch with the photo ratio is worth a warning, but it must not fail the
+        # build when the owner enters a measured diameter.
+        bad = "advisory" if e.get("advisory") else "fail"
         out.append({**e, "value": round(val, 2), "target_mm": round(tgt, 2), "dev": round(dev, 4),
-                    "status": "ok" if abs(dev) <= tol else "fail"})
+                    "status": "ok" if abs(dev) <= tol else bad})
     return out

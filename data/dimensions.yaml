@@ -88,7 +88,8 @@ dims:
   # ===================================================================== Gruppe (Pos. 71-86)
   group_offset: {ratio_of: boiler_od, ratio: 1.09, confidence: photo, source: "PLAN 8.2: Kesselachse zu Gruppenachse (Foto B3)"}
   group_arm_z: {ratio_of: boiler_od, ratio: 2.10, confidence: photo, source: "Foto B3 vermessen: Halsachse 0,50 D über Gruppenunterkante (PLAN 8.2: 2,0 D)"}
-  group_nut_top_z: {ratio_of: boiler_od, ratio: 2.99, confidence: photo, source: "Foto B3 vermessen: Hutmutter-Oberkante 1,39 D über Gruppenunterkante"}
+  group_nut_top_z: {ratio_of: boiler_od, ratio: 2.99, confidence: photo, source: "Foto B3 vermessen: Hutmutter-Oberkante 1,39 D über Gruppenunterkante", note: "Nur Vergleichswert (data/proportions.yaml). Die Geometrie folgt aus der Katalogkette ab Gruppenunterkante."}
+  group_mouth_depth: {value: 8.0, unit: mm, confidence: guess, source: "gefolgert: Aufnahme für den Siebträger unter der Siebfläche (Ohren 4 mm, Bajonettnut, Spiel); entspricht dem Rest zwischen Foto-Höhe der Hutmutter und der Katalogkette bei D = 104"}
   group_bell_h: {ratio_of: boiler_od, ratio: 0.32, confidence: photo, source: "Foto B3 vermessen: Glocke bis Schulter"}
   group_cyl_top: {ratio_of: boiler_od, ratio: 0.69, confidence: photo, source: "Foto B3 vermessen: Oberkante Zylinder über Gruppenunterkante"}
   tower_base_d: {ratio_of: boiler_od, ratio: 0.33, confidence: photo, source: "Foto B3 vermessen: Turmfuß"}
@@ -96,7 +97,8 @@ dims:
   group_bottom_z: {ratio_of: boiler_od, ratio: 1.60, confidence: photo, source: "PLAN 8.2: Unterkante Gruppe (Siebträger-Ebene)"}
   group_top_z: {ratio_of: boiler_od, ratio: 2.80, confidence: photo, source: "PLAN 8.2: Oberkante Hebelständer"}
   group_upper_od: {value: 60.0, unit: mm, confidence: catalog, source: "Q14: Millennium-Gruppenzylinder außen 60 mm; nötig für Hülse (innen 44) mit Ringraum", alt: [{value: 54.0, source: "PLAN 8.2: 0,54 D"}, {value: 52.5, source: "Foto B3 vermessen: 0,505 D"}]}
-  group_bell_od: {ratio_of: boiler_od, ratio: 0.64, confidence: photo, source: "PLAN 8.2: Glocke größter Durchmesser"}
+  group_bell_od_photo: {ratio_of: boiler_od, ratio: 0.64, confidence: photo, source: "PLAN 8.2: Glocke größter Durchmesser"}
+  group_bell_od: {expr: "max(group_bell_od_photo, group_mouth_bore + 6.5)", confidence: photo, source: "Foto-Verhältnis (group_bell_od_photo), mindestens Mundbohrung + Bajonettnut + 1,25 mm Wand", note: "Die Untergrenze greift nur bei kleinem Kesseldurchmesser: der Guss muss die Katalogteile umschließen."}
   group_arm_od: {ratio_of: boiler_od, ratio: 0.30, confidence: photo, source: "Fotos B3/A1: Gruppenhals"}
   group_flange_w: {ratio_of: boiler_od, ratio: 0.52, confidence: photo, source: "Fotos A1/C1: Rautenflansch (Q14: diamond-shape flange)"}
   group_flange_h: {ratio_of: boiler_od, ratio: 0.34, confidence: photo, source: "Fotos A1/C1"}
@@ -175,7 +177,8 @@ dims:
   tower_cheek_t: {value: 2.0, unit: mm, confidence: guess, source: "gefolgert: Bolzen 29 lang (Q4), Gabelbleche 4 mm außen, Sicherungsscheiben außerhalb"}
   # ===================================================================== Siebträger (Pos. 94-101)
   pf_head_od: {expr: "basket_rim_d + 4.0", confidence: guess, source: "gefolgert: Siebrand Ø60 liegt auf dem Kopfrand (Q13, Q21)"}
-  pf_body_od: {ratio_of: boiler_od, ratio: 0.55, confidence: photo, source: "PLAN 8.2: Siebträger-Körper 0,55 D"}
+  pf_body_od_photo: {ratio_of: boiler_od, ratio: 0.55, confidence: photo, source: "PLAN 8.2: Siebträger-Körper 0,55 D"}
+  pf_body_od: {expr: "min(max(pf_body_od_photo, basket_id + 4.7), group_mouth_bore + 0.6)", confidence: photo, source: "Foto-Verhältnis (pf_body_od_photo), begrenzt durch Sieb + 1,5 mm Wand unten und die Mundbohrung der Gruppe oben"}
   pf_len: {value: 170.0, unit: mm, confidence: catalog, source: "Q21 (94): 6,0 x 17,0 cm, 328 g"}
   pf_ear_t: {value: 4.0, unit: mm, confidence: catalog, source: "Q13 (395307): Ohren 4 mm"}
   pf_stud_len: {value: 45.0, unit: mm, confidence: catalog, source: "Q13: M12 x 45"}

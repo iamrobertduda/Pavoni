@@ -15,6 +15,7 @@ CLEAR = 0.2  # kosmetisch
 HANDLE_DOWN_DEG = 18.0  # Foto B3: Griff leicht nach unten geneigt
 EAR_DEG = 40.0  # kosmetisch: Winkelbreite der Bajonett-Ohren
 EAR_REACH = 1.0  # kosmetisch: Überstand der Ohren in die Bajonett-Nut der Gruppe
+SPRING_GROOVE = 0.9  # kosmetisch: Tiefe der Innennut für die Siebfeder
 
 
 def head(D, T):
@@ -42,7 +43,7 @@ def head(D, T):
     s = solid_of(s - place(cyl(6.0 + CLEAR, 14, -0.01), (hd[0] * (nl - 13), hd[1] * (nl - 13), zc + hd[2] * (nl - 13)), hd))
     # spring groove (5 mm below the edge, ~1.5 high, Q21)
     zg = zt - 5.0
-    s = solid_of(s - revolve_rz([(r_in - 0.1, zg - 0.75), (r_in + 0.9, zg - 0.75), (r_in + 0.9, zg + 0.75), (r_in - 0.1, zg + 0.75)]))
+    s = solid_of(s - revolve_rz([(r_in - 0.1, zg - 0.75), (r_in + SPRING_GROOVE, zg - 0.75), (r_in + SPRING_GROOVE, zg + 0.75), (r_in - 0.1, zg + 0.75)]))
     # two bayonet ears at the top, perpendicular to the handle
     for a0 in (0.0, 180.0):
         ear = revolve_rz([(r_top - 0.5, zt - seat - D.pf_ear_t), (r_top + EAR_REACH, zt - seat - D.pf_ear_t), (r_top + EAR_REACH, zt - seat - 0.2),
@@ -80,7 +81,8 @@ def build(ctx):
     grip = solid_of(grip - cyl(6.0 + CLEAR, s0 + D.pf_stud_len - (g0 + 4.0) + 0.5, -0.01))
     grip = place(grip, (gx + hd[0] * (4 + g0), gy + hd[1] * (4 + g0), z_boss + hd[2] * (4 + g0)), hd)
     # spout: threaded fitting + two nozzles down to spout_bottom_z
-    z_sp = D.spout_bottom_z
+    # photo height of the spout, but the two nozzles below the fitting stay at least 3 mm long
+    z_sp = min(D.spout_bottom_z, zb - 20.0)
     fit = revolve_rz([(0, zb - 12.0), (8.0, zb - 12.0, 1.0), (8.0, zb - 3.0), (4.5, zb - 3.0), (4.5, zb + 0.5), (0, zb + 0.5)])
     sp = solid_of(fit + box(26.0, 8.0, 5.0, center=(0, 0, zb - 13.5)))
     for sx in (-1, 1):
@@ -94,7 +96,9 @@ def build(ctx):
     basket = revolve_rz([(0, zt - bh), (ro - 2.0, zt - bh, 2.0), (ro, zt - bh + 3.0), (ro, zt - 1.0), (rr, zt - 1.0, 0.3), (rr, zt, 0.3), (ri, zt), (ri, zt - bh + 3.6),
                          (ri - 2.0, zt - bh + 0.65, 1.5), (0, zt - bh + 0.65)])
     basket = basket.moved(Location((gx, gy, 0)))
-    spring = o_ring(2 * ((D.basket_id + 1.3) / 2 + CLEAR + 0.05), D.pf_spring_wire, zt - 5.0).moved(Location((gx, gy, 0)))
+    # spring wire lies in the inner groove (depth SPRING_GROOVE) with a little clearance to its floor
+    r_groove = (D.basket_id + 1.3) / 2 + CLEAR + SPRING_GROOVE
+    spring = o_ring(2 * (r_groove - 0.05 - D.pf_spring_wire), D.pf_spring_wire, zt - 5.0).moved(Location((gx, gy, 0)))
     return {
         "p095_portafilter": [body],
         "p097_handle_stud": [stud],
