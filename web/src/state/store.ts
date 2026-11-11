@@ -25,7 +25,7 @@ export interface PavoniState {
   animStart: number; // performance.now() when the current step started
   animate: boolean;
   disassembly: DisassemblyPlan | null;
-  viewRequest: { name: string; nonce: number } | null;
+  viewRequest: { name: string; nonce: number; offset?: [number, number, number] } | null;
   ui: boolean;
   treeOpen: boolean;
   lowQuality: boolean;
@@ -33,7 +33,7 @@ export interface PavoniState {
   set: (p: Partial<PavoniState>) => void;
   select: (id: string | null) => void;
   toggleHidden: (pid: string) => void;
-  setView: (name: string) => void;
+  setView: (name: string, offset?: [number, number, number]) => void;
   startProcedure: (id: string, step?: number, dir?: Direction) => void;
   gotoStep: (i: number) => void;
   exitMode: () => void;
@@ -68,7 +68,7 @@ export const useStore = create<PavoniState>((set, get) => ({
     else h.add(pid);
     set({ hidden: h });
   },
-  setView: (name) => set({ viewRequest: { name, nonce: Math.random() } }),
+  setView: (name, offset) => set({ viewRequest: { name, nonce: Math.random(), offset } }),
   startProcedure: (id, step = 0, dir = 'disassemble') =>
     set({ mode: 'procedure', procId: id, stepIdx: step, dir, explode: 0, disassembly: null, animStart: performance.now() }),
   gotoStep: (i) => set({ stepIdx: i, animStart: performance.now() }),

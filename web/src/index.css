@@ -89,3 +89,9 @@ code { font-size: 11px; background: #f1f3f5; padding: 0 3px; border-radius: 3px;
   .foot { display: none; }
   .toolbar .explode span { display: none; }
 }
+.needed { margin-top: 6px; }
+.needed-item { display: inline-block; margin-right: 8px; }
+.seals ul { list-style: none; padding: 0; margin: 0; }
+.seals li { padding: 3px 0; border-bottom: 1px solid #eef0f2; }
+.seals li.sel { background: #fff1ea; }
+.seal-group h3 { margin-top: 10px; }

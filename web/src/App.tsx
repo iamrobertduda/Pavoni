@@ -4,6 +4,7 @@ import { Viewer } from './scene/Viewer';
 import { useStore } from './state/store';
 import { InfoPanel } from './ui/InfoPanel';
 import { PartTree } from './ui/PartTree';
+import { SealList } from './ui/SealList';
 import { DisassemblyPlayer, ProcedureList, ProcedurePlayer } from './ui/ProcedurePlayer';
 import { Toolbar } from './ui/Toolbar';
 import { readUrl, syncUrl } from './url';
@@ -13,10 +14,12 @@ export default function App() {
   const ui = useStore((s) => s.ui);
   const mode = useStore((s) => s.mode);
   const treeOpen = useStore((s) => s.treeOpen);
+  const sealMap = useStore((s) => s.sealMap);
   const setView = useStore((s) => s.setView);
   useEffect(() => {
     syncUrl();
-    setView(init.view);
+    // a procedure step chooses its own camera (ProcedurePlayer)
+    if (useStore.getState().mode !== 'procedure') setView(init.view);
   }, [init, setView]);
   return (
     <div className={`app ${ui ? '' : 'no-ui'} ${init.transparent ? 'transparent' : ''}`}>
@@ -33,7 +36,8 @@ export default function App() {
             {mode === 'procedure' && <ProcedurePlayer />}
             {mode === 'disassembly' && <DisassemblyPlayer />}
             <InfoPanel />
-            {mode === 'explore' && <ProcedureList />}
+            {sealMap && mode === 'explore' && <SealList />}
+            {mode === 'explore' && !sealMap && <ProcedureList />}
           </aside>
           <footer className="foot muted small">
             La Pavoni Professional · Modell {data.machine.version} (Version {data.machine.version_confidence === 'measured' ? 'bestätigt' : 'angenommen'}) · Stand {data.generated.slice(0, 10)} · {data.git}

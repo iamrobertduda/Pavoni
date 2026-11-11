@@ -33,8 +33,8 @@ describe('graph', () => {
       const order = idx.removalOrder(p.id);
       expect(order[order.length - 1]).toBe(p.id);
       for (const r of p.requires_removed) {
-        const key = idx.kind(r) === 'inst' ? r.split('__')[0] : r;
-        expect(order.indexOf(key)).toBeLessThan(order.length - 1);
+        expect(order.indexOf(r)).toBeGreaterThanOrEqual(0);
+        expect(order.indexOf(r)).toBeLessThan(order.length - 1);
       }
     }
   });

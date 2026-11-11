@@ -12,6 +12,7 @@ declare global {
       instancePosition: (iid: string) => number[] | null;
       instanceVisible: (iid: string) => boolean | null;
       instances: () => string[];
+      capCount: () => number;
       data: { parts: { id: string; instances: string[]; status: string }[]; procedures: { id: string; steps: { id: string }[] }[]; sections: Record<string, unknown> };
     };
   }
@@ -82,6 +83,48 @@ test('every procedure can be clicked through forward and backward', async ({ pag
     for (let i = 1; i < pr.n; i++) await page.getByTestId('next-step').click();
     expect(await page.evaluate(() => window.__pavoni.state().stepIdx)).toBe(pr.n - 1);
   }
+});
+
+test('seal map shows the seal list and colours seals', async ({ page }) => {
+  await load(page);
+  await page.getByTestId('sealmap').click();
+  const list = page.getByTestId('seal-list');
+  await expect(list).toBeVisible();
+  await expect(list.locator('[data-seal="p080_piston_seal"]')).toBeVisible();
+  await list.locator('[data-seal="p080_piston_seal"]').click();
+  await expect(page.getByTestId('info-panel')).toContainText('Kolbendichtung');
+  await expect(page.getByTestId('info-panel')).toContainText('Vor der Bestellung');
+});
+
+test('section view draws filled caps', async ({ page }) => {
+  await load(page, '&section=group&view=sec_group');
+  await page.waitForFunction(() => window.__pavoni.capCount() > 0, null, { timeout: 60_000 });
+  expect(await page.evaluate(() => window.__pavoni.capCount())).toBeGreaterThan(2);
+});
+
+test('disassembly mode removes prerequisites in order', async ({ page }) => {
+  await load(page, '&part=p080_piston_seal');
+  await page.getByRole('button', { name: 'Ausbauen zeigen' }).click();
+  const next = page.getByRole('button', { name: 'Nächstes Teil ›' });
+  await expect(next).toBeVisible();
+  // the cap nut comes off before the piston assembly
+  const order = await page.locator('.order li').allTextContents();
+  expect(order.findIndex((t) => t.includes('Hutmutter'))).toBeLessThan(order.findIndex((t) => t.includes('Kolben mit Stange')));
+  await page.getByRole('button', { name: 'Alle' }).click();
+  await page.waitForTimeout(300);
+  expect(await page.evaluate(() => window.__pavoni.instanceVisible('p093_cap_nut__1'))).toBe(false);
+});
+
+test('phone layout keeps the model visible', async ({ browser }) => {
+  const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  await load(page);
+  const canvas = page.locator('canvas');
+  await expect(canvas).toBeVisible();
+  const box = await canvas.boundingBox();
+  expect(box!.width).toBeGreaterThan(380);
+  // tree closed by default on phones
+  expect(await page.locator('.tree').count()).toBe(0);
+  await page.close();
 });
 
 test('deep link opens a procedure step', async ({ page }) => {

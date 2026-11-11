@@ -1,6 +1,9 @@
 import { useEffect } from 'react';
 import { data, partsById } from '../data';
-import { stepAt } from '../logic/procedure';
+import { procedureState, stepAt, stepUnits } from '../logic/procedure';
+import { removalDisplay } from '../logic/explode';
+import { model } from '../data';
+import { refName } from './names';
 import { useStore } from '../state/store';
 
 const PRE: Record<string, string> = {
@@ -38,13 +41,20 @@ export function ProcedurePlayer() {
   const proc = data.procedures.find((p) => p.id === procId);
   const st = proc ? stepAt(proc, stepIdx, dir) : undefined;
   useEffect(() => {
-    if (st?.camera) setView(st.camera);
-    set({ section: st?.section ?? null, sectionOffset: 0 });
-  }, [st, setView, set]);
+    if (!proc || !st) return;
+    // follow the parts of this step if their assembly sits on the bench (detached earlier)
+    const disp = removalDisplay(data, model, procedureState(model, proc, stepIdx, 0, dir));
+    const units = stepUnits(model, st.remove ?? st.highlight ?? []);
+    const insts = units.flatMap((u) => (model.kind(u) === 'asm' ? model.expand(u) : model.instPart[u] ? [u] : []));
+    const off: [number, number, number] = [0, 0, 0];
+    for (const i of insts) for (let k = 0; k < 3; k++) off[k] += (disp[i]?.offset[k] ?? 0) / insts.length;
+    if (st.camera) setView(st.camera, off);
+    set({ section: st.section ?? null, sectionOffset: 0 });
+  }, [st, setView, set, proc, stepIdx, dir]);
   if (!proc || !st) return null;
   const n = proc.steps.length;
   const tools = (st.tools ?? []).map((t) => data.tools.find((x) => x.id === t)?.name.de ?? t);
-  const removed = (st.remove ?? []).map((r) => partsById[r]?.name.de ?? data.assemblies.find((a) => a.id === r)?.name.de ?? r);
+  const removed = (st.remove ?? []).map(refName);
   return (
     <section className="panel player" data-testid="procedure-player">
       <header>
@@ -59,6 +69,18 @@ export function ProcedurePlayer() {
         <div className="pre small">
           Vorher: {proc.preconditions.map((c) => PRE[c] ?? c).join(' · ')}
           {proc.danger && <div className="warn">{proc.danger.de}</div>}
+          {proc.parts_needed && proc.parts_needed.length > 0 && (
+            <div className="needed">
+              Ersatzteile:{' '}
+              {proc.parts_needed.map((pid) => (
+                <span key={pid} className="needed-item">
+                  {partsById[pid]?.name.de ?? pid}
+                  {partsById[pid]?.order_terms?.[0] && <code> {partsById[pid].order_terms![0]}</code>}
+                </span>
+              ))}
+              <div className="muted">Dichtungsmaße vor der Bestellung an den ausgebauten Teilen nachmessen.</div>
+            </div>
+          )}
         </div>
       )}
       <div className="step" data-step={st.id}>
@@ -84,7 +106,7 @@ export function DisassemblyPlayer() {
   const set = useStore((s) => s.set);
   const exit = useStore((s) => s.exitMode);
   if (!plan) return null;
-  const name = (r: string) => partsById[r]?.name.de ?? data.assemblies.find((a) => a.id === r)?.name.de ?? r;
+  const name = refName;
   return (
     <section className="panel player">
       <header>

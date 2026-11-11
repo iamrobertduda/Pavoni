@@ -98,8 +98,10 @@ export function buildModelIndex(d: Pick<AppData, 'parts' | 'assemblies' | 'insta
     const order: string[] = [];
     const seen = new Set<string>();
     const visit = (r: string) => {
-      const key = kind(r) === 'inst' ? r.split('__')[0] : r;
+      // keep instance granularity (one E-clip per pin, not all four)
+      const key = r;
       if (seen.has(key)) return;
+      if (kind(r) === 'inst' && seen.has(r.split('__')[0])) return;
       seen.add(key);
       for (const q of requires(r)) visit(q);
       order.push(key);

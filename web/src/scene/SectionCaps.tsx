@@ -40,6 +40,7 @@ export function SectionCaps() {
       (c.material as THREE.Material).dispose();
     }
     caps.current = [];
+    registry.capCount = 0;
     if (!planes.length || !registry.ready) return;
     // group meshes by cap colour
     const groups = new Map<string, THREE.Mesh[]>();
@@ -89,6 +90,7 @@ export function SectionCaps() {
       group.current.add(cap);
       caps.current.push(cap);
     }
+    registry.capCount = caps.current.length;
     return () => {
       base.dispose();
     };

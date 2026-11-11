@@ -3,6 +3,7 @@ import type { DimEntry } from '../data/types';
 import { useStore } from '../state/store';
 import { ConfBadge, StatusBadge } from './Badge';
 import { MATERIALS } from '../scene/materials';
+import { refName } from './names';
 
 const KIND: Record<string, string> = { seal: 'Dichtung', fastener: 'Befestigung', structural: 'Bauteil', electrical: 'Elektrik', accessory: 'Zubehör' };
 
@@ -106,7 +107,7 @@ export function InfoPanel() {
           <ol className="small order">
             {order.map((r) => (
               <li key={r}>
-                <button className="link" onClick={() => set({ selected: r })}>{partsById[r]?.name.de ?? assembliesById[r]?.name.de ?? r}</button>
+                <button className="link" onClick={() => set({ selected: r.split('__')[0] })}>{refName(r)}</button>
               </li>
             ))}
           </ol>

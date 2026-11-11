@@ -579,7 +579,7 @@ Jede Phase endet mit grünem `make all` und einem Commit. Fortschritt durch Abha
 - Nach festgelegten Datums sind die Baugruppen unabhängig und können parallel bearbeitet werden.
 
 **Phase 5 — Viewer V1**
-- [ ] Punkte 5–9 aus Abschnitt 9, Materialien, HDRI, Touch-Layout.
+- [x] Punkte 5–9 aus Abschnitt 9, Materialien, HDRI, Touch-Layout.
 - Abnahme: E2E-Tests grün; Budgets aus 6.4 eingehalten.
 
 **Phase 6 — Anleitungen**
@@ -788,3 +788,13 @@ Hier steht, was bei der Umsetzung anders gelöst wurde als oben beschrieben, und
 - **Bewusst vereinfacht:** Duschsieb ohne Lochbild, Gewinde nur kosmetisch, Feder des Sicherheitsventils als
   echte Wendel, Kabel schematisch (nicht ausbaubar), Anti-Vakuum-Ventil im PTFE-Pilz nicht einzeln modelliert
   (Mini-O-Ring-Maß unbekannt).
+
+**Phase 5 (2026-11-11)**
+
+- Dichtungs-Karte mit Liste aller Dichtungen (Maß, schwächste Konfidenz, Bestellbegriff), Schnittansicht mit
+  gefüllten Schnittflächen je Material und zehn Voreinstellungen, Zerlege-Modus (Ausbau-Reihenfolge auf
+  Instanz-Ebene, z. B. nur die eine nötige Sicherungsscheibe je Bolzen), Anleitungs-Player mit Ersatzteilliste,
+  Kamera folgt Teilen „auf der Werkbank“, Deep-Links, Hochformat-Layout (Kameraabstand passt sich an).
+- HDRI bleibt prozedural (siehe Phase 0/1). Materialien aus `parts.yaml`.
+- E2E (Playwright, 11 Tests): Laden, Auswahl über Baum und Klick, Explode, Schnitt mit Füllflächen,
+  Dichtungs-Karte, Zerlege-Modus, alle Anleitungen vor/zurück, Deep-Link, Handy-Layout. Budgets eingehalten.

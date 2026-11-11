@@ -31,13 +31,27 @@ function CameraRig() {
   const camera = useThree((s) => s.camera) as THREE.PerspectiveCamera;
   const controls = useThree((s) => s.controls) as unknown as OrbitControlsImpl | null;
   const req = useStore((s) => s.viewRequest);
+  const size = useThree((s) => s.size);
   const anim = useRef<{ p0: THREE.Vector3; t0: THREE.Vector3; p1: THREE.Vector3; t1: THREE.Vector3; fov0: number; fov1: number; start: number } | null>(null);
   useEffect(() => {
     if (!req || !controls) return;
     const v = data.views[req.name];
     if (!v) return;
-    const p1 = new THREE.Vector3(...cadToGl(v.position));
-    const t1 = new THREE.Vector3(...cadToGl(v.target));
+    // offset (CAD mm) follows parts that were moved to the "bench" in a procedure
+    const off = req.offset ? new THREE.Vector3(...cadToGl(req.offset)) : new THREE.Vector3();
+    const t1 = new THREE.Vector3(...cadToGl(v.target)).add(off);
+    // views are composed for 4:3 landscape; on narrow (portrait) screens move back so the
+    // same width stays in frame
+    const aspect = size.width / Math.max(1, size.height);
+    const k = aspect < 4 / 3 ? Math.min(3, 4 / 3 / aspect) : 1;
+    const p1 = t1.clone().add(new THREE.Vector3(...cadToGl(v.position)).add(off).sub(t1).multiplyScalar(k));
+    if (aspect < 1) {
+      // portrait: panels cover the lower part of the screen, so show the model higher up
+      const dist = p1.distanceTo(t1);
+      const shift = dist * Math.tan(THREE.MathUtils.degToRad((v.fov ?? 24) / 2)) * 0.25;
+      p1.y -= shift;
+      t1.y -= shift;
+    }
     const fov1 = v.fov ?? 24;
     if (!useStore.getState().animate) {
       camera.position.copy(p1);
@@ -49,7 +63,7 @@ function CameraRig() {
       return;
     }
     anim.current = { p0: camera.position.clone(), t0: controls.target.clone(), p1, t1, fov0: camera.fov, fov1, start: performance.now() };
-  }, [req, controls, camera]);
+  }, [req, controls, camera, size.width, size.height]);
   useFrame(() => {
     const a = anim.current;
     if (!a || !controls) return;
