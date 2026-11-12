@@ -90,11 +90,30 @@ describe('explode', () => {
     const inside = Object.keys(data.instances).filter((i) => data.instances[i].assembly.startsWith(asm));
     expect(inside.length).toBeGreaterThan(2); // rod, piston and two seals at least
     const moved = d[inside[0]].offset;
-    expect(Math.hypot(...moved)).toBeCloseTo(data.assemblyGeo[asm].explode.distance_mm);
+    // only the piston assembly is moving here, its parent group is not detached: the way on the machine
+    const e = data.assemblyGeo[asm].explode;
+    expect(Math.hypot(...moved)).toBeCloseTo(e.removal_mm ?? e.distance_mm);
     for (const i of inside) expect(d[i].offset).toEqual(moved);
     // parts outside the assembly stay where they are
     const outside = Object.keys(data.instances).find((i) => data.instances[i].assembly === 'base')!;
     expect(d[outside].offset).toEqual([0, 0, 0]);
+  });
+  it('removal: short way on the machine, full explode distance once the assembly lies on the bench', () => {
+    // the shower screen leaves the mounted group by a short way (the drip tray is below it) ...
+    const screen = 'p081_shower_screen__1';
+    const e = data.instances[screen].explode;
+    expect(e.removal_mm).toBeDefined();
+    expect(e.removal_mm!).toBeLessThan(e.distance_mm);
+    const mounted = removalDisplay(data, idx, { removed: new Set<string>(), moving: new Map([[screen, 1]]) });
+    expect(Math.hypot(...mounted[screen].offset)).toBeCloseTo(e.removal_mm!);
+    // ... but with the group on the bench it ends up where the exploded view puts it, below the piston
+    const bench = removalDisplay(data, idx, { removed: new Set(['boiler.group']), moving: new Map([[screen, 1], ['boiler.group.piston', 1]]) });
+    const rel = (i: string) => bench[i].offset.map((c, k) => c - bench['p072_group_body__1'].offset[k]);
+    expect(Math.hypot(...rel(screen))).toBeCloseTo(e.distance_mm);
+    const f = explodeOffsets(data, 1);
+    const body = f['p072_group_body__1'];
+    for (const i of [screen, 'p079_piston__1', 'p078_piston_rod__1'])
+      expect(rel(i).map((c) => Math.round(c * 100))).toEqual(f[i].map((c, k) => Math.round((c - body[k]) * 100)));
   });
 });
 

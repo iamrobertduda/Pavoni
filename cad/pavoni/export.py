@@ -43,6 +43,15 @@ def world_axis(loc, axis) -> list[float]:
     return [round(v.X() / n, 6), round(v.Y() / n, 6), round(v.Z() / n, 6)]
 
 
+def explode_entry(loc, ex: dict) -> dict:
+    """Explode data of a part or assembly with the axis in the world frame. removal_mm is
+    optional: the way the part travels when it is removed on the machine, see common.schema.json."""
+    out = {"axis": world_axis(loc, ex["axis"]), "distance_mm": ex["distance_mm"], "stage": ex["stage"]}
+    if "removal_mm" in ex:
+        out["removal_mm"] = ex["removal_mm"]
+    return out
+
+
 def git_sha() -> str:
     try:
         return subprocess.check_output(["git", "rev-parse", "--short", "HEAD"], text=True, stderr=subprocess.DEVNULL).strip()
@@ -75,7 +84,7 @@ def collect(m):
             "valid": bool(BRepCheck_Analyzer(s.wrapped).IsValid()),
             "closed": all(sh.is_closed for sh in s.shells()) if hasattr(s.shells()[0], "is_closed") else True,
             "n_faces": len(s.faces()),
-            "explode": {"axis": world_axis(loc, ex["axis"]), "distance_mm": ex["distance_mm"], "stage": ex["stage"]},
+            "explode": explode_entry(loc, ex),
         }
         # NB: bounding_box()/volume clear OCC triangulations, so mesh last.
         lin, ang = mesh_params(p, s)
@@ -93,7 +102,7 @@ def collect(m):
         assemblies[aid] = {
             "parent": parent,
             "detachable": a["detachable"],
-            "explode": {"axis": world_axis(loc, a["explode"]["axis"]), "distance_mm": a["explode"]["distance_mm"], "stage": a["explode"]["stage"]},
+            "explode": explode_entry(loc, a["explode"]),
         }
     return instances, assemblies, meshes, groups
 

@@ -29,6 +29,11 @@ Fortschritt: Checkboxen in `PLAN.md` Abschnitt 12 und `status` je Teil in `data/
 - `requires_removed` darf Baugruppen-IDs enthalten (= als Einheit abgenommen, z. B. `group`).
   `carrier`: elastisches Teil wird über diesen Träger gezogen (Ausbaupfad ignoriert den Träger).
   `instance_requires` überschreibt `requires_removed` je Instanz; `optional: true` = nicht verbaut, nicht modellieren.
+- Explosionsansicht und Anleitungen: am Ende jeder Stufe und jedes Schritts darf sich nichts überdecken
+  (`make validate`, Prüfungen 10 und 8), sonst flackern aufeinanderliegende Flächen. Wege staffeln, zuerst
+  ausgebautes Teil außen. `explode.distance_mm` = Weg in der Explosionsansicht und Ausbauweg;
+  `explode.removal_mm` = abweichender Ausbauweg, solange die Baugruppe an der Maschine sitzt (auf der
+  Werkbank gilt `distance_mm`).
 - Nach jeder Modellier-Iteration: `make cad validate renders`, PNGs ansehen, mit `reference/photos/` vergleichen.
   Erst dann `status: verified`.
 - `build123d`: `bounding_box()`/`volume` löschen die Tessellierung - in `export.py` zuletzt vernetzen.

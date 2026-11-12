@@ -1,6 +1,9 @@
 # Baugruppenbaum. id ist ein Pfad (boiler.group.piston -> Eltern boiler.group -> boiler).
 # detachable: wird als Einheit abgenommen; alles darin bleibt zusammen ("Werkbank").
 # explode: Richtung im Weltrahmen (CAD: Z oben, -Y vorn, +X rechts), Weg in mm, Stufe der Explosionsansicht.
+#   distance_mm = Weg in der Explosionsansicht (zusätzlich zu den Eltern-Baugruppen) und Ausbauweg. Am Ende jeder
+#   Stufe und am Ende jedes Anleitungsschritts darf sich nichts überdecken (make validate, Prüfungen 8 und 10).
+#   removal_mm = abweichender Ausbauweg, solange die Einheit an der Maschine sitzt; auf der Werkbank gilt distance_mm.
 # requires_removed: was vorher raus muss, damit die Einheit entlang der Achse frei herauskommt.
 - id: boiler
   pos: null
@@ -26,14 +29,14 @@
   pos: null
   name: {de: "Kolben mit Stange und Dichtungen", en: "Piston assembly", it: "Pistone completo"}
   detachable: true
-  explode: {axis: [0, 0, -1], distance_mm: 150, stage: 3}
+  explode: {axis: [0, 0, -1], distance_mm: 190, stage: 3}
   requires_removed: [boiler.group, p093_cap_nut, p092_lock_nut, p090_lever_pin__1, p081_shower_screen, p082_group_gasket]
   notes: {de: "Wird mit Gummihammer oder Holz-Zwischenlage nach unten ausgetrieben und schiebt dabei Duschsieb und Siebträger-Dichtung vor sich her (Q7)."}
 - id: boiler.group.sleeve
   pos: null
   name: {de: "Kolbenhülse mit O-Ring", en: "Piston sleeve with O-ring", it: "Camicia con guarnizione"}
   detachable: true
-  explode: {axis: [0, 0, -1], distance_mm: 100, stage: 3}
+  explode: {axis: [0, 0, -1], distance_mm: 130, stage: 3}
   requires_removed: [boiler.group.piston, p081_shower_screen, p082_group_gasket]
   notes: {de: "Nur ausbauen, wenn es an der Hülse undicht ist: mit Stange in den unteren Nuten herausschrauben, bricht leicht (Q14, Q20)."}
 - id: boiler.group.lever
@@ -86,7 +89,7 @@
   pos: null
   name: {de: "Ventilkappe mit Feder und Ventil", en: "Valve cap with spring and poppet", it: "Corpo valvola con molla"}
   detachable: true
-  explode: {axis: [0, 0, 1], distance_mm: 45, stage: 3}
+  explode: {axis: [0, 0, 1], distance_mm: 70, stage: 3}
   requires_removed: []
   notes: {de: "Fitting-Sechskant unter der Schale mit dünnem 16-mm-Schlüssel gegenhalten, sonst dreht sich die Innenmutter mit (Q18, Q27)."}
 - id: mount
@@ -99,14 +102,14 @@
   pos: null
   name: {de: "Heizung", en: "Heating", it: "Riscaldamento"}
   detachable: true
-  explode: {axis: [0, 0, -1], distance_mm: 130, stage: 1}
+  explode: {axis: [0, 0, -1], distance_mm: 108, stage: 1}
   requires_removed: [base.bottom, p010_element_bolt, p011_pstat_tube, p013_thermostat]
   notes: {de: "Netzspannung und Druckkessel: nur stromlos, kalt, drucklos und entleert. Element nicht überdrehen (Q8, Q17)."}
 - id: electrical
   pos: null
   name: {de: "Elektrik", en: "Electrics", it: "Impianto elettrico"}
   detachable: false
-  explode: {axis: [0, 0, -1], distance_mm: 40, stage: 2}
+  explode: {axis: [0, 0, -1], distance_mm: 50, stage: 1}
   requires_removed: []
   notes: {de: "Stufe C: vereinfachte Körper an der richtigen Stelle, Verkabelung nur schematisch."}
 - id: base
@@ -119,19 +122,19 @@
   pos: null
   name: {de: "Bodenplatte", en: "Bottom plate", it: "Fondo"}
   detachable: true
-  explode: {axis: [0, 0, -1], distance_mm: 60, stage: 1}
+  explode: {axis: [0, 0, -1], distance_mm: 156, stage: 1}
   requires_removed: [p039_base_screw]
 - id: base.drip_tray
   pos: null
   name: {de: "Tropfschale", en: "Drip tray", it: "Vaschetta"}
   detachable: true
-  explode: {axis: [0, 0, 1], distance_mm: 60, stage: 1}
+  explode: {axis: [0, 0, 1], distance_mm: 60, removal_mm: 30, stage: 1}
   requires_removed: []
 - id: portafilter
   pos: 94
   name: {de: "Siebträger", en: "Portafilter", it: "Portafiltro"}
   detachable: true
-  explode: {axis: [0, -0.85, -0.53], distance_mm: 200, stage: 1}
+  explode: {axis: [0, -0.85, -0.53], distance_mm: 250, stage: 1}
   requires_removed: []
   notes: {de: "Bajonett: erst nach links drehen, dann nach unten und vorn abnehmen."}
 - id: accessories

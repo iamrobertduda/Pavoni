@@ -23,7 +23,8 @@
       "required": ["axis", "distance_mm", "stage"],
       "properties": {
         "axis": {"$ref": "#/$defs/vec3", "description": "Richtung im Rahmen der Baugruppe (CAD: Z oben, -Y vorn, +X rechts)"},
-        "distance_mm": {"type": "number", "minimum": 0},
+        "distance_mm": {"type": "number", "minimum": 0, "description": "Weg in der Explosionsansicht, zusätzlich zum Weg der Eltern-Baugruppen. So wählen, dass sich am Ende jeder Stufe keine Teile überdecken (make validate, Prüfung 10)"},
+        "removal_mm": {"type": "number", "minimum": 0, "description": "Abweichender Ausbauweg, solange die Baugruppe des Teils an der Maschine sitzt (z. B. Duschsieb 70 statt 212: darunter liegt die Tropfschale; Schauglas 175 statt 0: es bleibt in der Explosionsansicht stehen). Gilt für Pfadprüfung, Anleitungen und Zerlege-Modus. Liegt eine Eltern-Baugruppe abgenommen auf der Werkbank, fährt das Teil distance_mm. Standard: distance_mm"},
         "stage": {"type": "integer", "minimum": 1, "maximum": 9}
       },
       "additionalProperties": false

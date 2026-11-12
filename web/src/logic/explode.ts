@@ -1,5 +1,5 @@
 // Hierarchical explode and removal offsets in CAD mm (world frame).
-import type { AppData, Vec3 } from '../data/types';
+import type { AppData, Explode, Vec3 } from '../data/types';
 import { asmChain, type ModelIndex } from './graph';
 
 export const smooth = (x: number) => x * x * (3 - 2 * x);
@@ -18,6 +18,14 @@ export function stageFactor(t: number, stage: number, nStages: number): number {
 }
 
 const add = (a: Vec3, b: Vec3, k: number): Vec3 => [a[0] + b[0] * k, a[1] + b[1] * k, a[2] + b[2] * k];
+
+/**
+ * How far a part or an assembly travels when it is removed. removal_mm sets the way while the
+ * unit still sits on the machine (the shower screen has the drip tray below it). Once an assembly
+ * above it is detached - it lies on the bench - the unit travels its full explode distance and
+ * comes to rest where the exploded view puts it. Same rule as Ctx.travel in cad/pavoni/validate.py.
+ */
+export const travel = (e: Explode, onBench: boolean): number => (onBench ? e.distance_mm : (e.removal_mm ?? e.distance_mm));
 
 /**
  * Global explode view: assemblies move apart along their axes, then their parts
@@ -62,19 +70,22 @@ export function removalDisplay(d: Pick<AppData, 'instances' | 'assemblyGeo'>, id
   for (const [iid, g] of Object.entries(d.instances)) {
     let o: Vec3 = [0, 0, 0];
     let active = false;
+    let onBench = false; // an assembly above is detached (or leaving in this step)
     for (const a of asmChain(g.assembly)) {
       const ag = d.assemblyGeo[a];
       if (!ag) continue;
+      const detached = st.moving.has(a) || st.removed.has(a);
       const p = st.moving.get(a) ?? (st.removed.has(a) ? 1 : 0);
       if (st.moving.has(a)) active = true;
-      if (p > 0) o = add(o, ag.explode.axis, ag.explode.distance_mm * smooth(p));
+      if (p > 0) o = add(o, ag.explode.axis, travel(ag.explode, onBench) * smooth(p));
+      if (detached) onBench = true;
     }
     const pid = idx.instPart[iid];
     const own = st.moving.get(iid) ?? st.moving.get(pid);
     let visible = true;
     if (own !== undefined) {
       active = true;
-      o = add(o, g.explode.axis, g.explode.distance_mm * smooth(own));
+      o = add(o, g.explode.axis, travel(g.explode, onBench) * smooth(own));
     } else if (st.removed.has(iid) || st.removed.has(pid)) {
       visible = false;
     }

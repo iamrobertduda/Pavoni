@@ -1,6 +1,8 @@
 export type I18n = { de: string; en?: string; it?: string };
 export type Vec3 = [number, number, number];
-export type Explode = { axis: Vec3; distance_mm: number; stage: number };
+/** distance_mm: way in the exploded view. removal_mm: the way the part travels instead when it is
+ * removed while its assembly still sits on the machine (see logic/explode.ts, travel). */
+export type Explode = { axis: Vec3; distance_mm: number; removal_mm?: number; stage: number };
 export type Confidence = 'measured' | 'catalog' | 'spec' | 'photo' | 'guess';
 export type Status = 'planned' | 'blockout' | 'modeled' | 'verified';
 

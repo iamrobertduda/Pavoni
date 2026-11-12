@@ -8,12 +8,15 @@ Checks
   2 solids       every solid valid, closed, volume > 0
   3 interference pairwise overlap below tolerance, except the reasoned whitelist
   4 paths        each part/assembly leaves along its explode axis without collision
-                 when exactly its requires_removed closure is gone
+                 when exactly its requires_removed closure is gone (way: Ctx.travel)
   5 envelope     bounding box (without lever and portafilter grip) vs 200 x 290 x 320-366:
                  within 7 % ok, within 15 % warning, beyond that error
   6 budgets      GLB size, triangles, draw calls
   7 data         references, DAG, tools, dims keys
-  8 procedures   ids exist, requires satisfied, every step collision-free
+  8 procedures   ids exist, requires satisfied, every step collision-free, nothing overlaps
+                 where the removed parts and assemblies come to rest
+  9 proportions  photo ratios and catalog sizes against the model
+ 10 explode      no two parts overlap at the end of any stage of the exploded view
 """
 from __future__ import annotations
 
@@ -203,12 +206,100 @@ class Ctx:
         present = [i for i in present if i not in carried]  # carriers and parts riding on the moving part
         return moving, present
 
-    def explode_of(self, unit: str):
+    def travel(self, unit: str, removed=()) -> tuple[np.ndarray, float]:
+        """Axis and length of the way a part or assembly travels when it is removed.
+        removal_mm sets the way while the unit still sits on the machine (e.g. the shower
+        screen above the drip tray). Once an assembly above it is detached - it lies on the
+        bench - the unit travels the full explode distance, so that it comes to rest where
+        the exploded view puts it. Same rule as web/src/logic/explode.ts."""
         if self.kind(unit) == "asm":
             e = self.manifest["assemblies"][unit]["explode"]
+            above = self.chain(unit)[:-1]
         else:
             e = self.inst[unit]["explode"]
-        return np.array(e["axis"], float), float(e["distance_mm"])
+            above = self.chain(self.inst_asm[unit])
+        on_bench = any(a in removed for a in above)
+        dist = e["distance_mm"] if on_bench else e.get("removal_mm", e["distance_mm"])
+        return np.array(e["axis"], float), float(dist)
+
+    def display_offsets(self, removed: set[str], moving: list[str]) -> dict[str, np.ndarray]:
+        """What the viewer shows at the end of a procedure step (removalDisplay in
+        web/src/logic/explode.ts): detached assemblies lie at their offset ("bench"), the
+        units of this step have moved out, parts removed earlier are hidden (not in the result)."""
+        mset = set(moving)
+        gone = set(removed) | mset
+        out = {}
+        for i in self.inst:
+            if i in removed and i not in mset:
+                continue
+            o = np.zeros(3)
+            for a in self.chain(self.inst_asm[i]):
+                if a in self.asm and a in gone:
+                    axis, dist = self.travel(a, gone)
+                    o = o + axis * dist
+            if i in mset:
+                axis, dist = self.travel(i, gone)
+                o = o + axis * dist
+            out[i] = o
+        return out
+
+    def overlaps_at(self, off: dict[str, np.ndarray], skip=()):
+        """Pairs of instances that overlap when each is moved by its offset. Pairs with the
+        same offset keep their assembled relation (check 3) and are left out. Yields
+        (a, b, volume) with volume None where the intersection cannot be computed."""
+        import fcl
+        import trimesh
+
+        ids = list(off)
+        bbs = {i: self.bbox(i) + off[i] for i in ids}
+        req = fcl.CollisionRequest()
+        for a_i, a in enumerate(ids):
+            for b in ids[a_i + 1 :]:
+                if frozenset((a, b)) in skip or np.allclose(off[a], off[b], atol=1e-6):
+                    continue
+                A, B = bbs[a], bbs[b]
+                if np.any(A[1] < B[0]) or np.any(A[0] > B[1]):
+                    continue
+                o1 = fcl.CollisionObject(self.bvh(a, True), fcl.Transform(off[a]))
+                o2 = fcl.CollisionObject(self.bvh(b, True), fcl.Transform(off[b]))
+                if not fcl.collide(o1, o2, req, fcl.CollisionResult()):
+                    continue
+                ma = trimesh.Trimesh(self.meshes[f"{a}__v"] + off[a], self.meshes[f"{a}__f"])
+                mb = trimesh.Trimesh(self.meshes[f"{b}__v"] + off[b], self.meshes[f"{b}__f"])
+                try:
+                    inter = trimesh.boolean.intersection([ma, mb], engine="manifold")
+                    vol = float(inter.volume) if len(inter.faces) else 0.0
+                    area = float(inter.area) if len(inter.faces) else 1.0
+                except Exception:  # noqa: BLE001
+                    yield a, b, None
+                    continue
+                if 2 * vol / max(area, 1e-9) > INTERFERENCE_THICKNESS and vol > 0.5:
+                    yield a, b, vol
+
+    def explode_stages(self) -> int:
+        es = [v["explode"] for v in self.inst.values()] + [v["explode"] for v in self.manifest["assemblies"].values()]
+        return max([1] + [int(e["stage"]) for e in es])
+
+    def explode_offsets(self, t: float) -> dict[str, np.ndarray]:
+        """Offsets (mm, world) of the exploded view at t in [0, 1]. Same rule as
+        web/src/logic/explode.ts: the assemblies along the chain, then the part itself,
+        each opening during its stage."""
+        n = self.explode_stages()
+
+        def factor(stage):
+            x = min(1.0, max(0.0, t * n - (stage - 1)))
+            return x * x * (3 - 2 * x)
+
+        out = {}
+        for i, v in self.inst.items():
+            o = np.zeros(3)
+            for a in self.chain(v["assembly"]):
+                e = self.manifest["assemblies"].get(a, {}).get("explode")
+                if e:
+                    o += np.array(e["axis"], float) * e["distance_mm"] * factor(e["stage"])
+            e = v["explode"]
+            out[i] = o + np.array(e["axis"], float) * e["distance_mm"] * factor(e["stage"])
+        return out
 
     # collision --------------------------------------------------------------
     def bvh(self, iid: str, shrunk: bool):
@@ -451,12 +542,12 @@ def check_paths(ctx: Ctx, rep: Report):
         for i in ctx.part_instances[p["id"]]:
             units.append((i, "inst"))
     for unit, kind in units:
-        axis, dist = ctx.explode_of(unit)
-        if dist <= 0:
-            continue
         reqs = ctx.requires(unit)
         removed = ctx.closure(reqs)
         removed.discard(unit)
+        axis, dist = ctx.travel(unit, removed)
+        if dist <= 0:
+            continue
         moving, present = ctx.context(unit, removed)
         hit = ctx.path_collisions(moving, present, axis, dist)
         n += 1
@@ -512,6 +603,8 @@ def check_procedures(ctx: Ctx, rep: Report, coverage_strict: bool):
         removed = ctx.closure(proc.get("start_removed", []))
         n_moves = 0
         for st in proc["steps"]:
+            before = set(removed)
+            step_units = []
             for t in st.get("tools", []):
                 if t not in tools:
                     rep.add(name, "error", f"{pid}/{st['id']}: Werkzeug {t} unbekannt")
@@ -535,8 +628,9 @@ def check_procedures(ctx: Ctx, rep: Report, coverage_strict: bool):
                 if missing:
                     rep.add(name, "error", f"{pid}/{st['id']}: {r} ausgebaut, aber noch nicht entfernt: {', '.join(missing[:6])}")
                 units = [r] if k == "asm" else ([r] if r in ctx.inst else []) if k == "inst" else ctx.part_instances[r]
+                step_units.extend(units)
                 for u in units:
-                    axis, dist = ctx.explode_of(u)
+                    axis, dist = ctx.travel(u, removed)
                     moving, present = ctx.context(u, removed)
                     hit = ctx.path_collisions(moving, present, axis, dist)
                     n_moves += 1
@@ -547,7 +641,11 @@ def check_procedures(ctx: Ctx, rep: Report, coverage_strict: bool):
                     removed.add(r)
                 if k == "part":
                     removed.update(ctx.parts[r]["instances"])
-        rep.ok(name, f"{pid}: {len(proc['steps'])} Schritte, {n_moves} Bewegungen vorwärts kollisionsfrei geprüft (rückwärts = gleiche Pfade)")
+            # what lies on the "bench" at the end of the step must not overlap either
+            for a, b, vol in ctx.overlaps_at(ctx.display_offsets(before, step_units)):
+                how = "Schnittvolumen nicht berechenbar" if vol is None else f"{vol:.1f} mm³"
+                rep.add(name, "error", f"{pid}/{st['id']}: {a} x {b} überdecken sich am Ende des Schritts ({how}) - Ausbauweg/Ablage (removal_mm) anpassen")
+        rep.ok(name, f"{pid}: {len(proc['steps'])} Schritte, {n_moves} Bewegungen vorwärts kollisionsfrei geprüft (rückwärts = gleiche Pfade), Ablage ohne Überdeckung")
     wear = [p["id"] for p in ctx.data["parts"] if p["wear_part"] and p["status"] != "planned"]
     for w in wear:
         if w not in covered:
@@ -569,8 +667,24 @@ def check_proportions(ctx: Ctx, rep: Report, D: Dims):
             rep.ok(name, f"{r['name']}: {r['value']} mm, Soll {r['target_mm']} mm ({r['dev']:+.1%})")
 
 
+def check_explode(ctx: Ctx, rep: Report):
+    """The exploded view must not put parts into each other: coincident faces of two parts
+    flicker in the viewer (the shower screen used to end up around the piston sleeve, both
+    dia. 50). Checked where the slider comes to rest, at the end of every stage."""
+    name = "10 Explosionsansicht (keine Überdeckung am Ende jeder Stufe)"
+    rep.ok(name)
+    n = ctx.explode_stages()
+    found: set[frozenset] = set()
+    for k in range(1, n + 1):
+        for a, b, vol in ctx.overlaps_at(ctx.explode_offsets(k / n), skip=found):
+            found.add(frozenset((a, b)))
+            how = "Schnittvolumen nicht berechenbar" if vol is None else f"{vol:.1f} mm³"
+            rep.add(name, "error", f"{a} x {b}: überdecken sich ab Stufe {k} ({how}) - explode-Wege staffeln")
+    rep.ok(name, f"{n} Stufen geprüft")
+
+
 def geometry_report(data: dict, instances: dict, assemblies: dict, meshes: dict) -> Report:
-    """Solids, interference, removal paths and procedures for a model held in memory
+    """Solids, interference, removal paths, procedures and the exploded view for a model held in memory
     (see export.collect). Used to check variants, e.g. other boiler diameters."""
     rep = Report()
     ctx = Ctx(data, {"instances": instances, "assemblies": assemblies}, meshes)
@@ -578,6 +692,7 @@ def geometry_report(data: dict, instances: dict, assemblies: dict, meshes: dict)
     check_interference(ctx, rep)
     check_paths(ctx, rep)
     check_procedures(ctx, rep, coverage_strict=False)
+    check_explode(ctx, rep)
     return rep
 
 
@@ -606,6 +721,8 @@ def main(argv=None) -> int:
     check_budgets(rep, stats)
     check_procedures(ctx, rep, coverage_strict=complete and len(data["procedures"]) >= 11)
     check_proportions(ctx, rep, D)
+    if not args.skip_geometry:
+        check_explode(ctx, rep)
     rep.print()
     REPORT.write_text(json.dumps({"time_s": round(time.time() - t0, 1), "checks": rep.checks}, indent=1, ensure_ascii=False))
     print(f"validate: {rep.n_errors} Fehler, {time.time() - t0:.1f} s -> {REPORT.relative_to(REPORT.parents[1])}")

@@ -525,6 +525,12 @@ kompiliert, ist nicht fertig.
    200 × 290 × 320–366 mm (die Höhenangaben der Händler streuen). Weiche Prüfung: bis 7 % außerhalb in
    Ordnung, bis 15 % Warnung, darüber Fehler.
 6. **Budgets:** Dateigröße, Dreiecke, Draw Calls.
+7. **Explosionsansicht und Ablage:** Am Ende jeder Stufe des Explosions-Reglers und am Ende jedes
+   Anleitungsschritts (abgenommene Baugruppen liegen dann auf der „Werkbank“) überdecken sich keine zwei
+   sichtbaren Teile (gleiche Mesh-Kollisionsprüfung wie Nr. 3, ohne Whitelist). Sonst liegen Flächen zweier
+   Teile aufeinander und flackern im Viewer. Teile mit gleichem Versatz behalten ihre Einbaulage und zählen
+   nicht. `explode.removal_mm` legt einen abweichenden Ausbauweg fest, solange die Baugruppe an der
+   Maschine sitzt (Abschnitt 16).
 
 ### 11.2 Web
 
@@ -885,3 +891,37 @@ gegen die Fotos angesehen; Daten und Anleitungen stichprobenartig gegen die Quel
   passen besser zu D ≈ 108–110 mm, die Gruppenkette mit der 111-mm-Stange eher zu 100–104 mm. Das klärt nur
   die Messung A1 in `reference/measurements.md`.
 - Nicht geändert: Länge der Tropfschale, Lizenz, Deployment.
+
+### Nachtrag: Explosionsansicht (2026-11-12)
+
+Auslöser: In der vollen Explosion flackerte das Duschsieb. Ursache war kein Rendering-Fehler, sondern die
+Anordnung: Das Sieb (70 mm nach unten) landete auf der Höhe der Kolbenhülse (100 mm nach unten), beide haben
+außen Ø50, die Flächen lagen aufeinander (2417 mm³ Überdeckung). Eine Prüfung aller Stufen fand 22 solche
+Paare, u. a. Bodenplatte × Pressostat/Heizelement, Schauglas × Manometer, Ventilkappe × Fitting.
+
+- **Neue Prüfung 10 in `make validate`** (Abschnitt 11.1 Nr. 7): keine Überdeckung am Ende jeder Stufe.
+  **Prüfung 8 erweitert:** Am Ende jedes Anleitungsschritts darf sich auch auf der „Werkbank“ nichts
+  überdecken. Das fand 67 weitere Fälle in 5 Anleitungen, z. B. abgelegter Kolben im abgelegten Siebträger,
+  Heizelement durch die abgelegte Bodenplatte, Kolbenstange durch das mit ausgetriebene Duschsieb. Beide
+  Prüfungen laufen auch im Kalibrier-Test für 98–118 mm Kesseldurchmesser.
+- **`explode.removal_mm` (optional).** `distance_mm` ist der Weg in der Explosionsansicht und der normale
+  Ausbauweg. `removal_mm` legt einen abweichenden Ausbauweg fest, solange die Baugruppe des Teils an der
+  Maschine sitzt. Beispiel Schauglas: Es bleibt in der Explosionsansicht stehen (0 mm), wird aber 175 mm nach
+  oben herausgezogen. Beispiel Duschsieb: an der montierten Gruppe 70 mm (darunter liegt die Tropfschale); liegt die Gruppe
+  abgenommen auf der Werkbank, fährt es die vollen 212 mm und endet unter Hülse und Kolben, genau wie in
+  der Explosionsansicht. Dieselbe Regel steht in `Ctx.travel` (validate.py) und `travel` (explode.ts).
+- **Ablage angepasst:** Bodenplatte 156 mm (vorher 60) und damit unter dem Heizelement, Siebträger 250 mm,
+  Tropfschale an der Maschine nur 30 mm hoch (das Steigrohr der abgenommenen Gruppe ragte hinein),
+  Kolben 190 mm, Hülse 130 mm, Ventilkappe 70 mm.
+- **Reihenfolge wie beim Ausbau, das zuerst ausgebaute Teil liegt außen.** Gruppe von oben nach unten:
+  Stangendichtung, Scheibe, Sicherungsring, Hülse, Hülsen-O-Ring, obere Kolbendichtung, Kolben mit Stange,
+  untere Kolbendichtung, Duschsieb, Siebträger-Dichtung. Sieb und Dichtung fahren in Stufe 3 zusammen mit
+  Kolben und Hülse, dann überholt nichts etwas anderes. Unter der Basis: untere Dichtung, Ring, Heizelement,
+  Thermostat mit Zahnscheibe, Mutter und Kappe, Bodenplatte ganz unten; Elektrik und Thermostat fahren in
+  Stufe 1 mit dem Heizelement. Sicherheitsventil nach außen: Innenmutter, Innenscheibe, Fitting,
+  Kondensatschale, Ventil, Feder, Kappe. Schauglas: Das Glasrohr bleibt zwischen den Haltern stehen,
+  Druckschrauben, Messingscheiben und Dichtungen verteilen sich darauf; Innenscheiben und Innenmuttern liegen
+  in der Reihenfolge der Achse zwischen Halter und Kessel (im Original sitzen sie innen im Kessel).
+- Das Manometer-Zifferblatt fährt jetzt mit dem Manometer mit (blieb vorher allein zurück).
+- Der Siebträger fährt in der Explosionsansicht 250 statt 200 mm, damit er nicht unter der Gruppen-Säule liegt.
+

@@ -94,7 +94,7 @@
   order_terms: ["La Pavoni 361006", "Dichtung Kolbenstange 21x11x4,5 Silikon"]
   tools: [circlip_pliers, pick]
   sources: [Q12, Q14, Q7, Q19]
-  explode: {axis: [0, 0, -1], distance_mm: 160, stage: 5}
+  explode: {axis: [0, 0, -1], distance_mm: 94, stage: 5}
   requires_removed: [boiler.group.piston, p074_rod_washer]
 - id: p074_rod_washer
   pos: 74
@@ -111,7 +111,7 @@
   notes: {de: "Bei Rost zusammen mit dem Sicherungsring ersetzen (Q7)."}
   order_terms: ["La Pavoni 313002"]
   sources: [Q12]
-  explode: {axis: [0, 0, -1], distance_mm: 150, stage: 5}
+  explode: {axis: [0, 0, -1], distance_mm: 100, stage: 5}
   requires_removed: [p075_rod_circlip]
 - id: p075_rod_circlip
   pos: 75
@@ -129,7 +129,7 @@
   order_terms: ["La Pavoni 404108", "Sicherungsring J-20 DIN 472 Edelstahl"]
   tools: [circlip_pliers]
   sources: [Q12, Q25]
-  explode: {axis: [0, 0, -1], distance_mm: 140, stage: 5}
+  explode: {axis: [0, 0, -1], distance_mm: 106, stage: 5}
   requires_removed: [boiler.group.piston]
   carrier: p072_group_body
 - id: p076_sleeve
@@ -166,7 +166,7 @@
   notes: {de: "In der Außennut der Hülse, dichtet den Ringraum um die Hülse nach unten ab. Nur tauschen, wenn die Hülse herausgeschraubt wurde (Q7)."}
   order_terms: ["La Pavoni 465302", "O-Ring 47,63 x 3,53 EPDM"]
   sources: [Q12]
-  explode: {axis: [0, 0, -1], distance_mm: 20, stage: 5}
+  explode: {axis: [0, 0, -1], distance_mm: 14, stage: 5}
   requires_removed: [boiler.group.sleeve]
   carrier: p076_sleeve
 - id: p078_piston_rod
@@ -222,8 +222,8 @@
   order_terms: ["La Pavoni 361005", "Kolbendichtung 44x36x5,5 Millennium"]
   tools: [pick, silicone_grease]
   sources: [Q5, Q6, Q7, Q12, Q17, Q19]
-  explode: {axis: [0, 0, -1], distance_mm: 30, stage: 5}
-  instance_explode: {p080_piston_seal__1: {axis: [0, 0, 1], distance_mm: 45, stage: 5}, p080_piston_seal__2: {axis: [0, 0, -1], distance_mm: 30, stage: 5}}
+  explode: {axis: [0, 0, -1], distance_mm: 20, stage: 5}
+  instance_explode: {p080_piston_seal__1: {axis: [0, 0, 1], distance_mm: 18, stage: 5}, p080_piston_seal__2: {axis: [0, 0, -1], distance_mm: 20, stage: 5}}
   requires_removed: [boiler.group.piston]
   carrier: p079_piston
 - id: p081_shower_screen
@@ -241,7 +241,7 @@
   notes: {de: "Ohne Clip: wird von der Siebträger-Dichtung gehalten und beim Austreiben vom Kolben mit herausgedrückt (Q7, Q20)."}
   order_terms: ["La Pavoni 327115", "Duschsieb 54 mm Millennium"]
   sources: [Q5, Q12, Q20]
-  explode: {axis: [0, 0, -1], distance_mm: 70, stage: 4}
+  explode: {axis: [0, 0, -1], distance_mm: 212, removal_mm: 70, stage: 3}
   requires_removed: [p082_group_gasket]
 - id: p082_group_gasket
   pos: 82
@@ -259,7 +259,7 @@
   order_terms: ["La Pavoni 465301", "La Pavoni 361028", "Siebträgerdichtung 60x50x5,5 Millennium"]
   tools: [pick]
   sources: [Q5, Q12, Q14, Q19]
-  explode: {axis: [0, 0, -1], distance_mm: 90, stage: 4}
+  explode: {axis: [0, 0, -1], distance_mm: 226, removal_mm: 90, stage: 3}
   requires_removed: [portafilter]
 - id: p083_tube_connector
   pos: 83
@@ -511,7 +511,7 @@
   notes: {de: "Wird nach Lösen beider 17-mm-Muttern oben durch den oberen Halter herausgezogen (Q9)."}
   order_terms: ["La Pavoni 453101", "Schauglas 9 x 131"]
   sources: [Q9, Q15, Q16]
-  explode: {axis: [0, 0, 1], distance_mm: 175, stage: 4}
+  explode: {axis: [0, 0, 1], distance_mm: 0, removal_mm: 175, stage: 4}
   requires_removed: [p070_glass_cover, p069_gauge, p068_gauge_nut, p061_glass_nut]
 - id: p060_glass_seal
   pos: 60
@@ -529,8 +529,8 @@
   order_terms: ["La Pavoni 362020", "Schauglasdichtung 15x9x5 Silikon"]
   tools: [pick]
   sources: [Q5, Q9, Q16, Q17]
-  explode: {axis: [0, 0, -1], distance_mm: 30, stage: 5}
-  instance_explode: {p060_glass_seal__1: {axis: [0, 0, -1], distance_mm: 30, stage: 5}, p060_glass_seal__2: {axis: [0, 0, 1], distance_mm: 30, stage: 5}}
+  explode: {axis: [0, 0, -1], distance_mm: 12, stage: 5}
+  instance_explode: {p060_glass_seal__1: {axis: [0, 0, -1], distance_mm: 12, stage: 5}, p060_glass_seal__2: {axis: [0, 0, 1], distance_mm: 12, stage: 5}}
   requires_removed: [p062_sight_glass, p100_glass_washer]
   instance_requires: {p060_glass_seal__1: [p100_glass_washer__1], p060_glass_seal__2: [p100_glass_washer__2]}
 - id: p100_glass_washer
@@ -546,8 +546,8 @@
   spec: {type: washer, od: glass_washer_od, id: glass_washer_id, t: glass_washer_t}
   dims: [glass_washer_od, glass_washer_id, glass_washer_t]
   sources: [Q15, Q17]
-  explode: {axis: [0, 0, -1], distance_mm: 30, stage: 5}
-  instance_explode: {p100_glass_washer__1: {axis: [0, 0, -1], distance_mm: 30, stage: 5}, p100_glass_washer__2: {axis: [0, 0, 1], distance_mm: 30, stage: 5}}
+  explode: {axis: [0, 0, -1], distance_mm: 20, stage: 5}
+  instance_explode: {p100_glass_washer__1: {axis: [0, 0, -1], distance_mm: 20, stage: 5}, p100_glass_washer__2: {axis: [0, 0, 1], distance_mm: 20, stage: 5}}
   requires_removed: [p062_sight_glass]
 - id: p061_glass_nut
   pos: 61
@@ -564,8 +564,8 @@
   notes: {de: "Schlüssel 17 mm. Hohlschraube: Gewindeseite zeigt zum Halter und drückt Messingscheibe und Dichtung in die Senkung (Q9, Q17). Instanz 1 oben, 2 unten. Nach dem Lösen gleiten sie am Glas zur Mitte; ganz heraus kommen sie erst mit dem Glas."}
   tools: [wrench_17]
   sources: [Q9, Q17]
-  explode: {axis: [0, 0, -1], distance_mm: 22, stage: 4}
-  instance_explode: {p061_glass_nut__1: {axis: [0, 0, -1], distance_mm: 22, stage: 4}, p061_glass_nut__2: {axis: [0, 0, 1], distance_mm: 22, stage: 4}}
+  explode: {axis: [0, 0, -1], distance_mm: 28, stage: 4}
+  instance_explode: {p061_glass_nut__1: {axis: [0, 0, -1], distance_mm: 28, stage: 4}, p061_glass_nut__2: {axis: [0, 0, 1], distance_mm: 28, stage: 4}}
   requires_removed: [p070_glass_cover]
 - id: p064_fitting_washer
   pos: 64
@@ -582,7 +582,7 @@
   notes: {de: "Instanz 1/2: außen in der Vertiefung der Halter-Nippel (oben/unten), dichtet Halter gegen Kessel. Instanz 3: unter der Manometermutter (gefolgert, nicht belegt)."}
   order_terms: ["La Pavoni 362021", "PTFE-Scheibe 17x12x1,5"]
   sources: [Q16, Q17]
-  explode: {axis: [1, 0, 0], distance_mm: 35, stage: 4}
+  explode: {axis: [1, 0, 0], distance_mm: 25, stage: 4}
   instance_explode: {p064_fitting_washer__3: {axis: [0, 0, 1], distance_mm: 25, stage: 5}}
   requires_removed: [boiler.sight_glass]
   instance_requires: {p064_fitting_washer__3: [p068_gauge_nut]}
@@ -600,7 +600,7 @@
   dims: [inner_washer_od, inner_washer_id, inner_washer_t]
   notes: {de: "Im Kessel innen. Nur über die Bodenöffnung erreichbar (Heizelement ausgebaut)."}
   sources: [Q15, Q17]
-  explode: {axis: [1, 0, 0], distance_mm: 30, stage: 4}
+  explode: {axis: [1, 0, 0], distance_mm: 33, stage: 4}
   requires_removed: [p066_inner_nut]
 - id: p066_inner_nut
   pos: 66
@@ -618,7 +618,7 @@
   notes: {de: "16 mm, im Kessel. Obere schwer erreichbar (Q17). Nicht fest anziehen."}
   tools: [wrench_17]
   sources: [Q17, Q22]
-  explode: {axis: [1, 0, 0], distance_mm: 25, stage: 4}
+  explode: {axis: [1, 0, 0], distance_mm: 43, stage: 4}
   requires_removed: [heating]
 - id: p067_upper_plug
   pos: 67
@@ -700,7 +700,7 @@
   detail_tier: C
   status: modeled
   notes: {de: "Darstellungsteil des Manometers (kein Ersatzteil)."}
-  explode: {axis: [0, 0, 1], distance_mm: 0, stage: 4}
+  explode: {axis: [0, 0, 1], distance_mm: 70, stage: 4}
   requires_removed: [p069_gauge]
   carrier: p069_gauge
 - id: p046_steam_body
@@ -966,7 +966,7 @@
   order_terms: ["La Pavoni 396751", "Sicherheitsventil Millennium M12"]
   tools: [wrench_17]
   sources: [Q4, Q18, Q27]
-  explode: {axis: [0, 0, 1], distance_mm: 70, stage: 4}
+  explode: {axis: [0, 0, 1], distance_mm: 0, removal_mm: 40, stage: 4}
   requires_removed: [p021_sv_collar, x004_sv_inner_nut, x005_sv_inner_washer]
 - id: p018_sv_cap
   pos: 18
@@ -1000,7 +1000,7 @@
   order_terms: ["La Pavoni 396754R"]
   sources: [Q20, Q27]
   open_questions: ["Größe des Mini-O-Rings im Anti-Vakuum-Ventil nicht belegt."]
-  explode: {axis: [0, 0, -1], distance_mm: 30, stage: 5}
+  explode: {axis: [0, 0, -1], distance_mm: 46, stage: 5}
   requires_removed: [boiler.safety_valve.cap]
 - id: p020_sv_spring
   pos: 20
@@ -1017,7 +1017,7 @@
   notes: {de: "8 Windungen (Millennium). Die Feder der Vor-Millennium-Ventile passt nicht (Q4)."}
   order_terms: ["La Pavoni 311407"]
   sources: [Q4, Q27]
-  explode: {axis: [0, 0, -1], distance_mm: 45, stage: 5}
+  explode: {axis: [0, 0, -1], distance_mm: 34, stage: 5}
   requires_removed: [p019_sv_valve]
 - id: p021_sv_collar
   pos: 21
@@ -1034,7 +1034,7 @@
   notes: {de: "Lenkt austretenden Dampf nach unten; wird von der Kappe gehalten (Q15, Q18)."}
   order_terms: ["La Pavoni 3432334"]
   sources: [Q15, Q18]
-  explode: {axis: [0, 0, 1], distance_mm: 35, stage: 4}
+  explode: {axis: [0, 0, 1], distance_mm: 16, stage: 4}
   requires_removed: [boiler.safety_valve.cap]
 - id: x004_sv_inner_nut
   pos: null
@@ -1050,7 +1050,7 @@
   dims: [inner_nut_af]
   notes: {de: "Im Kessel. Fällt beim Losdrehen des Fittings in den Kessel (Q18, Q20)."}
   sources: [Q18, Q20]
-  explode: {axis: [0, 0, -1], distance_mm: 60, stage: 4}
+  explode: {axis: [0, 0, -1], distance_mm: 29, removal_mm: 60, stage: 4}
   requires_removed: [heating]
 - id: x005_sv_inner_washer
   pos: null
@@ -1065,7 +1065,7 @@
   spec: {type: washer, od: inner_washer_od, id: inner_washer_id, t: inner_washer_t}
   dims: [inner_washer_od, inner_washer_id, inner_washer_t]
   sources: [Q15, Q18]
-  explode: {axis: [0, 0, -1], distance_mm: 60, stage: 4}
+  explode: {axis: [0, 0, -1], distance_mm: 21, removal_mm: 60, stage: 4}
   requires_removed: [x004_sv_inner_nut]
 
 # ====================================================================== mount
@@ -1101,7 +1101,7 @@
   notes: {de: "Faserscheibe zwischen Basis-Unterseite und Ring (Q11)."}
   order_terms: ["La Pavoni 362019", "Dichtung 93x80x1,5"]
   sources: [Q11, Q15, Q16]
-  explode: {axis: [0, 0, -1], distance_mm: 70, stage: 3}
+  explode: {axis: [0, 0, -1], distance_mm: 50, stage: 3}
   requires_removed: [p007_base_ring]
 - id: p007_base_ring
   pos: 7
@@ -1120,7 +1120,7 @@
   order_terms: ["La Pavoni Basisring Messing"]
   tools: [base_ring_wrench, rubber_mallet]
   sources: [Q11, Q15, Q21, Q23]
-  explode: {axis: [0, 0, -1], distance_mm: 45, stage: 3}
+  explode: {axis: [0, 0, -1], distance_mm: 54, stage: 3}
   requires_removed: [heating, base.bottom]
 
 # ====================================================================== base
@@ -1337,7 +1337,7 @@
   dims: [pstat_tube_d]
   notes: {de: "Vom Heizelementflansch zum Pressostat; am Pressostat lösen, nicht am Element (Q18)."}
   sources: [Q18]
-  explode: {axis: [0, 0, -1], distance_mm: 30, stage: 3}
+  explode: {axis: [0, 0, -1], distance_mm: 90, removal_mm: 30, stage: 1}
   requires_removed: [base.bottom]
 - id: p012_pressurestat
   pos: 12
@@ -1372,7 +1372,7 @@
   notes: {de: "Manueller Reset, am M4-Bolzen in der Mitte des Elementflansches (Q21)."}
   order_terms: ["La Pavoni 436040"]
   sources: [Q21]
-  explode: {axis: [0, 0, -1], distance_mm: 30, stage: 4}
+  explode: {axis: [0, 0, -1], distance_mm: 73, removal_mm: 30, stage: 1}
   requires_removed: [p015_tooth_washer]
 - id: p014_thermostat_cover
   pos: 14
@@ -1386,7 +1386,7 @@
   status: modeled
   spec: {type: cover}
   sources: [Q2, Q15]
-  explode: {axis: [0, 0, -1], distance_mm: 30, stage: 3}
+  explode: {axis: [0, 0, -1], distance_mm: 103, removal_mm: 30, stage: 1}
   requires_removed: [base.bottom]
 - id: p015_tooth_washer
   pos: 15
@@ -1400,7 +1400,7 @@
   status: modeled
   spec: {type: washer}
   sources: [Q2]
-  explode: {axis: [0, 0, -1], distance_mm: 25, stage: 4}
+  explode: {axis: [0, 0, -1], distance_mm: 89, removal_mm: 25, stage: 1}
   requires_removed: [p016_nut_m4]
 - id: p016_nut_m4
   pos: 16
@@ -1415,7 +1415,7 @@
   spec: {type: hex_nut}
   thread: M4
   sources: [Q2]
-  explode: {axis: [0, 0, -1], distance_mm: 20, stage: 4}
+  explode: {axis: [0, 0, -1], distance_mm: 94, removal_mm: 20, stage: 1}
   requires_removed: [p014_thermostat_cover]
 - id: p026_switch
   pos: 26
